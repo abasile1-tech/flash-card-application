@@ -21,7 +21,7 @@
 
 <script>
 import axios from 'axios';
-const url = 'http://localhost:5000/api/decks/';
+const url = process.env.serverURL+'/api/decks/';
 
 export default {
   name: 'Welcome',
