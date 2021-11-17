@@ -89,7 +89,6 @@ export default {
             this.cardSide="Front";
             this.cardFrontInput="";
             this.cardBackInput="";
-            this.cardPrompt="card submitted, please flip the card";
             this.cardsListIndex=this.emittedObject.cards.length-1;
             this.cardPrompt=this.emittedObject.cards[this.cardsListIndex].cardFront;
             this.cardId=this.emittedObject.cards[this.cardsListIndex]._id;
