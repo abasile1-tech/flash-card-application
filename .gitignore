@@ -2,4 +2,3 @@ node_modules/*
 package-lock.json
 future_directions.txt
 .env
-client/dist
