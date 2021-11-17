@@ -4,7 +4,7 @@
     "private": true,
     "main": "index.js",
     "scripts": {
-        "start": "(cd ./client && npm run build && cd ..) && node server/index.js",
+        "start": "(cd ./client && npm install && npm run build && cd ..) && node server/index.js",
         "dev": "nodemon server/index.js"
     },
     "author": "John Basile",
