@@ -7,15 +7,15 @@ const router = express.Router();
 
 const deckSchema = require('../../models/deckSchema.js');
 
-// if (process.env.NODE_ENV !== "production") {
-//     const dotenv = require("dotenv");
+if (process.env.NODE_ENV !== "production") {
+    const dotenv = require("dotenv");
 
-//     const result = dotenv.config();
+    const result = dotenv.config();
 
-//     if (result.error){
-//         throw result.error;
-//     }
-// }
+    if (result.error){
+        throw result.error;
+    }
+}
 
 
 const url = process.env.mongoURL;
