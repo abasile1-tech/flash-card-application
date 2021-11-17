@@ -7,6 +7,14 @@ const router = express.Router();
 
 const deckSchema = require('../../models/deckSchema.js');
 
+const dotenv = require("dotenv");
+
+const result = dotenv.config();
+
+if (result.error){
+    throw result.error;
+}
+
 const url = process.env.mongoURL;
 mongoose.connect(url,{
     useNewUrlParser:true,
