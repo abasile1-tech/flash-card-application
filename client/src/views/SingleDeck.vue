@@ -115,7 +115,17 @@ export default {
         },
         async deleteCard () {
             await axios.delete(url+this.emittedObject._id+"/cards/"+this.cardId);
-            this.goBackToDecks();
+            this.emittedObject.cards.splice(this.cardsListIndex,1);
+            
+            if (this.emittedObject.cards.length-1 >= 0){
+                this.cardsListIndex = this.cardsListIndex === 0 ? 0 : this.cardsListIndex - 1;
+                this.cardPrompt=this.emittedObject.cards[this.cardsListIndex].cardFront;
+                this.cardId=this.emittedObject.cards[this.cardsListIndex]._id;
+            }
+            else{
+                this.cardPrompt="please add a card";
+            }
+            //this.goBackToDecks();
         },
         goBackToDecks () {
             //advance route back to the Welcome Page
