@@ -48,7 +48,7 @@ export default {
     data () {
         return {
             cardSide:"Front",
-            cardPrompt:"",
+            cardPrompt:"please add a card",
             cardFrontInput:"",
             cardBackInput:"",
             addCardFront:false,
@@ -61,6 +61,9 @@ export default {
     },
     methods: {
         flipCard () {
+            if (this.emittedObject.cards.length === 0){
+                this.cardPrompt="there is no card to flip. please add a card";
+            }
             if (this.addCardFront) {
                 this.cardSide="Back";
                 this.addCardBack=true;
