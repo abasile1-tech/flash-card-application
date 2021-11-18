@@ -1,7 +1,12 @@
 <template>
     <div>
         <h1 v-if="!editDeckNameSelected">{{emittedObject.deckName}}</h1>
-        <input type="text" placeholder="Type the new deck name" v-model="editDeckNameInput" v-if="editDeckNameSelected" v-focus @keyup.enter="submitEditedDeckName"/>
+        <div class ="textBox">
+            <input type="text" placeholder="Type the new deck name" v-model="editDeckNameInput" 
+                v-if="editDeckNameSelected" v-focus @keyup.enter="submitEditedDeckName"/>
+            <br>
+        </div>
+        
         <button v-on:click="updateCardIndex(-1)">Previous Card</button>
         <button v-on:click="updateCardIndex(1)">Next Card</button>
         <div class="card">
@@ -183,6 +188,15 @@ export default {
     width: 70%;
     max-width:20em;
     height: 20em;;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.textBox input{
+    font-size: 25px;
+    border: 0.1em solid rgb(131, 131, 131);
+    border-radius: 0.5em;
     margin: auto;
     display: flex;
     flex-direction: column;
