@@ -1,13 +1,13 @@
 <template>
     <div>
         <h1 v-if="!editDeckNameSelected">{{emittedObject.deckName}}</h1>
-        <input type="text" placeholder="Type the new deck name" v-model="editDeckNameInput" v-if="editDeckNameSelected" @keyup.enter="submitEditedDeckName"/>
+        <input type="text" placeholder="Type the new deck name" v-model="editDeckNameInput" v-if="editDeckNameSelected" v-focus @keyup.enter="submitEditedDeckName"/>
         <button v-on:click="updateCardIndex(-1)">Previous Card</button>
         <button v-on:click="updateCardIndex(1)">Next Card</button>
         <div class="card">
             <p >{{cardSide}}</p>
             <p v-if="!addCardFront&&!addCardBack">{{cardPrompt}}</p>
-            <input type="text" placeholder="Type front text" v-model="cardFrontInput" v-if="addCardFront" @keyup.enter="flipCard"/>
+            <input type="text" placeholder="Type front text" v-model="cardFrontInput" v-if="addCardFront" v-focus @keyup.enter="flipCard"/>
             <input type="text" placeholder="Type back text" v-model="cardBackInput" v-if="addCardBack" @keyup.enter="submitCard"/>
             <button class="cardButton" v-on:click="flipCard" v-if="!addCardBack">Flip Card</button>
             <button class="cardButton" v-on:click="submitCard" v-if="addCardBack">Submit Card</button>
@@ -45,6 +45,17 @@ export default {
             }
         }
     },
+    // https://vuejs.org/v2/guide/custom-directive.html
+    // allows the use of v-focus to have the cursor automatically go into the textbox
+    directives: {
+        focus: {
+            // directive definition
+            inserted: function (el) {
+                el.focus()
+            }
+        }
+    },
+
     data () {
         return {
             cardSide:"Front",
