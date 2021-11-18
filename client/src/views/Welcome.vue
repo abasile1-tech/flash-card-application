@@ -79,9 +79,9 @@ a {
 
 .deckButtons:hover {
     color: black;
-    background-color: blueviolet;
+    background-color: rgb(43, 76, 226);
     font-size: 24px;
-    border: 3px solid white;
+    border: 3px solid rgb(0, 0, 0);
     width: fit-content;
 }
 
