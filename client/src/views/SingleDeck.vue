@@ -9,11 +9,12 @@
         
         <button v-on:click="updateCardIndex(-1)">Previous Card</button>
         <button v-on:click="updateCardIndex(1)">Next Card</button>
-        <div class="card">
-            <p >{{cardSide}}</p>
-            <p v-if="!addCardFront&&!addCardBack">{{cardPrompt}}</p>
-            <input type="text" placeholder="Type front text" v-model="cardFrontInput" v-if="addCardFront" v-focus @keyup.enter="flipCard"/>
-            <input type="text" placeholder="Type back text" v-model="cardBackInput" v-if="addCardBack" @keyup.enter="submitCard"/>
+        <!-- https://vuejs.org/v2/guide/class-and-style.html#With-Components how to use the v-bind-->
+        <div class="card" v-bind:class="{flipped: this.cardSide==='Front'}">
+            <p class="cardPromptClass">{{cardSide}}</p>
+            <p class="cardPromptClass" v-if="!addCardFront&&!addCardBack">{{cardPrompt}}</p>
+            <input type="text" class="cardInputBox" placeholder="Type front text" v-model="cardFrontInput" v-if="addCardFront" v-focus @keyup.enter="flipCard"/>
+            <input type="text" class="cardInputBox" placeholder="Type back text" v-model="cardBackInput" v-if="addCardBack" @keyup.enter="submitCard"/>
             <button class="cardButton" v-on:click="flipCard" v-if="!addCardBack">Flip Card</button>
             <button class="cardButton" v-on:click="submitCard" v-if="addCardBack">Submit Card</button>
         </div>
@@ -181,6 +182,17 @@ export default {
     width: 8em;
     margin: 0em auto;
 }
+
+.cardInputBox {
+    width: 16em;
+    margin: 0em auto;
+    font-size: 20px;
+}
+
+.cardPromptClass {
+    font-size: 20px;
+}
+
 .card {
     border: 0.1em solid rgb(131, 131, 131);
     border-radius: 0.5em;
@@ -192,7 +204,13 @@ export default {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    background-color: rgb(102, 179, 202);
 }
+
+.flipped {
+    background-color:rgb(132, 172, 137);
+}
+
 .textBox input{
     font-size: 25px;
     border: 0.1em solid rgb(131, 131, 131);
@@ -202,4 +220,5 @@ export default {
     flex-direction: column;
     justify-content: space-between;
 }
+
 </style>
