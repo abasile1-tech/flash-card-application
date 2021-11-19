@@ -35,6 +35,8 @@ export default {
 }
 #app, button, input {
   font-family: 'Roboto', sans-serif;
+  font-size: large;
+  margin: 0.3em;
 }
 
 </style>

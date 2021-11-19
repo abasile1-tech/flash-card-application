@@ -4,26 +4,26 @@
         <div class ="textBox">
             <input type="text" placeholder="Type the new deck name" v-model="editDeckNameInput" 
                 v-if="editDeckNameSelected" v-focus @keyup.enter="submitEditedDeckName"/>
-            <br>
         </div>
         
-        <button v-on:click="updateCardIndex(-1)">Previous Card</button>
-        <button v-on:click="updateCardIndex(1)">Next Card</button>
+        <button class="cardNavigationButtons1" v-on:click="updateCardIndex(-1)">Previous Card</button>
+        <button class="cardNavigationButtons2" v-on:click="updateCardIndex(1)">Next Card</button>
         <!-- https://vuejs.org/v2/guide/class-and-style.html#With-Components how to use the v-bind-->
         <div class="card" v-bind:class="{flipped: this.cardSide==='Front'}">
-            <p class="cardPromptClass">{{cardSide}}</p>
-            <p class="cardPromptClass" v-if="!addCardFront&&!addCardBack">{{cardPrompt}}</p>
+            <p class="cardPromptClass1">{{cardSide}}</p>
+            <p class="cardPromptClass2" v-if="!addCardFront&&!addCardBack">{{cardPrompt}}</p>
             <input type="text" class="cardInputBox" placeholder="Type front text" v-model="cardFrontInput" v-if="addCardFront" v-focus @keyup.enter="flipCard"/>
             <input type="text" class="cardInputBox" placeholder="Type back text" v-model="cardBackInput" v-if="addCardBack" @keyup.enter="submitCard"/>
             <button class="cardButton" v-on:click="flipCard" v-if="!addCardBack">Flip Card</button>
             <button class="cardButton" v-on:click="submitCard" v-if="addCardBack">Submit Card</button>
         </div>
-        <button v-on:click="addCard">Add Card</button>
-        <button v-on:click="deleteCard">Delete Card</button>
+        <button class="addCardButton" v-on:click="addCard">Add Card</button>
+        <button class="deleteCardButton" v-on:click="deleteCard">Delete Card</button>
         <div>
-            <button v-on:click="goBackToDecks">Return To Decks</button>
-            <button v-on:click="deleteDeck">Delete Current Deck</button>
-            <button v-on:click="editDeckName">Edit Deck Name</button>
+            <button class="deckEditButton" v-on:click="editDeckName">Edit Deck Name</button>
+            <button class="deckDeleteButton" v-on:click="deleteDeck">Delete Current Deck</button>
+            <br>
+            <button class="decksReturnButton" v-on:click="goBackToDecks">Return To Decks</button>
         </div>
     </div>
 </template>
@@ -181,25 +181,33 @@ export default {
 .cardButton {
     width: 8em;
     margin: 0em auto;
+    font-size: large;
+    background-color:rgb(26, 26, 201);
+    color:white;
 }
 
 .cardInputBox {
-    width: 16em;
+    width: 17em;
     margin: 0em auto;
-    font-size: 20px;
+    font-size: large;
 }
 
-.cardPromptClass {
-    font-size: 20px;
+.cardPromptClass1 {
+    font-size: x-large;
+    color:white;
+}
+
+.cardPromptClass2 {
+    font-size: x-large;
 }
 
 .card {
     border: 0.1em solid rgb(131, 131, 131);
     border-radius: 0.5em;
     padding: 0em 0em 1.5em 0em;
-    width: 70%;
+    width: 80%;
     max-width:20em;
-    height: 20em;;
+    height: 15em;;
     margin: auto;
     display: flex;
     flex-direction: column;
@@ -219,6 +227,46 @@ export default {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+}
+
+.addCardButton{
+    color:#0a5050;;
+    background-color:grey;
+}
+
+.deleteCardButton{
+    color:#760b0b;;
+    background-color:grey;
+}
+
+.deckButtons{
+    color:#5e0707;
+    background-color:#64b314;
+}
+
+.deckDeleteButton{
+    color:#760b0b;
+    background-color:grey;
+}
+
+.deckEditButton{
+    color:#14075e;
+    background-color:grey;
+}
+
+.decksReturnButton{
+    color:#c6d124;
+    background-color:grey;
+}
+
+.cardNavigationButtons1{
+    color:#f9dc9e;
+    background-color:grey;
+}
+
+.cardNavigationButtons2{
+    color:#24d513;
+    background-color:grey;
 }
 
 </style>
