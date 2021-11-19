@@ -21,7 +21,7 @@
         <button class="deleteCardButton" v-on:click="deleteCard">Delete Card</button>
         <div>
             <button class="deckEditButton" v-on:click="editDeckName">Edit Deck Name</button>
-            <button class="deckDeleteButton" v-on:click="deleteDeck">Delete Current Deck</button>
+            <button class="deckDeleteButton" v-on:click="deleteDeck">Delete Deck</button>
             <br>
             <button class="decksReturnButton" v-on:click="goBackToDecks">Return To Decks</button>
         </div>

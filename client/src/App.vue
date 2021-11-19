@@ -24,6 +24,10 @@ export default {
 </script>
 
 <style>
+body{
+  background-color:lightblue;
+}
+
 #app {
   /* font-family: Avenir, Helvetica, Arial, sans-serif; */
   /* font-family: 'Roboto', sans-serif; */
@@ -32,8 +36,10 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+  font-family: 'Roboto', sans-serif;
+  font-size: large;
 }
-#app, button, input {
+button, input {
   font-family: 'Roboto', sans-serif;
   font-size: large;
   margin: 0.3em;
