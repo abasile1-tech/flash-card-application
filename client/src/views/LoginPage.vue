@@ -1,7 +1,6 @@
 <template>
   <div id="loginPage_css">
     <h1>Welcome to the Flash Card App!</h1>
-    <br>
     <img src="../assets/flash_cards.png" alt="Flash Cards">
     <br>
     <p class="displayInline">Please enter your username:</p>

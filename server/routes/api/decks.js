@@ -37,6 +37,7 @@ router.post('/', async (req, res) => {
     try {
         const deck = new Deck();
         deck.deckName = req.body.deckName;
+        deck.userId = req.body.userId;
         deck.cards = [];
         await deck.save(function(err,deck){
             if (err) {

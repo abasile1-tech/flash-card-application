@@ -43,7 +43,7 @@ export default {
   },
   methods: {
     async submit () {
-      const response = await axios.post(url,{deckName:this.deckInput});
+      const response = await axios.post(url,{deckName:this.deckInput,userId:this.userObjectList[this.userObjectList.length-1]._id});
       if(response.status!==201){
         console.log("error: ",response);
       }
@@ -65,7 +65,6 @@ export default {
     this.deckObjectList = response.data;
     const responseFromUsers = await axios.get(urlForUsers);
     this.userObjectList = responseFromUsers.data;
-    console.log(this.userObjectList);
   }
 }
 </script>
