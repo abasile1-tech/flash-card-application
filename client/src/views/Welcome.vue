@@ -1,20 +1,18 @@
 <template>
   <div id="welcome_css">
-    <h1>Welcome to the Flash Card App!</h1>
+    <h1>Welcome John!</h1>
     <br>
     <p class="displayInline"> You currently have {{this.deckObjectList.length}} decks in your library.</p>
     <br><br>
     <p class="displayInline">Please enter the name of your new deck into the textbox:</p>
-    <input type="text" v-model="deckInput" @keyup.enter="submit"/>
-    <button v-on:click="submit">submit</button>
+    <input type="text" v-model="deckInput" @keyup.enter="submit"/> 
+    <button v-on:click="submit">submit</button> 
     <br>
     <p>When you have decks, they show up here. </p>
     <p>Click on the deck that you want to work on and you will be redirected to that deck's page.</p>
     <div class="flexContainer">
         <button class=deckButtons :key="deck" v-for="deck in this.deckObjectList" v-on:click="goToDeck(deck)">{{deck.deckName}}</button>
     </div>
-    <br>
-    <img src="../assets/flash_cards.png" alt="Flash Cards">
     <br>
   </div>
 </template>
@@ -49,7 +47,7 @@ export default {
       //emit deck
       this.$emit("emitDeck", deckObj);
       //advance route
-      this.$router.push({ path: `/single-deck/${deckObj.deckName}` })
+      this.$router.push({ path: `/welcome/single-deck/${deckObj.deckName}` })
     }
   },
   async created(){

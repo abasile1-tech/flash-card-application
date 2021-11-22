@@ -149,7 +149,7 @@ export default {
         },
         goBackToDecks () {
             //advance route back to the Welcome Page
-            this.$router.push({ path: '/' })
+            this.$router.push({ path: '/welcome' })
         },
         async deleteDeck(){
             await axios.delete(url+this.emittedObject._id+"/deckName");
