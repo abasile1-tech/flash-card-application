@@ -14,6 +14,7 @@
         <button class=deckButtons :key="deck" v-for="deck in this.deckObjectList" v-on:click="goToDeck(deck)">{{deck.deckName}}</button>
     </div>
     <br>
+    <button v-on:click="returnToLoginPage()">Return To Login Page</button>
   </div>
 </template>
 
@@ -47,7 +48,10 @@ export default {
       //emit deck
       this.$emit("emitDeck", deckObj);
       //advance route
-      this.$router.push({ path: `/welcome/single-deck/${deckObj.deckName}` })
+      this.$router.push({ path: `/welcome/single-deck/${deckObj.deckName}` });
+    },
+    returnToLoginPage(){
+      this.$router.push({path: `/`});
     }
   },
   async created(){
