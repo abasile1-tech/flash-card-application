@@ -1,6 +1,10 @@
 <template>
   <div id="welcome_css">
-    <h1>Welcome John!</h1>
+    <h1>Welcome {{
+      this.userObjectList[this.userObjectList.length-1]
+      ?this.userObjectList[this.userObjectList.length-1].userName
+      :""
+      }}!</h1>
     <br>
     <p class="displayInline"> You currently have {{this.deckObjectList.length}} decks in your library.</p>
     <br><br>
@@ -21,6 +25,7 @@
 <script>
 import axios from 'axios';
 const url = '/api/decks/';
+const urlForUsers = '/api/users/';
 
 export default {
   name: 'Welcome',
@@ -32,7 +37,8 @@ export default {
   data () {
     return {
       deckInput:"",
-      deckObjectList:[]
+      deckObjectList:[],
+      userObjectList:[]
     }
   },
   methods: {
@@ -57,6 +63,9 @@ export default {
   async created(){
     const response = await axios.get(url); 
     this.deckObjectList = response.data;
+    const responseFromUsers = await axios.get(urlForUsers);
+    this.userObjectList = responseFromUsers.data;
+    console.log(this.userObjectList);
   }
 }
 </script>

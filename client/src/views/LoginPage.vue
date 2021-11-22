@@ -4,12 +4,16 @@
     <br>
     <img src="../assets/flash_cards.png" alt="Flash Cards">
     <br>
+    <p class="displayInline">Please enter your username:</p>
+    <input type="text" v-model="userNameInput" @keyup.enter="logIn"/> 
+    <br>
     <button v-on:click="logIn()">Log In</button>
   </div>
 </template>
 
 <script>
-// import axios from 'axios';
+import axios from 'axios';
+const url = '/api/users/';
 
 export default {
   name: 'LoginPage',
@@ -19,10 +23,19 @@ export default {
   props: {
   },
   data () {
-      return {};
+      return {
+        userNameInput:"",
+        // userNameList:[]
+      };
   },
   methods: {
     async logIn () {
+        const response = await axios.post(url,{userName:this.userNameInput});
+        if(response.status!==201){
+            console.log("error: ",response);
+        }
+        // this.userNameList.push(response.data);
+        this.userNameInput = "";
         this.$router.push({ path: '/welcome/' })
     }
   }
