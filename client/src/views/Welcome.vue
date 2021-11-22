@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="welcome_css">
     <h1>Welcome to the Flash Card App!</h1>
     <br>
     <p class="displayInline"> You currently have {{this.deckObjectList.length}} decks in your library.</p>
@@ -61,6 +61,14 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+#welcome_css {
+  background-color:lightskyblue;
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+}
 a {
   color: #42b983;
 }

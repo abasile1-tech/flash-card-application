@@ -25,7 +25,7 @@ export default {
 
 <style>
 body{
-  background-color:lightblue;
+  /* background-color:lightblue; */
 }
 
 #app {
