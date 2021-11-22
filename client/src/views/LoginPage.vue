@@ -24,16 +24,27 @@ export default {
   data () {
       return {
         userNameInput:"",
-        // userNameList:[]
       };
   },
   methods: {
     async logIn () {
-        const response = await axios.post(url,{userName:this.userNameInput});
-        if(response.status!==201){
-            console.log("error: ",response);
+        const responseFromUsers = await axios.get(url);
+        const usersNameList = responseFromUsers.data;
+
+        let userExists = false;
+
+        for (const user of usersNameList){
+          if (user.userName===this.userNameInput){
+            userExists = true;
+          }
         }
-        // this.userNameList.push(response.data);
+
+        if (!userExists) {
+          const response = await axios.post(url,{userName:this.userNameInput});
+          if(response.status!==201){
+            console.log("error: ",response);
+          }
+        }
         this.userNameInput = "";
         this.$router.push({ path: '/welcome/' })
     }
