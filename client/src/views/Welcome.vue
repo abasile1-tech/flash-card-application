@@ -1,11 +1,8 @@
 <template>
   <div id="welcome_css"> 
     <h1>Welcome {{emittedUser.userName}}!</h1>
-      <!-- this.userObjectList[this.userObjectList.length-1]  -->
-      <!-- ?this.userObjectList[this.userObjectList.length-1].userName -->
-      <!-- :""  -->
     <br>
-    <p class="displayInline"> You currently have {{this.deckObjectList.length}} decks in your library.</p>
+    <p class="displayInline"> You currently have {{this.deckObjectListForUser.length}} decks in your library.</p>
     <br><br>
     <p class="displayInline">Please enter the name of your new deck into the textbox:</p>
     <input type="text" v-model="deckInput" @keyup.enter="submit"/> 
@@ -14,7 +11,7 @@
     <p>When you have decks, they show up here. </p>
     <p>Click on the deck that you want to work on and you will be redirected to that deck's page.</p>
     <div class="flexContainer">
-        <button class=deckButtons :key="deck" v-for="deck in this.deckObjectList" v-on:click="goToDeck(deck)">{{deck.deckName}}</button>
+        <button class=deckButtons :key="deck" v-for="deck in this.deckObjectListForUser" v-on:click="goToDeck(deck)">{{deck.deckName}}</button>
     </div>
     <br>
     <button v-on:click="returnToLoginPage()">Return To Login Page</button>
@@ -35,7 +32,7 @@ export default {
     emittedUser: {
       Type:Object,
       required: true,
-      _id: {
+            _id: {
                 type: String,
                 required: true
             },
@@ -49,12 +46,13 @@ export default {
     return {
       deckInput:"",
       deckObjectList:[],
-      userObjectList:[]
+      userObjectList:[],
+      deckObjectListForUser:[]
     }
   },
   methods: {
     async submit () {
-      const response = await axios.post(url,{deckName:this.deckInput,userId:this.userObjectList[this.userObjectList.length-1]._id});
+      const response = await axios.post(url,{deckName:this.deckInput,userId:this.emittedUser._id});
       if(response.status!==201){
         console.log("error: ",response);
       }
@@ -76,7 +74,11 @@ export default {
     this.deckObjectList = response.data;
     const responseFromUsers = await axios.get(urlForUsers);
     this.userObjectList = responseFromUsers.data;
-    console.log("this.emittedUser.userName:", this.emittedUser.userName);
+    for (const deck of this.deckObjectList){
+      if (deck.userId===this.emittedUser._id){
+        this.deckObjectListForUser.push(deck);
+      }
+    }
   }
 }
 </script>
