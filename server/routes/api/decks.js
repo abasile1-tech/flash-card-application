@@ -28,8 +28,8 @@ mongoose.connect(url,{
 const Deck = mongoose.model('Deck', deckSchema, 'decks');
 
 // Get Decks
-router.get('/', async (req, res) => {
-    res.send(await Deck.find({}));
+router.get('/:id', async (req, res) => {
+    res.send(await Deck.find({userId:mongoose.Types.ObjectId(req.params.id)}));
 });
 
 // Add Deck
@@ -37,6 +37,7 @@ router.post('/', async (req, res) => {
     try {
         const deck = new Deck();
         deck.deckName = req.body.deckName;
+        deck.userId = req.body.userId;
         deck.cards = [];
         await deck.save(function(err,deck){
             if (err) {

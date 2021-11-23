@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div id="singleDeck_css">
         <h1 v-if="!editDeckNameSelected">{{emittedObject.deckName}}</h1>
         <div class ="textBox">
             <input type="text" placeholder="Type the new deck name" v-model="editDeckNameInput" 
@@ -149,7 +149,7 @@ export default {
         },
         goBackToDecks () {
             //advance route back to the Welcome Page
-            this.$router.push({ path: '/' })
+            this.$router.push({ path: '/welcome' })
         },
         async deleteDeck(){
             await axios.delete(url+this.emittedObject._id+"/deckName");
@@ -178,6 +178,14 @@ export default {
 </script>
 
 <style scoped>
+#singleDeck_css{
+    background-color:lightblue;
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+}
 .cardButton {
     width: 8em;
     margin: 0em auto;

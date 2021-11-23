@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <router-view v-on:emitDeck="emitDeck" v-bind:emittedObject="objectToPass"></router-view>
+    <router-view v-on:emitDeck="emitDeck" v-bind:emittedObject="objectToPass" v-on:emitUser="emitUser" v-bind:emittedUser="userToPass"></router-view>
   </div>
 </template>
 
@@ -12,21 +12,25 @@ export default {
   },
   data (){
     return {
-      objectToPass:{}
+      objectToPass:{},
+      userToPass:{}
     }
   },
   methods: {
     emitDeck(obj){
       this.objectToPass=obj;
+    },
+    emitUser(userObj){
+      this.userToPass=userObj;
     }
   }
 }
 </script>
 
 <style>
-body{
-  background-color:lightblue;
-}
+/* body{
+  /* background-color:lightblue; */
+/* } */ 
 
 #app {
   /* font-family: Avenir, Helvetica, Arial, sans-serif; */

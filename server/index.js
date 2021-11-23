@@ -16,6 +16,10 @@ const decks = require('./routes/api/decks');
 
 app.use('/api/decks', decks);
 
+const users = require('./routes/api/users');
+
+app.use('/api/users', users);
+
 app.get('/',function(req, res){
     res.sendFile(dist_folder+'index.html');
 })
