@@ -32,11 +32,14 @@ export default {
         const responseFromUsers = await axios.get(url);
         const usersNameList = responseFromUsers.data;
 
+        let userObj = {};
+
         let userExists = false;
 
         for (const user of usersNameList){
           if (user.userName===this.userNameInput){
             userExists = true;
+            userObj = user;
           }
         }
 
@@ -45,8 +48,9 @@ export default {
           if(response.status!==201){
             console.log("error: ",response);
           }
+          userObj=response.data;
         }
-        this.$emit("emitUser", this.userNameInput);
+        this.$emit("emitUser", userObj);
         this.userNameInput = "";
         this.$router.push({ path: '/welcome/' })
     }

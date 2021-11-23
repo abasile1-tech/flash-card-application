@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <router-view v-on:emitDeck="emitDeck" v-bind:emittedObject="objectToPass" v-on:emitUser="emitUser" v-bind:emittedUserName="userToPass"></router-view>
+    <router-view v-on:emitDeck="emitDeck" v-bind:emittedObject="objectToPass" v-on:emitUser="emitUser" v-bind:emittedUser="userToPass"></router-view>
   </div>
 </template>
 
@@ -13,15 +13,15 @@ export default {
   data (){
     return {
       objectToPass:{},
-      userToPass:String
+      userToPass:{}
     }
   },
   methods: {
     emitDeck(obj){
       this.objectToPass=obj;
     },
-    emitUser(userName){
-      this.userToPass=userName;
+    emitUser(userObj){
+      this.userToPass=userObj;
     }
   }
 }

@@ -1,10 +1,9 @@
 <template>
   <div id="welcome_css"> 
-    <h1>Welcome {{emittedUserName}}!</h1>
+    <h1>Welcome {{emittedUser.userName}}!</h1>
       <!-- this.userObjectList[this.userObjectList.length-1]  -->
       <!-- ?this.userObjectList[this.userObjectList.length-1].userName -->
       <!-- :""  -->
-      
     <br>
     <p class="displayInline"> You currently have {{this.deckObjectList.length}} decks in your library.</p>
     <br><br>
@@ -33,9 +32,17 @@ export default {
     
   },
   props: {
-    emittedUserName: {
-      Type:String,
-      required: true
+    emittedUser: {
+      Type:Object,
+      required: true,
+      _id: {
+                type: String,
+                required: true
+            },
+            userName: {
+                type: String,
+                required: true
+            }
     }
   },
   data () {
@@ -69,7 +76,7 @@ export default {
     this.deckObjectList = response.data;
     const responseFromUsers = await axios.get(urlForUsers);
     this.userObjectList = responseFromUsers.data;
-    console.log("emittedUserName:", this.emittedUserName);
+    console.log("this.emittedUser.userName:", this.emittedUser.userName);
   }
 }
 </script>
