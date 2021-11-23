@@ -28,8 +28,8 @@ mongoose.connect(url,{
 const Deck = mongoose.model('Deck', deckSchema, 'decks');
 
 // Get Decks
-router.get('/', async (req, res) => {
-    res.send(await Deck.find({}));
+router.get('/:id', async (req, res) => {
+    res.send(await Deck.find({userId:mongoose.Types.ObjectId(req.params.id)}));
 });
 
 // Add Deck

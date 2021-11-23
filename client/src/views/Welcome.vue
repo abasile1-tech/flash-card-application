@@ -2,7 +2,7 @@
   <div id="welcome_css"> 
     <h1>Welcome {{emittedUser.userName}}!</h1>
     <br>
-    <p class="displayInline"> You currently have {{this.deckObjectListForUser.length}} decks in your library.</p>
+    <p class="displayInline"> You currently have {{this.deckObjectList.length}} decks in your library.</p>
     <br><br>
     <p class="displayInline">Please enter the name of your new deck into the textbox:</p>
     <input type="text" v-model="deckInput" @keyup.enter="submit"/> 
@@ -11,7 +11,7 @@
     <p>When you have decks, they show up here. </p>
     <p>Click on the deck that you want to work on and you will be redirected to that deck's page.</p>
     <div class="flexContainer">
-        <button class=deckButtons :key="deck" v-for="deck in this.deckObjectListForUser" v-on:click="goToDeck(deck)">{{deck.deckName}}</button>
+        <button class=deckButtons :key="deck" v-for="deck in this.deckObjectList" v-on:click="goToDeck(deck)">{{deck.deckName}}</button>
     </div>
     <br>
     <button v-on:click="returnToLoginPage()">Return To Login Page</button>
@@ -21,7 +21,6 @@
 <script>
 import axios from 'axios';
 const url = '/api/decks/';
-const urlForUsers = '/api/users/';
 
 export default {
   name: 'Welcome',
@@ -45,9 +44,7 @@ export default {
   data () {
     return {
       deckInput:"",
-      deckObjectList:[],
-      userObjectList:[],
-      deckObjectListForUser:[]
+      deckObjectList:[]
     }
   },
   methods: {
@@ -70,15 +67,8 @@ export default {
     }
   },
   async created(){
-    const response = await axios.get(url); 
+    const response = await axios.get(url+this.emittedUser._id); 
     this.deckObjectList = response.data;
-    const responseFromUsers = await axios.get(urlForUsers);
-    this.userObjectList = responseFromUsers.data;
-    for (const deck of this.deckObjectList){
-      if (deck.userId===this.emittedUser._id){
-        this.deckObjectListForUser.push(deck);
-      }
-    }
   }
 }
 </script>
