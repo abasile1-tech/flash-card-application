@@ -20,6 +20,7 @@ export default {
     
   },
   props: {
+    
   },
   data () {
       return {
@@ -45,6 +46,7 @@ export default {
             console.log("error: ",response);
           }
         }
+        this.$emit("emitUser", this.userNameInput);
         this.userNameInput = "";
         this.$router.push({ path: '/welcome/' })
     }

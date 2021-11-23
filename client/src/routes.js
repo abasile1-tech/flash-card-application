@@ -5,5 +5,5 @@ import LoginPage from './views/LoginPage.vue';
 export default [
     {path:'/welcome/',component:Welcome, props:true},
     {path:'/welcome/single-deck/:deckName',component:SingleDeck,props:true},
-    {path:'/',component:LoginPage}
+    {path:'/',component:LoginPage, props:true}
 ]
