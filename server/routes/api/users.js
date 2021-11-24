@@ -37,6 +37,7 @@ router.post('/', async (req, res) => {
     try {
         const user = new User();
         user.userName = req.body.userName;
+        user.userPassword = req.body.userPassword;
         await user.save(function(err,deck){
             if (err) {
                 res.status(500);

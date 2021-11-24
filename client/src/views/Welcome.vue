@@ -1,6 +1,6 @@
 <template>
   <div id="welcome_css"> 
-    <h1>Welcome {{emittedUser.userName}}!</h1>
+    <h1>Welcome, {{emittedUser.userName}}!</h1>
     <br>
     <p class="displayInline"> You currently have {{this.deckObjectList.length}} decks in your library.</p>
     <br><br>
