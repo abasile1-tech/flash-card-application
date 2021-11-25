@@ -28,9 +28,9 @@ export default {
 </script>
 
 <style>
-/* body{
-  /* background-color:lightblue; */
-/* } */ 
+ /* body{
+  /* background-color:lightblue;  */
+ /* }  */ 
 
 #app {
   /* font-family: Avenir, Helvetica, Arial, sans-serif; */
