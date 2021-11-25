@@ -49,23 +49,23 @@ export default {
         let userExists = false;
 
         for (const user of usersNameList){
-          if (user.userName===this.userNameInput){
+          if (user.userName===this.userNameInput && user.userPassword===this.passwordInput){
             userExists = true;
             userObj = user;
+            this.$emit("emitUser", userObj);
+            this.userNameInput = "";
+            this.passwordInput = "";
+            this.$router.push({ path: '/welcome/' });
           }
         }
 
         if (!userExists) {
-          const response = await axios.post(url,{userName:this.userNameInput});
-          if(response.status!==201){
-            console.log("error: ",response);
-          }
-          userObj=response.data;
+          console.log("incorrect username and/or password");
+          this.userNameInput = "";
+          this.passwordInput = "";
+
         }
-        this.$emit("emitUser", userObj);
-        this.userNameInput = "";
-        this.passwordInput = "";
-        this.$router.push({ path: '/welcome/' })
+        
     },
     async signUp () {
       const responseFromUsers = await axios.get(url);
