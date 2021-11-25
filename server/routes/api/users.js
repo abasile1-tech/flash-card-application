@@ -7,6 +7,9 @@ const router = express.Router();
 
 const userSchema = require('../../models/userSchema.js');
 
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
+
 if (process.env.NODE_ENV !== "production") {
     const dotenv = require("dotenv");
 
@@ -28,22 +31,65 @@ mongoose.connect(url,{
 const User = mongoose.model('User', userSchema, 'users');
 
 // Get Users
-router.get('/', async (req, res) => {
-    res.send(await User.find({}));
+router.post('/login', async (req, res) => {
+    const userNameToBeFound = req.body.userName;
+    const myPlaintextPassword = req.body.userPassword;
+
+    const user  = User.where({ userName:userNameToBeFound });
+    user.findOne(function (err, user) {
+        if (!user){
+            // The user couldn't be found
+            res.sendStatus(202);
+            return;
+        }
+        if (user) {
+            bcrypt.compare(myPlaintextPassword, user.userPassword, function(err, result) {
+                if (err) {
+                    console.log("error comparing password:",err);
+                }
+                if (result) {
+                    res.send(user);
+                    return;
+                } else{
+                    res.sendStatus(205);
+                    return;
+                }
+            });
+        }
+    });
 });
 
 // Add User
 router.post('/', async (req, res) => {
     try {
-        const user = new User();
-        user.userName = req.body.userName;
-        user.userPassword = req.body.userPassword;
-        await user.save(function(err,deck){
+        const userNameToBeFound = req.body.userName;
+        const user  = User.where({ userName:userNameToBeFound });
+        user.findOne(function (err, user) {
+        if (!user){
+            // The userName doesn't yet exist
+            const user = new User();
+            user.userName = req.body.userName;
+            const myPlaintextPassword = req.body.userPassword;
+            bcrypt.hash(myPlaintextPassword, saltRounds, async function(err, hash) {
             if (err) {
-                res.status(500);
+                console.log("error hashing password:",err);
             }
-            res.status(201).json(deck);
+            user.userPassword = hash;
+            await user.save(function(err,user){
+                if (err) {
+                    res.status(500);
+                }
+                res.status(201).json(user);
+            });
         });
+            return;
+        }
+        if (user) {
+            // The userName is already taken
+            res.sendStatus(205);
+            return;
+        }
+    });
     } catch (err) {
          console.log(err)
     }
