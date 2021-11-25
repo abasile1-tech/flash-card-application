@@ -17,8 +17,8 @@
     <br>
     <button v-on:click="signUp()">Sign Up</button>
     <br>
-    <div id="snackbar1">incorrect username and/or password</div>
-    <div id="snackbar2">user already exists</div>
+    <div id="snackbar1">Incorrect Username and/or Password</div>
+    <div id="snackbar2">User Already Exists</div>
   </div>
 </template>
 
@@ -63,7 +63,6 @@ export default {
         }
 
         if (!userExists) {
-          console.log("incorrect username and/or password");
           this.showSnackBar1();
           this.userNameInput = "";
           this.passwordInput = "";
@@ -82,7 +81,6 @@ export default {
       for (const user of usersNameList){
         if (user.userName===this.userNameInputNew){
           userExists = true;
-          console.log("user already exists");
           this.showSnackBar2();
           this.userNameInputNew = "";
           this.passwordInputNew = "";
