@@ -6,14 +6,14 @@
     <p class="displayInline">If you already have an account, please enter your username and password:</p>
     <br>
     <input type="text" placeholder="Type your username" v-model="userNameInput" /> 
-    <input type="text" placeholder="Type your password" v-model="passwordInput" @keyup.enter="logIn"/>
+    <input type="password" placeholder="Type your password" v-model="passwordInput" @keyup.enter="logIn"/>
     <br>
     <button v-on:click="logIn()">Log In</button>
     <br>
     <p class="displayInline">If you do not already have an account, please create one by entering a username and password:</p>
     <br>
     <input type="text" placeholder="Type a new username" v-model="userNameInputNew" /> 
-    <input type="text" placeholder="Type a new password" v-model="passwordInputNew" @keyup.enter="signUp"/>
+    <input type="password" placeholder="Type a new password" v-model="passwordInputNew" @keyup.enter="signUp"/>
     <br>
     <button v-on:click="signUp()">Sign Up</button>
   </div>
