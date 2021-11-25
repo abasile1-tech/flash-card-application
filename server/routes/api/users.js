@@ -62,11 +62,15 @@ router.post('/login', async (req, res) => {
 // Add User
 router.post('/', async (req, res) => {
     try {
-        const user = new User();
-        user.userName = req.body.userName;
-        // in the future, we need to check to ensure that the username is unique
-        const myPlaintextPassword = req.body.userPassword;
-        bcrypt.hash(myPlaintextPassword, saltRounds, async function(err, hash) {
+        const userNameToBeFound = req.body.userName;
+        const user  = User.where({ userName:userNameToBeFound });
+        user.findOne(function (err, user) {
+        if (!user){
+            // The userName doesn't yet exist
+            const user = new User();
+            user.userName = req.body.userName;
+            const myPlaintextPassword = req.body.userPassword;
+            bcrypt.hash(myPlaintextPassword, saltRounds, async function(err, hash) {
             if (err) {
                 console.log("error hashing password:",err);
             }
@@ -78,6 +82,14 @@ router.post('/', async (req, res) => {
                 res.status(201).json(user);
             });
         });
+            return;
+        }
+        if (user) {
+            // The userName is already taken
+            res.sendStatus(205);
+            return;
+        }
+    });
     } catch (err) {
          console.log(err)
     }

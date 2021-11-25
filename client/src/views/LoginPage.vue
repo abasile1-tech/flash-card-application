@@ -18,7 +18,7 @@
     <button v-on:click="signUp()">Sign Up</button>
     <br>
     <div id="snackbar1">Incorrect Password</div>
-    <div id="snackbar2">User Already Exists</div>
+    <div id="snackbar2">UserName Already Taken</div>
     <div id="snackbar3">User Not Found</div>
   </div>
 </template>
@@ -68,6 +68,12 @@ export default {
     },
     async signUp () {
       const response = await axios.post(url,{userName:this.userNameInputNew, userPassword:this.passwordInputNew});
+      if (response.status==205){
+        this.showSnackBar2();
+        this.userNameInputNew = "";
+        this.passwordInputNew = "";
+        return;
+      }
       const userObj=response.data;
       this.userNameInputNew = "";
       this.passwordInputNew = "";
