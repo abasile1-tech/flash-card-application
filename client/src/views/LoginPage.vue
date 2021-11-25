@@ -16,6 +16,9 @@
     <input type="password" placeholder="Type a new password" v-model="passwordInputNew" @keyup.enter="signUp"/>
     <br>
     <button v-on:click="signUp()">Sign Up</button>
+    <br>
+    <div id="snackbar1">incorrect username and/or password</div>
+    <div id="snackbar2">user already exists</div>
   </div>
 </template>
 
@@ -61,6 +64,7 @@ export default {
 
         if (!userExists) {
           console.log("incorrect username and/or password");
+          this.showSnackBar1();
           this.userNameInput = "";
           this.passwordInput = "";
 
@@ -79,6 +83,7 @@ export default {
         if (user.userName===this.userNameInputNew){
           userExists = true;
           console.log("user already exists");
+          this.showSnackBar2();
           this.userNameInputNew = "";
           this.passwordInputNew = "";
         }
@@ -95,6 +100,26 @@ export default {
         this.$emit("emitUser", userObj);
         this.$router.push({ path: '/welcome/' })
       }
+    },
+    showSnackBar1() {
+      // Get the snackbar DIV
+      var x = document.getElementById("snackbar1");
+
+      // Add the "show" class to DIV
+      x.className = "show";
+
+      // After 3 seconds, remove the show class from DIV
+      setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+    },
+    showSnackBar2() {
+      // Get the snackbar DIV
+      var x = document.getElementById("snackbar2");
+
+      // Add the "show" class to DIV
+      x.className = "show";
+
+      // After 3 seconds, remove the show class from DIV
+      setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
     }
   }
 }
@@ -113,6 +138,76 @@ export default {
 
 .displayInline {
   display:inline;
+}
+/* The snackbar - position it at the bottom and in the middle of the screen */
+#snackbar1 {
+  visibility: hidden; /* Hidden by default. Visible on click */
+  min-width: 250px; /* Set a default minimum width */
+  margin-left: -125px; /* Divide value of min-width by 2 */
+  background-color: #333; /* Black background color */
+  color: #fff; /* White text color */
+  text-align: center; /* Centered text */
+  border-radius: 2px; /* Rounded borders */
+  padding: 16px; /* Padding */
+  position: fixed; /* Sit on top of the screen */
+  z-index: 1; /* Add a z-index if needed */
+  left: 50%; /* Center the snackbar */
+  bottom: 30px; /* 30px from the bottom */
+}
+
+/* Show the snackbar when clicking on a button (class added with JavaScript) */
+#snackbar1.show {
+  visibility: visible; /* Show the snackbar */
+  /* Add animation: Take 0.5 seconds to fade in and out the snackbar.
+  However, delay the fade out process for 2.5 seconds */
+  -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+  animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+/* The snackbar - position it at the bottom and in the middle of the screen */
+#snackbar2 {
+  visibility: hidden; /* Hidden by default. Visible on click */
+  min-width: 250px; /* Set a default minimum width */
+  margin-left: -125px; /* Divide value of min-width by 2 */
+  background-color: #333; /* Black background color */
+  color: #fff; /* White text color */
+  text-align: center; /* Centered text */
+  border-radius: 2px; /* Rounded borders */
+  padding: 16px; /* Padding */
+  position: fixed; /* Sit on top of the screen */
+  z-index: 1; /* Add a z-index if needed */
+  left: 50%; /* Center the snackbar */
+  bottom: 30px; /* 30px from the bottom */
+}
+
+/* Show the snackbar when clicking on a button (class added with JavaScript) */
+#snackbar2.show {
+  visibility: visible; /* Show the snackbar */
+  /* Add animation: Take 0.5 seconds to fade in and out the snackbar.
+  However, delay the fade out process for 2.5 seconds */
+  -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+  animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+/* Animations to fade the snackbar in and out */
+@-webkit-keyframes fadein {
+  from {bottom: 0; opacity: 0;}
+  to {bottom: 30px; opacity: 1;}
+}
+
+@keyframes fadein {
+  from {bottom: 0; opacity: 0;}
+  to {bottom: 30px; opacity: 1;}
+}
+
+@-webkit-keyframes fadeout {
+  from {bottom: 30px; opacity: 1;}
+  to {bottom: 0; opacity: 0;}
+}
+
+@keyframes fadeout {
+  from {bottom: 30px; opacity: 1;}
+  to {bottom: 0; opacity: 0;}
 }
 
 </style>
