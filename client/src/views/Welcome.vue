@@ -1,6 +1,6 @@
 <template>
   <div id="welcome_css"> 
-    <h1>Welcome, {{emittedUser.userName}}!</h1>
+    <h1>Welcome, {{emittedUser.userName?emittedUser.userName:"data hasn't loaded yet"}}!</h1>
     <br>
     <p class="displayInline" v-if="onlyOneDeck"> You currently have {{this.deckObjectList.length}} deck in your library.</p>
     <p class="displayInline" v-else> You currently have {{this.deckObjectList.length}} decks in your library.</p>
@@ -78,6 +78,10 @@ export default {
   async created(){
     if (this.emittedUser._id != undefined) {
       localStorage.setItem("emittedUser._id",this.emittedUser._id);
+      if (this.emittedUser.userName == undefined){
+        const responseFromUsers = await axios.get(urlForUsers+this.emittedUser._id);
+        this.emittedUser = responseFromUsers.data;
+      }
     }
     if (this.emittedUser._id == undefined) {
       this.emittedUser._id = localStorage.getItem("emittedUser._id")
