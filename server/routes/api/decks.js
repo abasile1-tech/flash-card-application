@@ -32,6 +32,11 @@ router.get('/:id', async (req, res) => {
     res.send(await Deck.find({userId:mongoose.Types.ObjectId(req.params.id)}));
 });
 
+// Get Deck after page reload
+router.get('/deck/:id', async (req, res) => {
+    res.send(await Deck.findOne({_id:mongoose.Types.ObjectId(req.params.id)}));
+});
+
 // Add Deck
 router.post('/', async (req, res) => {
     try {
