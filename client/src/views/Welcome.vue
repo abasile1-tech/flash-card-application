@@ -1,6 +1,6 @@
 <template>
   <div id="welcome_css"> 
-    <h1>Welcome, {{emittedUser.userName?emittedUser.userName:"data hasn't loaded yet"}}!</h1>
+    <h1>Welcome, {{emittedUser.userName?emittedUser.userName:""}}!</h1>
     <br>
     <p class="displayInline" v-if="onlyOneDeck"> You currently have {{this.deckObjectList.length}} deck in your library.</p>
     <p class="displayInline" v-else> You currently have {{this.deckObjectList.length}} decks in your library.</p>
