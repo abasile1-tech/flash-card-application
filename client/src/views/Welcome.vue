@@ -2,7 +2,8 @@
   <div id="welcome_css"> 
     <h1>Welcome, {{emittedUser.userName}}!</h1>
     <br>
-    <p class="displayInline"> You currently have {{this.deckObjectList.length}} decks in your library.</p>
+    <p class="displayInline" v-if="onlyOneDeck"> You currently have {{this.deckObjectList.length}} deck in your library.</p>
+    <p class="displayInline" v-else> You currently have {{this.deckObjectList.length}} decks in your library.</p>
     <br><br>
     <p class="displayInline">Please enter the name of your new deck into the textbox:</p>
     <input type="text" v-model="deckInput" @keyup.enter="submit"/> 
@@ -44,7 +45,8 @@ export default {
   data () {
     return {
       deckInput:"",
-      deckObjectList:[]
+      deckObjectList:[],
+      onlyOneDeck:false
     }
   },
   methods: {
@@ -54,6 +56,11 @@ export default {
         console.log("error: ",response);
       }
       this.deckObjectList.push(response.data);
+      if (this.deckObjectList.length==1){
+        this.onlyOneDeck=true;
+      }else{
+        this.onlyOneDeck=false;
+      }
       this.deckInput = "";
     },
     goToDeck (deckObj) {
@@ -69,6 +76,9 @@ export default {
   async created(){
     const response = await axios.get(url+this.emittedUser._id); 
     this.deckObjectList = response.data;
+    if (this.deckObjectList.length==1){
+      this.onlyOneDeck=true;
+    }
   }
 }
 </script>
