@@ -59,6 +59,11 @@ router.post('/login', async (req, res) => {
     });
 });
 
+// Get User after page reload
+router.get('/:id', async (req, res) => {
+    res.send(await User.findOne({_id:mongoose.Types.ObjectId(req.params.id)}));
+});
+
 // Add User
 router.post('/', async (req, res) => {
     try {

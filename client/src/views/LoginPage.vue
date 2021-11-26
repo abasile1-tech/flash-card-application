@@ -17,9 +17,9 @@
     <br>
     <button v-on:click="signUp()">Sign Up</button>
     <br>
-    <div id="snackbar1">Incorrect Password</div>
-    <div id="snackbar2">UserName Already Taken</div>
-    <div id="snackbar3">User Not Found</div>
+    <div class="snackbar" id="snackbar1">Incorrect Password</div>
+    <div class="snackbar" id="snackbar2">UserName Already Taken</div>
+    <div class="snackbar" id="snackbar3">User Not Found</div>
   </div>
 </template>
 
@@ -49,66 +49,47 @@ export default {
       const user = responseFromUsers.data;
 
       if (responseFromUsers.status==205){
-        this.showSnackBar1();
-        this.userNameInput = "";
-        this.passwordInput = "";
+        this.showSnackBar("snackbar1");
+        this.clearLogInInputs();
         return;
       }
       if (responseFromUsers.status==202){
-        this.showSnackBar3();
-        this.userNameInput = "";
-        this.passwordInput = "";
+        this.showSnackBar("snackbar3");
+        this.clearLogInInputs();
         return;
       }
       
       this.$emit("emitUser", user);
-      this.userNameInput = "";
-      this.passwordInput = "";
+      this.clearLogInInputs();
       this.$router.push({ path: '/welcome/' });
     },
     async signUp () {
       const response = await axios.post(url,{userName:this.userNameInputNew, userPassword:this.passwordInputNew});
       if (response.status==205){
-        this.showSnackBar2();
-        this.userNameInputNew = "";
-        this.passwordInputNew = "";
+        this.showSnackBar("snackbar2");
+        this.clearSignUpInputs();
         return;
       }
       const userObj=response.data;
-      this.userNameInputNew = "";
-      this.passwordInputNew = "";
+      this.clearSignUpInputs();
       this.$emit("emitUser", userObj);
       this.$router.push({ path: '/welcome/' })
     },
-    showSnackBar1() {
+    showSnackBar(snackBarNum) {
       // Get the snackbar DIV
-      var x = document.getElementById("snackbar1");
-
+      var x = document.getElementById(snackBarNum);
       // Add the "show" class to DIV
-      x.className = "show";
-
+      x.classList.add("show");
       // After 3 seconds, remove the show class from DIV
-      setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+      setTimeout(function(){ x.classList.remove("show"); }, 3000);
     },
-    showSnackBar2() {
-      // Get the snackbar DIV
-      var x = document.getElementById("snackbar2");
-
-      // Add the "show" class to DIV
-      x.className = "show";
-
-      // After 3 seconds, remove the show class from DIV
-      setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+    clearLogInInputs(){
+      this.userNameInput = "";
+      this.passwordInput = "";
     },
-    showSnackBar3() {
-      // Get the snackbar DIV
-      var x = document.getElementById("snackbar3");
-
-      // Add the "show" class to DIV
-      x.className = "show";
-
-      // After 3 seconds, remove the show class from DIV
-      setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+    clearSignUpInputs(){
+      this.userNameInputNew = "";
+      this.passwordInputNew = "";
     }
   }
 }
@@ -132,7 +113,7 @@ export default {
   display:inline;
 }
 /* The snackbar - position it at the bottom and in the middle of the screen */
-#snackbar1 {
+.snackbar {
   visibility: hidden; /* Hidden by default. Visible on click */
   min-width: 250px; /* Set a default minimum width */
   margin-left: -125px; /* Divide value of min-width by 2 */
@@ -148,57 +129,7 @@ export default {
 }
 
 /* Show the snackbar when clicking on a button (class added with JavaScript) */
-#snackbar1.show {
-  visibility: visible; /* Show the snackbar */
-  /* Add animation: Take 0.5 seconds to fade in and out the snackbar.
-  However, delay the fade out process for 2.5 seconds */
-  -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
-  animation: fadein 0.5s, fadeout 0.5s 2.5s;
-}
-
-/* The snackbar - position it at the bottom and in the middle of the screen */
-#snackbar2 {
-  visibility: hidden; /* Hidden by default. Visible on click */
-  min-width: 250px; /* Set a default minimum width */
-  margin-left: -125px; /* Divide value of min-width by 2 */
-  background-color: #333; /* Black background color */
-  color: #fff; /* White text color */
-  text-align: center; /* Centered text */
-  border-radius: 2px; /* Rounded borders */
-  padding: 16px; /* Padding */
-  position: fixed; /* Sit on top of the screen */
-  z-index: 1; /* Add a z-index if needed */
-  left: 50%; /* Center the snackbar */
-  bottom: 30px; /* 30px from the bottom */
-}
-
-/* Show the snackbar when clicking on a button (class added with JavaScript) */
-#snackbar2.show {
-  visibility: visible; /* Show the snackbar */
-  /* Add animation: Take 0.5 seconds to fade in and out the snackbar.
-  However, delay the fade out process for 2.5 seconds */
-  -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
-  animation: fadein 0.5s, fadeout 0.5s 2.5s;
-}
-
-/* The snackbar - position it at the bottom and in the middle of the screen */
-#snackbar3 {
-  visibility: hidden; /* Hidden by default. Visible on click */
-  min-width: 250px; /* Set a default minimum width */
-  margin-left: -125px; /* Divide value of min-width by 2 */
-  background-color: #333; /* Black background color */
-  color: #fff; /* White text color */
-  text-align: center; /* Centered text */
-  border-radius: 2px; /* Rounded borders */
-  padding: 16px; /* Padding */
-  position: fixed; /* Sit on top of the screen */
-  z-index: 1; /* Add a z-index if needed */
-  left: 50%; /* Center the snackbar */
-  bottom: 30px; /* 30px from the bottom */
-}
-
-/* Show the snackbar when clicking on a button (class added with JavaScript) */
-#snackbar3.show {
+.snackbar.show {
   visibility: visible; /* Show the snackbar */
   /* Add animation: Take 0.5 seconds to fade in and out the snackbar.
   However, delay the fade out process for 2.5 seconds */

@@ -22,6 +22,7 @@
 <script>
 import axios from 'axios';
 const url = '/api/decks/';
+const urlForUsers = '/api/users/';
 
 export default {
   name: 'Welcome',
@@ -70,10 +71,19 @@ export default {
       this.$router.push({ path: `/welcome/single-deck/${deckObj.deckName}` });
     },
     returnToLoginPage(){
+      localStorage.removeItem("emittedUser._id");
       this.$router.push({path: `/`});
     }
   },
   async created(){
+    if (this.emittedUser._id != undefined) {
+      localStorage.setItem("emittedUser._id",this.emittedUser._id);
+    }
+    if (this.emittedUser._id == undefined) {
+      this.emittedUser._id = localStorage.getItem("emittedUser._id")
+      const responseFromUsers = await axios.get(urlForUsers+this.emittedUser._id);
+      this.emittedUser = responseFromUsers.data;
+    }
     const response = await axios.get(url+this.emittedUser._id); 
     this.deckObjectList = response.data;
     if (this.deckObjectList.length==1){
