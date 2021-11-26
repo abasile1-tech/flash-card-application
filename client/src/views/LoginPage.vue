@@ -50,33 +50,28 @@ export default {
 
       if (responseFromUsers.status==205){
         this.showSnackBar("snackbar1");
-        this.userNameInput = "";
-        this.passwordInput = "";
+        this.clearLogInInputs();
         return;
       }
       if (responseFromUsers.status==202){
         this.showSnackBar("snackbar3");
-        this.userNameInput = "";
-        this.passwordInput = "";
+        this.clearLogInInputs();
         return;
       }
       
       this.$emit("emitUser", user);
-      this.userNameInput = "";
-      this.passwordInput = "";
+      this.clearLogInInputs();
       this.$router.push({ path: '/welcome/' });
     },
     async signUp () {
       const response = await axios.post(url,{userName:this.userNameInputNew, userPassword:this.passwordInputNew});
       if (response.status==205){
         this.showSnackBar("snackbar2");
-        this.userNameInputNew = "";
-        this.passwordInputNew = "";
+        this.clearSignUpInputs();
         return;
       }
       const userObj=response.data;
-      this.userNameInputNew = "";
-      this.passwordInputNew = "";
+      this.clearSignUpInputs();
       this.$emit("emitUser", userObj);
       this.$router.push({ path: '/welcome/' })
     },
@@ -87,6 +82,14 @@ export default {
       x.classList.add("show");
       // After 3 seconds, remove the show class from DIV
       setTimeout(function(){ x.classList.remove("show"); }, 3000);
+    },
+    clearLogInInputs(){
+      this.userNameInput = "";
+      this.passwordInput = "";
+    },
+    clearSignUpInputs(){
+      this.userNameInputNew = "";
+      this.passwordInputNew = "";
     }
   }
 }
