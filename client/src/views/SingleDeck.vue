@@ -1,6 +1,6 @@
 <template>
     <div id="singleDeck_css">
-        <h1 v-if="!editDeckNameSelected">{{emittedObject.deckName}}</h1>
+        <h1 v-if="!editDeckNameSelected">{{emittedObject.deckName?emittedObject.deckName:""}}</h1>
         <div class ="textBox">
             <input type="text" placeholder="Type the new deck name" v-model="editDeckNameInput" 
                 v-if="editDeckNameSelected" v-focus @keyup.enter="submitEditedDeckName"/>
@@ -148,6 +148,7 @@ export default {
             //this.goBackToDecks();
         },
         goBackToDecks () {
+            localStorage.removeItem("emittedObject._id");
             //advance route back to the Welcome Page
             this.$router.push({ path: '/welcome' })
         },
@@ -168,7 +169,20 @@ export default {
             this.editDeckNameSelected=false;
         }
     },
-    created () {
+    async created () {
+        if (this.emittedObject._id != undefined) {
+            localStorage.setItem("emittedObject._id",this.emittedObject._id);
+            if (this.emittedObject.deckName == undefined) {
+                const responseFromDecks = await axios.get(url+'/deck/'+this.emittedObject._id);
+                this.emittedObject = responseFromDecks.data;
+            }
+        }
+        if (this.emittedObject._id == undefined) {
+            this.emittedObject._id = localStorage.getItem("emittedObject._id")
+            const responseFromDecks = await axios.get(url+'/deck/'+this.emittedObject._id);
+            this.emittedObject = responseFromDecks.data;
+        }
+        
         if(this.emittedObject.cards.length!=0){
             this.cardPrompt=this.emittedObject.cards[0].cardFront;
             this.cardId=this.emittedObject.cards[0]._id;
