@@ -11,8 +11,8 @@
         <div class="card" v-bind:class="{flipped: this.cardSide==='Front'}">
             <p class="cardPromptClass1">{{cardSide}}</p>
             <p class="cardPromptClass2" v-if="!addCardFront&&!addCardBack">{{cardPrompt}}</p>
-            <input type="text" class="cardInputBox" placeholder="Type front text" v-model="cardFrontInput" v-if="addCardFront" v-focus @keyup.enter="flipCard"/>
-            <input type="text" class="cardInputBox" placeholder="Type back text" v-model="cardBackInput" v-if="addCardBack" @keyup.enter="submitCard"/>
+            <input type="text" ref="frontInput" class="cardInputBox" placeholder="Type front text" v-model="cardFrontInput" v-if="addCardFront" v-focus @keyup.enter="flipCard"/>
+            <input type="text" ref="backInput" class="cardInputBox" placeholder="Type back text" v-model="cardBackInput" v-if="addCardBack" v-focus @keyup.enter="submitCard"/>
             <div>
             <button class="cardNavigationButtons" id="cardNavigationButton1" v-on:click="updateCardIndex(-1)">{{previousArrow}}</button>
             <button class="cardButton" v-on:click="flipCard" v-if="!addCardBack">Flip Card</button>
@@ -32,6 +32,7 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import axios from 'axios';
 const url = '/api/decks/';
 
@@ -60,7 +61,7 @@ export default {
         focus: {
             // directive definition
             inserted: function (el) {
-                el.focus()
+                Vue.nextTick(() => el.focus());
             }
         }
     },
@@ -82,6 +83,16 @@ export default {
         }
     },
     methods: {
+        focusOnCardFrontInput () {
+            this.$nextTick(() => {
+                this.$refs.frontInput.focus();
+            });
+        },
+        focusOnCardBackInput () {
+            this.$nextTick(() => {
+                this.$refs.backInput.focus();
+            });
+        },
         flipCard () {
             if (this.emittedObject.cards.length === 0){
                 this.cardPrompt="there is no card to flip. please add a card";
@@ -90,6 +101,7 @@ export default {
                 this.cardSide="Back";
                 this.addCardBack=true;
                 this.addCardFront=false;
+                this.focusOnCardBackInput();
                 return;
             }
             if (this.cardSide==="Front") {
