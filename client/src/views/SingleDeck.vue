@@ -281,32 +281,27 @@ export default {
 
 .addCardButton{
     color:#0a5050;;
-    background-color:grey;
+    background-color:#bfbfc5;
 }
 
 .deleteCardButton{
     color:#760b0b;;
-    background-color:grey;
-}
-
-.deckButtons{
-    color:#5e0707;
-    background-color:#64b314;
+    background-color:#bfbfc5;
 }
 
 .deckDeleteButton{
     color:#760b0b;
-    background-color:grey;
+    background-color:#bfbfc5;
 }
 
 .deckEditButton{
     color:#14075e;
-    background-color:grey;
+    background-color:#bfbfc5;
 }
 
 .decksReturnButton{
-    color:#c6d124;
-    background-color:grey;
+    color:#14075e;
+    background-color:#bfbfc5;
 }
 
 .cardNavigationButtons{
