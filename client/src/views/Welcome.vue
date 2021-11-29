@@ -106,6 +106,9 @@ export default {
   left:0;
   width:100%;
   height:100%;
+  min-height:100vh;
+  /* this extends the background color when you scroll */
+  overflow-y:auto;
 }
 a {
   color: #42b983;
