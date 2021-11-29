@@ -6,16 +6,19 @@
                 v-if="editDeckNameSelected" v-focus @keyup.enter="submitEditedDeckName"/>
         </div>
         
-        <button class="cardNavigationButtons1" v-on:click="updateCardIndex(-1)">Previous Card</button>
-        <button class="cardNavigationButtons2" v-on:click="updateCardIndex(1)">Next Card</button>
+        
         <!-- https://vuejs.org/v2/guide/class-and-style.html#With-Components how to use the v-bind-->
         <div class="card" v-bind:class="{flipped: this.cardSide==='Front'}">
             <p class="cardPromptClass1">{{cardSide}}</p>
             <p class="cardPromptClass2" v-if="!addCardFront&&!addCardBack">{{cardPrompt}}</p>
             <input type="text" class="cardInputBox" placeholder="Type front text" v-model="cardFrontInput" v-if="addCardFront" v-focus @keyup.enter="flipCard"/>
             <input type="text" class="cardInputBox" placeholder="Type back text" v-model="cardBackInput" v-if="addCardBack" @keyup.enter="submitCard"/>
+            <div>
+            <button class="cardNavigationButtons" id="cardNavigationButton1" v-on:click="updateCardIndex(-1)">{{previousArrow}}</button>
             <button class="cardButton" v-on:click="flipCard" v-if="!addCardBack">Flip Card</button>
             <button class="cardButton" v-on:click="submitCard" v-if="addCardBack">Submit Card</button>
+            <button class="cardNavigationButtons" id="cardNavigationButton2" v-on:click="updateCardIndex(1)">{{nextArrow}}</button>
+            </div>
         </div>
         <button class="addCardButton" v-on:click="addCard">Add Card</button>
         <button class="deleteCardButton" v-on:click="deleteCard">Delete Card</button>
@@ -73,7 +76,9 @@ export default {
             cardsListIndex:0,
             editDeckNameSelected:false,
             editDeckNameInput:"",
-            cardId:""
+            cardId:"",
+            previousArrow:"<--",
+            nextArrow:"-->"
         }
     },
     methods: {
@@ -201,7 +206,7 @@ export default {
     height:100%;
 }
 .cardButton {
-    width: 8em;
+    width: fit-content;
     margin: 0em auto;
     font-size: large;
     background-color:rgb(26, 26, 201);
@@ -229,7 +234,7 @@ export default {
     padding: 0em 0em 1.5em 0em;
     width: 80%;
     max-width:20em;
-    height: 15em;;
+    height: 65%;
     margin: auto;
     display: flex;
     flex-direction: column;
@@ -281,14 +286,11 @@ export default {
     background-color:grey;
 }
 
-.cardNavigationButtons1{
-    color:#f9dc9e;
-    background-color:grey;
-}
-
-.cardNavigationButtons2{
-    color:#24d513;
-    background-color:grey;
+.cardNavigationButtons{
+    width: fit-content;
+    font-size: large;
+    background-color:rgb(26, 26, 201);
+    color:white;
 }
 
 </style>

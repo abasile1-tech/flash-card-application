@@ -32,6 +32,12 @@ export default {
   /* background-color:lightblue;  */
  /* }  */ 
 
+ h1{
+   margin-block-start: 0.3em;
+   margin-block-end: 0.2em;
+ }
+
+
 #app {
   /* font-family: Avenir, Helvetica, Arial, sans-serif; */
   /* font-family: 'Roboto', sans-serif; */
