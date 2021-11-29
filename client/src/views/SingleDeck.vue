@@ -13,11 +13,14 @@
             <p class="cardPromptClass2" v-if="!addCardFront&&!addCardBack">{{cardPrompt}}</p>
             <input type="text" ref="frontInput" class="cardInputBox" placeholder="Type front text" v-model="cardFrontInput" v-if="addCardFront" v-focus @keyup.enter="flipCard"/>
             <input type="text" ref="backInput" class="cardInputBox" placeholder="Type back text" v-model="cardBackInput" v-if="addCardBack" v-focus @keyup.enter="submitCard"/>
-            <div>
-            <button class="cardNavigationButtons" id="cardNavigationButton1" v-on:click="updateCardIndex(-1)">{{previousArrow}}</button>
+            <div id="cardButtonsDiv">
+            <!-- <button class="cardNavigationButtons" id="cardNavigationButton1" v-on:click="updateCardIndex(-1)">{{previousArrow}}</button> -->
+            <button class="cardNavigationButtons" id="cardNavigationButton1" v-on:click="updateCardIndex(-1)"><img src="../assets/left_arrow_small_crop.png" alt="left arrow" /></button>
+            
             <button class="cardButton" v-on:click="flipCard" v-if="!addCardBack">Flip Card</button>
             <button class="cardButton" v-on:click="submitCard" v-if="addCardBack">Submit Card</button>
-            <button class="cardNavigationButtons" id="cardNavigationButton2" v-on:click="updateCardIndex(1)">{{nextArrow}}</button>
+            <!-- <button class="cardNavigationButtons" id="cardNavigationButton2" v-on:click="updateCardIndex(1)">{{nextArrow}}</button> -->
+            <button class="cardNavigationButtons" id="cardNavigationButton2" v-on:click="updateCardIndex(1)"><img src="../assets/right_arrow_small_crop.png" alt="right arrow" /></button>
             </div>
         </div>
         <button class="addCardButton" v-on:click="addCard">Add Card</button>
@@ -209,6 +212,10 @@ export default {
 </script>
 
 <style scoped>
+#cardButtonsDiv{
+    vertical-align:40%;
+}
+
 #singleDeck_css{
     background-color:lightblue;
     position:absolute;
@@ -219,10 +226,12 @@ export default {
 }
 .cardButton {
     width: fit-content;
+    height: 2em;
     margin: 0em auto;
     font-size: large;
-    background-color:rgb(26, 26, 201);
-    color:white;
+    background-color:#bfbfc5;
+    color:#002060;
+    vertical-align: inherit;
 }
 
 .cardInputBox {
@@ -300,8 +309,9 @@ export default {
 
 .cardNavigationButtons{
     width: fit-content;
+    height: 2em;
     font-size: large;
-    background-color:rgb(26, 26, 201);
+    background-color:#bfbfc5;
     color:white;
 }
 
