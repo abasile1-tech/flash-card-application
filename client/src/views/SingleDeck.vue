@@ -23,11 +23,14 @@
             <button class="cardNavigationButtons" id="cardNavigationButton2" v-on:click="updateCardIndex(1)"><img src="../assets/right_arrow_small_crop.png" alt="right arrow" /></button>
             </div>
         </div>
+        <p v-if="deleteDeckButtonPressed">Are you sure that you want to delete {{emittedObject.deckName?emittedObject.deckName:""}}?</p>
+        <button v-if="deleteDeckButtonPressed" v-on:click="deleteDeck">yes, delete the deck</button>
+        <button v-if="deleteDeckButtonPressed" v-on:click="doNotDeleteDeck">no, don't delete the deck</button>
         <button class="addCardButton" v-on:click="addCard">Add Card</button>
         <button class="deleteCardButton" v-on:click="deleteCard">Delete Card</button>
         <div>
             <button class="deckEditButton" v-on:click="editDeckName">Edit Deck Name</button>
-            <button class="deckDeleteButton" v-on:click="deleteDeck">Delete Deck</button>
+            <button class="deckDeleteButton" v-on:click="deleteDeckPressed">Delete Deck</button>
             <br>
             <button class="decksReturnButton" v-on:click="goBackToDecks">Return To Decks</button>
         </div>
@@ -82,7 +85,8 @@ export default {
             editDeckNameInput:"",
             cardId:"",
             previousArrow:"<--",
-            nextArrow:"-->"
+            nextArrow:"-->",
+            deleteDeckButtonPressed:false
         }
     },
     methods: {
@@ -172,9 +176,16 @@ export default {
             //advance route back to the Welcome Page
             this.$router.push({ path: '/welcome' })
         },
+        deleteDeckPressed () {
+            this.deleteDeckButtonPressed = true;
+        },
         async deleteDeck(){
+            this.deleteDeckButtonPressed = false;
             await axios.delete(url+this.emittedObject._id+"/deckName");
             this.goBackToDecks();
+        },
+        async doNotDeleteDeck(){
+            this.deleteDeckButtonPressed = false;
         },
         editDeckName(){
             this.editDeckNameSelected=true;
