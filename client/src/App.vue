@@ -33,6 +33,7 @@ export default {
  /* }  */ 
 
  h1{
+   font-size:xx-large;
    margin-block-start: 0.3em;
    margin-block-end: 0.2em;
  }

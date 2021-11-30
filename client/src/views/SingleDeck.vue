@@ -23,14 +23,20 @@
             <button class="cardNavigationButtons" id="cardNavigationButton2" v-on:click="updateCardIndex(1)"><img src="../assets/right_arrow_small_crop.png" alt="right arrow" /></button>
             </div>
         </div>
+        <p v-if="deleteDeckButtonPressed">Are you sure that you want to delete {{emittedObject.deckName?emittedObject.deckName:""}}?</p>
+        <button v-if="deleteDeckButtonPressed" v-on:click="deleteDeck">yes, delete the deck</button>
+        <button v-if="deleteDeckButtonPressed" v-on:click="doNotDeleteDeck">no, don't delete the deck</button>
         <button class="addCardButton" v-on:click="addCard">Add Card</button>
         <button class="deleteCardButton" v-on:click="deleteCard">Delete Card</button>
         <div>
             <button class="deckEditButton" v-on:click="editDeckName">Edit Deck Name</button>
-            <button class="deckDeleteButton" v-on:click="deleteDeck">Delete Deck</button>
+            <button class="deckDeleteButton" v-on:click="deleteDeckPressed">Delete Deck</button>
             <br>
             <button class="decksReturnButton" v-on:click="goBackToDecks">Return To Decks</button>
         </div>
+        <div class="snackbar" id="snackbar1">there is only one card in the deck. please add more cards</div>
+        <div class="snackbar" id="snackbar2">there is no card to flip. please add a card</div>
+        <div class="snackbar" id="snackbar3">there are no cards in the deck. please add a card</div>
     </div>
 </template>
 
@@ -82,7 +88,8 @@ export default {
             editDeckNameInput:"",
             cardId:"",
             previousArrow:"<--",
-            nextArrow:"-->"
+            nextArrow:"-->",
+            deleteDeckButtonPressed:false
         }
     },
     methods: {
@@ -97,8 +104,9 @@ export default {
             });
         },
         flipCard () {
-            if (this.emittedObject.cards.length === 0){
-                this.cardPrompt="there is no card to flip. please add a card";
+            if (this.emittedObject.cards.length === 0 && !this.addCardBack && !this.addCardFront){
+                this.showSnackBar("snackbar2");
+                return;
             }
             if (this.addCardFront) {
                 this.cardSide="Back";
@@ -135,11 +143,11 @@ export default {
         },
         updateCardIndex (indexToAdd) {
             if (this.emittedObject.cards.length === 0){
-                console.log("there are no cards in the deck.");
+                this.showSnackBar("snackbar3");
                 return;
             }
             if (this.emittedObject.cards.length === 1){
-                console.log("there is only one card in the deck.");
+                this.showSnackBar("snackbar1");
                 return;
             }
             if (indexToAdd + this.cardsListIndex < 0) {
@@ -172,9 +180,16 @@ export default {
             //advance route back to the Welcome Page
             this.$router.push({ path: '/welcome' })
         },
+        deleteDeckPressed () {
+            this.deleteDeckButtonPressed = true;
+        },
         async deleteDeck(){
+            this.deleteDeckButtonPressed = false;
             await axios.delete(url+this.emittedObject._id+"/deckName");
             this.goBackToDecks();
+        },
+        async doNotDeleteDeck(){
+            this.deleteDeckButtonPressed = false;
         },
         editDeckName(){
             this.editDeckNameSelected=true;
@@ -187,7 +202,15 @@ export default {
             }
             this.editDeckNameInput="";
             this.editDeckNameSelected=false;
-        }
+        },
+        showSnackBar(snackBarNum) {
+            // Get the snackbar DIV
+            var x = document.getElementById(snackBarNum);
+            // Add the "show" class to DIV
+            x.classList.add("show");
+            // After 3 seconds, remove the show class from DIV
+            setTimeout(function(){ x.classList.remove("show"); }, 3000);
+    }
     },
     async created () {
         if (this.emittedObject._id != undefined) {
@@ -310,6 +333,55 @@ export default {
     font-size: large;
     background-color:#bfbfc5;
     color:white;
+}
+
+/* The snackbar - position it at the bottom and in the middle of the screen */
+.snackbar {
+  visibility: hidden; /* Hidden by default. Visible on click */
+  min-width: 250px; /* Set a default minimum width */
+  /*margin-left: -125px;*/ /* Divide value of min-width by 2 */
+  background-color: #333; /* Black background color */
+  color: #fff; /* White text color */
+  text-align: center; /* Centered text */
+  border-radius: 2px; /* Rounded borders */
+  padding: 16px; /* Padding */
+  position: fixed; /* Sit on top of the screen */
+  z-index: 1; /* Add a z-index if needed */
+  /*left: 50%;*/ /* Center the snackbar */
+  bottom: 30px; /* 30px from the bottom */
+  /* I had to add these next ones to fix the formatting */
+  left:3px;
+  right:3px;
+}
+
+/* Show the snackbar when clicking on a button (class added with JavaScript) */
+.snackbar.show {
+  visibility: visible; /* Show the snackbar */
+  /* Add animation: Take 0.5 seconds to fade in and out the snackbar.
+  However, delay the fade out process for 2.5 seconds */
+  -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+  animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+/* Animations to fade the snackbar in and out */
+@-webkit-keyframes fadein {
+  from {bottom: 0; opacity: 0;}
+  to {bottom: 30px; opacity: 1;}
+}
+
+@keyframes fadein {
+  from {bottom: 0; opacity: 0;}
+  to {bottom: 30px; opacity: 1;}
+}
+
+@-webkit-keyframes fadeout {
+  from {bottom: 30px; opacity: 1;}
+  to {bottom: 0; opacity: 0;}
+}
+
+@keyframes fadeout {
+  from {bottom: 30px; opacity: 1;}
+  to {bottom: 0; opacity: 0;}
 }
 
 </style>
