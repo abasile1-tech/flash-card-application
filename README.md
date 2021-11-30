@@ -22,7 +22,5 @@ Once those are updated **cd** into the client and run `npm run build`. Then **cd
 ## Testing  
 Currently there is one testing suite in the client folder. **cd** into the client folder and run `npm run test` to run the Jest test.
 
-## Future Work  
- - Create Users  
- - Add CSS  
+## Future Work    
  - Add a way to shuffle the cards  
