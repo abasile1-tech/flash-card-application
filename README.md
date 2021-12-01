@@ -23,4 +23,5 @@ Once those are updated **cd** into the client and run `npm run build`. Then **cd
 Currently there is one testing suite in the client folder. **cd** into the client folder and run `npm run test` to run the Jest test.
 
 ## Future Work    
- - Add a way to shuffle the cards  
+ - Add voice control of the buttons
+ - Add language support for audio outpus so that the cards can be read to the user in the specified language 
