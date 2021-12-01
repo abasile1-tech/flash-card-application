@@ -29,6 +29,7 @@
             <button class="deckEditButton" v-on:click="editDeckName">Edit Deck Name</button>
             <button class="deckDeleteButton" v-on:click="deleteDeckPressed">Delete Deck</button>
             <br>
+            <button class="decksReturnButton" v-on:click="shuffleDeck">Shuffle Deck</button>
             <button class="decksReturnButton" v-on:click="goBackToDecks">Return To Decks</button>
         </div>
         <div class="snackbar" id="snackbar1">There is only one card in the deck. Please add more cards.</div>
@@ -88,6 +89,16 @@ export default {
         }
     },
     methods: {
+        // This is an in-place array shuffle function which is
+        // compatible with arrays observed by Vue
+        shuffleVueArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                const temp = array[i];
+                Vue.set(array, i, array[j]);
+                Vue.set(array, j, temp);
+            }
+        },  
         focusOnCardFrontInput () {
             this.$nextTick(() => {
                 this.$refs.frontInput.focus();
@@ -173,6 +184,10 @@ export default {
             localStorage.removeItem("emittedObject._id");
             //advance route back to the Welcome Page
             this.$router.push({ path: '/welcome' })
+        },
+        // because I am shuffling the emittedObject.cards array, the shuffling is only temporary. The database is not changed in any way.
+        shuffleDeck () {
+            this.shuffleVueArray(this.emittedObject.cards);
         },
         deleteDeckPressed () {
             this.deleteDeckButtonPressed = true;
