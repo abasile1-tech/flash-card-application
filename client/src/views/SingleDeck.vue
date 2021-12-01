@@ -14,18 +14,15 @@
             <input type="text" ref="frontInput" class="cardInputBox" placeholder="Type front text" v-model="cardFrontInput" v-if="addCardFront" v-focus @keyup.enter="flipCard"/>
             <input type="text" ref="backInput" class="cardInputBox" placeholder="Type back text" v-model="cardBackInput" v-if="addCardBack" v-focus @keyup.enter="submitCard"/>
             <div id="cardButtonsDiv">
-            <!-- <button class="cardNavigationButtons" id="cardNavigationButton1" v-on:click="updateCardIndex(-1)">{{previousArrow}}</button> -->
             <button class="cardNavigationButtons" id="cardNavigationButton1" v-on:click="updateCardIndex(-1)"><img src="../assets/left_arrow_small_crop.png" alt="left arrow" /></button>
-            
             <button class="cardButton" v-on:click="flipCard" v-if="!addCardBack">Flip Card</button>
             <button class="cardButton" v-on:click="submitCard" v-if="addCardBack">Submit Card</button>
-            <!-- <button class="cardNavigationButtons" id="cardNavigationButton2" v-on:click="updateCardIndex(1)">{{nextArrow}}</button> -->
             <button class="cardNavigationButtons" id="cardNavigationButton2" v-on:click="updateCardIndex(1)"><img src="../assets/right_arrow_small_crop.png" alt="right arrow" /></button>
             </div>
         </div>
         <p v-if="deleteDeckButtonPressed">Are you sure that you want to delete {{emittedObject.deckName?emittedObject.deckName:""}}?</p>
-        <button v-if="deleteDeckButtonPressed" v-on:click="deleteDeck">yes, delete the deck</button>
-        <button v-if="deleteDeckButtonPressed" v-on:click="doNotDeleteDeck">no, don't delete the deck</button>
+        <button v-if="deleteDeckButtonPressed" v-on:click="deleteDeck">Yes, delete the deck.</button>
+        <button v-if="deleteDeckButtonPressed" v-on:click="doNotDeleteDeck">No, don't delete the deck.</button>
         <button class="addCardButton" v-on:click="addCard">Add Card</button>
         <button class="deleteCardButton" v-on:click="deleteCard">Delete Card</button>
         <div>
@@ -34,9 +31,9 @@
             <br>
             <button class="decksReturnButton" v-on:click="goBackToDecks">Return To Decks</button>
         </div>
-        <div class="snackbar" id="snackbar1">there is only one card in the deck. please add more cards</div>
-        <div class="snackbar" id="snackbar2">there is no card to flip. please add a card</div>
-        <div class="snackbar" id="snackbar3">there are no cards in the deck. please add a card</div>
+        <div class="snackbar" id="snackbar1">There is only one card in the deck. Please add more cards.</div>
+        <div class="snackbar" id="snackbar2">There is no card to flip. Please add a card.</div>
+        <div class="snackbar" id="snackbar3">There are no cards in the deck. Please add a card.</div>
     </div>
 </template>
 
@@ -78,7 +75,7 @@ export default {
     data () {
         return {
             cardSide:"Front",
-            cardPrompt:"please add a card",
+            cardPrompt:"Please add a card by clicking the 'Add Card' button below.",
             cardFrontInput:"",
             cardBackInput:"",
             addCardFront:false,
@@ -87,8 +84,6 @@ export default {
             editDeckNameSelected:false,
             editDeckNameInput:"",
             cardId:"",
-            previousArrow:"<--",
-            nextArrow:"-->",
             deleteDeckButtonPressed:false
         }
     },
@@ -171,9 +166,8 @@ export default {
                 this.cardId=this.emittedObject.cards[this.cardsListIndex]._id;
             }
             else{
-                this.cardPrompt="please add a card";
+                this.cardPrompt="Please add a card by clicking the 'Add Card' button below.";
             }
-            //this.goBackToDecks();
         },
         goBackToDecks () {
             localStorage.removeItem("emittedObject._id");
@@ -330,9 +324,7 @@ export default {
 .cardNavigationButtons{
     width: fit-content;
     height: 2em;
-    font-size: large;
     background-color:#bfbfc5;
-    color:white;
 }
 
 /* The snackbar - position it at the bottom and in the middle of the screen */
