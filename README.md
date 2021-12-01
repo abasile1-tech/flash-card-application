@@ -24,4 +24,4 @@ Currently there is one testing suite in the client folder. **cd** into the clien
 
 ## Future Work    
  - Add voice control of the buttons
- - Add language support for audio outpus so that the cards can be read to the user in the specified language 
+ - Add language support for audio output so that the cards can be read to the user in the specified language 
