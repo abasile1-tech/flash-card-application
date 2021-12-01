@@ -187,6 +187,14 @@ export default {
         },
         // because I am shuffling the emittedObject.cards array, the shuffling is only temporary. The database is not changed in any way.
         shuffleDeck () {
+            if (this.emittedObject.cards.length === 0) {
+                this.showSnackBar("snackbar3");
+                return
+            }
+            if (this.emittedObject.cards.length === 1) {
+                this.showSnackBar("snackbar1");
+                return
+            }
             this.shuffleVueArray(this.emittedObject.cards);
         },
         deleteDeckPressed () {
