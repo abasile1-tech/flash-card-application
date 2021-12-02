@@ -17,6 +17,8 @@
     <br>
     <button v-on:click="signUp()">Sign Up</button>
     <br>
+    <!-- https://devcenter.heroku.com/articles/free-dyno-hours -->
+    <p class="displayInline">Please note that it takes a few seconds for the Heroku server to wake up from sleep for the first time after not being used over a period of 30 minutes.</p>
     <div class="snackbar" id="snackbar1">Incorrect Password</div>
     <div class="snackbar" id="snackbar2">UserName Already Taken</div>
     <div class="snackbar" id="snackbar3">User Not Found</div>
