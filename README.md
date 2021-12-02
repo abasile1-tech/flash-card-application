@@ -1,7 +1,7 @@
 # flash-card-app
 
 ## Description  
-This code base creates a general purpose flash card app.
+This code base creates a general-purpose flash card app.
 
 ## Setting up  
 This project was updated to be able to run on Heroku. If you would like to run it locally there are a few lines that need to be updated:  
