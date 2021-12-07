@@ -54,6 +54,7 @@ button, input {
   font-family: 'Roboto', sans-serif;
   font-size: large;
   margin: 0.3em;
+  border-radius: 8px;
 }
 
 </style>
