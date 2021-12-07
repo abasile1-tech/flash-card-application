@@ -7,7 +7,7 @@
     <br><br>
     <p class="displayInline">Please enter the name of your new deck into the textbox:</p>
     <input type="text" v-model="deckInput" @keyup.enter="submit"/> 
-    <button v-on:click="submit">submit</button> 
+    <button v-on:click="submit">Submit</button> 
     <br>
     <p>When you have decks, they show up here. </p>
     <p>Click on the deck that you want to work on and you will be redirected to that deck's page.</p>
