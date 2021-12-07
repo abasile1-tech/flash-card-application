@@ -2,8 +2,7 @@
     <div id="singleDeck_css">
         <h1 v-if="!editDeckNameSelected">{{emittedObject.deckName?emittedObject.deckName:""}}</h1>
         <div class ="textBox">
-            <input type="text" placeholder="Type the new deck name" v-model="editDeckNameInput" 
-                v-if="editDeckNameSelected" v-focus @keyup.enter="submitEditedDeckName"/>
+            <input type="text" placeholder="Type the new deck name" v-model="editDeckNameInput" v-if="editDeckNameSelected" v-focus @keyup.enter="submitEditedDeckName"/>
         </div>
         
         
@@ -35,6 +34,7 @@
         <div class="snackbar" id="snackbar1">There is only one card in the deck. Please add more cards.</div>
         <div class="snackbar" id="snackbar2">There is no card to flip. Please add a card.</div>
         <div class="snackbar" id="snackbar3">There are no cards in the deck. Please add a card.</div>
+        <div class="snackbar" id="snackbar4">Please enter a valid deck name.</div>
     </div>
 </template>
 
@@ -212,6 +212,11 @@ export default {
             this.editDeckNameSelected=true;
         },
         async submitEditedDeckName(){
+            if (this.editDeckNameInput == ""){
+                this.editDeckNameSelected=false;
+                this.showSnackBar("snackbar4");
+                return;
+            }
             this.emittedObject.deckName=this.editDeckNameInput;
             const response = await axios.put(url+this.emittedObject._id+"/deckName",{deckName:this.editDeckNameInput});
             if(response.status!==201){
