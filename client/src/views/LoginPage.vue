@@ -22,6 +22,7 @@
     <div class="snackbar" id="snackbar1">Incorrect Password</div>
     <div class="snackbar" id="snackbar2">UserName Already Taken</div>
     <div class="snackbar" id="snackbar3">User Not Found</div>
+    <div class="snackbar" id="snackbar4">Please enter a valid username or password.</div>
   </div>
 </template>
 
@@ -47,6 +48,11 @@ export default {
   },
   methods: {
     async logIn () {
+      if (this.userNameInput == "" || this.passwordInput == "") {
+        this.showSnackBar("snackbar4");
+        this.clearLogInInputs();
+        return;
+      }
       const responseFromUsers = await axios.post(url+"/login",{userName:this.userNameInput,userPassword:this.passwordInput});
       const user = responseFromUsers.data;
 
@@ -66,6 +72,11 @@ export default {
       this.$router.push({ path: '/welcome/' });
     },
     async signUp () {
+      if (this.userNameInputNew == "" || this.passwordInputNew == "") {
+        this.showSnackBar("snackbar4");
+        this.clearSignUpInputs();
+        return;
+      }
       const response = await axios.post(url,{userName:this.userNameInputNew, userPassword:this.passwordInputNew});
       if (response.status==205){
         this.showSnackBar("snackbar2");
@@ -118,7 +129,7 @@ export default {
 .snackbar {
   visibility: hidden; /* Hidden by default. Visible on click */
   min-width: 250px; /* Set a default minimum width */
-  margin-left: -125px; /* Divide value of min-width by 2 */
+  /*margin-left: -125px;*/ /* Divide value of min-width by 2 */
   background-color: #333; /* Black background color */
   color: #fff; /* White text color */
   text-align: center; /* Centered text */
@@ -126,8 +137,11 @@ export default {
   padding: 16px; /* Padding */
   position: fixed; /* Sit on top of the screen */
   z-index: 1; /* Add a z-index if needed */
-  left: 50%; /* Center the snackbar */
+  /*left: 50%;*/ /* Center the snackbar */
   bottom: 30px; /* 30px from the bottom */
+  /* I had to add these next ones to fix the formatting */
+  left:3px;
+  right:3px;
 }
 
 /* Show the snackbar when clicking on a button (class added with JavaScript) */
