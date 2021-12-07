@@ -140,11 +140,17 @@ export default {
                 this.cardSide="Front";
                 this.cardFrontInput="";
                 this.cardBackInput="";
-                this.cardsListIndex=this.emittedObject.cards.length-1;
-                this.cardPrompt=this.emittedObject.cards[this.cardsListIndex].cardFront;
-                this.cardId=this.emittedObject.cards[this.cardsListIndex]._id;
                 this.showSnackBar("snackbar5");
-                return;
+                if (this.emittedObject.cards.length === 0) {
+                    return;
+                }
+                else
+                {   this.cardsListIndex=this.emittedObject.cards.length-1;
+                    this.cardPrompt=this.emittedObject.cards[this.cardsListIndex].cardFront;
+                    this.cardId=this.emittedObject.cards[this.cardsListIndex]._id;
+                    return;
+                }
+                
             }
             const response = await axios.post(url+this.emittedObject._id+"/cards",{cardFront:this.cardFrontInput,cardBack:this.cardBackInput});
             if(response.status!==201){
