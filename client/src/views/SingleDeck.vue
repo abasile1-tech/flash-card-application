@@ -35,6 +35,7 @@
         <div class="snackbar" id="snackbar2">There is no card to flip. Please add a card.</div>
         <div class="snackbar" id="snackbar3">There are no cards in the deck. Please add a card.</div>
         <div class="snackbar" id="snackbar4">Please enter a valid deck name.</div>
+        <div class="snackbar" id="snackbar5">Any card with blank front or back will not be submitted.</div>
     </div>
 </template>
 
@@ -133,6 +134,18 @@ export default {
             this.addCardFront=true;
         },
         async submitCard () {
+            if (this.cardFrontInput == "" || this.cardBackInput == "") {
+                this.addCardFront=false;
+                this.addCardBack=false;
+                this.cardSide="Front";
+                this.cardFrontInput="";
+                this.cardBackInput="";
+                this.cardsListIndex=this.emittedObject.cards.length-1;
+                this.cardPrompt=this.emittedObject.cards[this.cardsListIndex].cardFront;
+                this.cardId=this.emittedObject.cards[this.cardsListIndex]._id;
+                this.showSnackBar("snackbar5");
+                return;
+            }
             const response = await axios.post(url+this.emittedObject._id+"/cards",{cardFront:this.cardFrontInput,cardBack:this.cardBackInput});
             if(response.status!==201){
                 console.log("error: ",response);
