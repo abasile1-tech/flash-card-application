@@ -13,10 +13,16 @@
             <input type="text" ref="frontInput" class="cardInputBox" placeholder="Type front text" v-model="cardFrontInput" v-if="addCardFront" v-focus @keyup.enter="flipCard"/>
             <input type="text" ref="backInput" class="cardInputBox" placeholder="Type back text" v-model="cardBackInput" v-if="addCardBack" v-focus @keyup.enter="submitCard"/>
             <div id="cardButtonsDiv">
-            <button class="cardNavigationButtons" id="cardNavigationButton1" v-on:click="updateCardIndex(-1)"><img src="../assets/left_arrow_small_crop.png" alt="left arrow" /></button>
-            <button class="cardButton" v-on:click="flipCard" v-if="!addCardBack">Flip Card</button>
-            <button class="cardButton" v-on:click="submitCard" v-if="addCardBack">Submit Card</button>
-            <button class="cardNavigationButtons" id="cardNavigationButton2" v-on:click="updateCardIndex(1)"><img src="../assets/right_arrow_small_crop.png" alt="right arrow" /></button>
+                <select v-model="selectedLanguage"> 
+                    <option :value="option.name" :key="option" v-for="option in this.optionList">{{option.name}}</option>
+                </select>
+                <br>
+                <button class="cardButton" v-on:click="readCard">Read Card Aloud</button>
+                <br>
+                <button class="cardNavigationButtons" id="cardNavigationButton1" v-on:click="updateCardIndex(-1)"><img src="../assets/left_arrow_small_crop.png" alt="left arrow" /></button>
+                <button class="cardButton" v-on:click="flipCard" v-if="!addCardBack">Flip Card</button>
+                <button class="cardButton" v-on:click="submitCard" v-if="addCardBack">Submit Card</button>
+                <button class="cardNavigationButtons" id="cardNavigationButton2" v-on:click="updateCardIndex(1)"><img src="../assets/right_arrow_small_crop.png" alt="right arrow" /></button>
             </div>
         </div>
         <p v-if="deleteDeckButtonPressed">Are you sure that you want to delete {{emittedObject.deckName?emittedObject.deckName:""}}?</p>
@@ -43,6 +49,8 @@
 import Vue from 'vue'
 import axios from 'axios';
 const url = '/api/decks/';
+
+var synth = window.speechSynthesis;
 
 export default {
     props: {
@@ -86,12 +94,21 @@ export default {
             editDeckNameSelected:false,
             editDeckNameInput:"",
             cardId:"",
-            deleteDeckButtonPressed:false
+            deleteDeckButtonPressed:false,
+            optionList:[],
+            selectedLanguage: ""
         }
     },
     methods: {
-        // This is an in-place array shuffle function which is
-        // compatible with arrays observed by Vue
+        populateVoiceList() {
+            this.optionList = synth.getVoices();
+            
+            for (const item of this.optionList) {
+                if (item.default) {
+                    this.selectedLanguage = item.name;
+                }
+            }
+        },
         shuffleVueArray(array) {
             for (let i = array.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
@@ -109,6 +126,12 @@ export default {
             this.$nextTick(() => {
                 this.$refs.backInput.focus();
             });
+        },
+        readCard () {
+            const language = this.optionList.filter(item => item.name === this.selectedLanguage);
+            let utterance = new SpeechSynthesisUtterance(this.cardPrompt);
+            utterance.voice = language[0];
+            speechSynthesis.speak(utterance);
         },
         flipCard () {
             if (this.emittedObject.cards.length === 0 && !this.addCardBack && !this.addCardFront){
@@ -254,6 +277,10 @@ export default {
     }
     },
     async created () {
+        this.populateVoiceList();
+        if (speechSynthesis.onvoiceschanged !== undefined) {
+            speechSynthesis.onvoiceschanged = this.populateVoiceList;
+        }
         if (this.emittedObject._id != undefined) {
             localStorage.setItem("emittedObject._id",this.emittedObject._id);
             if (this.emittedObject.deckName == undefined) {
@@ -372,6 +399,15 @@ export default {
     width: fit-content;
     height: 2em;
     background-color:#bfbfc5;
+}
+
+select {
+  width: 83%;
+  display: block;
+  margin: 0 auto;
+  font-family: sans-serif;
+  font-size: 16px;
+  padding: 5px;
 }
 
 /* The snackbar - position it at the bottom and in the middle of the screen */
