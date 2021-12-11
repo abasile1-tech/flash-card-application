@@ -14,7 +14,6 @@
             <input type="text" ref="backInput" class="cardInputBox" placeholder="Type back text" v-model="cardBackInput" v-if="addCardBack" v-focus @keyup.enter="submitCard"/>
             <div id="cardButtonsDiv">
                 <select v-model="selectedLanguage"> 
-                    <!-- <option value="">--Please select a language--</option> -->
                     <option :value="option.name" :key="option" v-for="option in this.optionList">{{option.name}}</option>
                 </select>
                 <br>
@@ -52,10 +51,6 @@ import axios from 'axios';
 const url = '/api/decks/';
 
 var synth = window.speechSynthesis;
-//var voiceSelect = document.querySelector('select');
-//var voiceSelect = document.getElementById("selectHTML");
-//console.log("voiceSelect:",voiceSelect);
-var voices = [];
 
 export default {
     props: {
@@ -87,13 +82,6 @@ export default {
         }
     },
 
-    watch: {
-        selectedLanguage: function(newOne, old) {
-            console.log("newOne", newOne);
-            console.log("old", old);
-        }
-    },
-
     data () {
         return {
             cardSide:"Front",
@@ -113,40 +101,14 @@ export default {
     },
     methods: {
         populateVoiceList() {
-            voices = synth.getVoices();
-            this.optionList = voices;
+            this.optionList = synth.getVoices();
             
-            // let defaultIndex = 0;
-            // for(var i = 0; i < voices.length ; i++) {
-            //     var option = document.createElement('option');
-            //     option.textContent = voices[i].name + ' (' + voices[i].lang + ')';
-
-
-            //     if(voices[i].default) {
-            //         option.textContent += ' -- DEFAULT';
-            //         defaultIndex = i;
-            //     }
-            //     // console.log("voices:",voices);
-
-            //     option.setAttribute('data-lang', voices[i].lang);
-            //     option.setAttribute('data-name', voices[i].name);
-            //     // console.log("option:",option);
-            //     this.optionList.push(option);
-            //     // console.log("this.optionList:",this.optionList);
-            //     //console.log("voiceSelect:",voiceSelect);
-            //     //console.log("voiceSelect.options[i]:",voiceSelect.options[i]);
-            //     //this.voiceSelect.add(option,voiceSelect.options[i]);
-            //     //voiceSelect.appendChild(option);
-            //     //console.log("voiceSelect:",voiceSelect);
-            // }
             for (const item of this.optionList) {
                 if (item.default) {
                     this.selectedLanguage = item.name;
                 }
             }
         },
-        // This is an in-place array shuffle function which is
-        // compatible with arrays observed by Vue
         shuffleVueArray(array) {
             for (let i = array.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
@@ -166,17 +128,10 @@ export default {
             });
         },
         readCard () {
-            // let utterance = new SpeechSynthesisUtterance("Hello world!");
-            // speechSynthesis.speak(utterance);
-            
-            console.log("this.selectedLanguage:",this.selectedLanguage);
             const language = this.optionList.filter(item => item.name === this.selectedLanguage);
-            console.log("FINAL", language[0]);
             let utterance = new SpeechSynthesisUtterance(this.cardPrompt);
             utterance.voice = language[0];
             speechSynthesis.speak(utterance);
-            
-            
         },
         flipCard () {
             if (this.emittedObject.cards.length === 0 && !this.addCardBack && !this.addCardFront){
