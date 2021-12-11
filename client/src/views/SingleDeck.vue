@@ -13,9 +13,9 @@
             <input type="text" ref="frontInput" class="cardInputBox" placeholder="Type front text" v-model="cardFrontInput" v-if="addCardFront" v-focus @keyup.enter="flipCard"/>
             <input type="text" ref="backInput" class="cardInputBox" placeholder="Type back text" v-model="cardBackInput" v-if="addCardBack" v-focus @keyup.enter="submitCard"/>
             <div id="cardButtonsDiv">
-                <select type=[] placeholder="--Please choose an option--">
-                    <option disabled value="">--Please choose an option--</option>
-                    <option :key="option" v-for="option in this.optionList">{{option.label}}</option>
+                <select v-model="selectedLanguage"> 
+                    <!-- <option value="">--Please select a language--</option> -->
+                    <option :value="option.name" :key="option" v-for="option in this.optionList">{{option.name}}</option>
                 </select>
                 <br>
                 <button class="cardButton" v-on:click="readCard">Read Card Aloud</button>
@@ -87,6 +87,13 @@ export default {
         }
     },
 
+    watch: {
+        selectedLanguage: function(newOne, old) {
+            console.log("newOne", newOne);
+            console.log("old", old);
+        }
+    },
+
     data () {
         return {
             cardSide:"Front",
@@ -100,32 +107,42 @@ export default {
             editDeckNameInput:"",
             cardId:"",
             deleteDeckButtonPressed:false,
-            optionList:[]
+            optionList:[],
+            selectedLanguage: ""
         }
     },
     methods: {
         populateVoiceList() {
             voices = synth.getVoices();
+            this.optionList = voices;
             
-            for(var i = 0; i < voices.length ; i++) {
-                var option = document.createElement('option');
-                option.textContent = voices[i].name + ' (' + voices[i].lang + ')';
+            // let defaultIndex = 0;
+            // for(var i = 0; i < voices.length ; i++) {
+            //     var option = document.createElement('option');
+            //     option.textContent = voices[i].name + ' (' + voices[i].lang + ')';
 
-                if(voices[i].default) {
-                    option.textContent += ' -- DEFAULT';
+
+            //     if(voices[i].default) {
+            //         option.textContent += ' -- DEFAULT';
+            //         defaultIndex = i;
+            //     }
+            //     // console.log("voices:",voices);
+
+            //     option.setAttribute('data-lang', voices[i].lang);
+            //     option.setAttribute('data-name', voices[i].name);
+            //     // console.log("option:",option);
+            //     this.optionList.push(option);
+            //     // console.log("this.optionList:",this.optionList);
+            //     //console.log("voiceSelect:",voiceSelect);
+            //     //console.log("voiceSelect.options[i]:",voiceSelect.options[i]);
+            //     //this.voiceSelect.add(option,voiceSelect.options[i]);
+            //     //voiceSelect.appendChild(option);
+            //     //console.log("voiceSelect:",voiceSelect);
+            // }
+            for (const item of this.optionList) {
+                if (item.default) {
+                    this.selectedLanguage = item.name;
                 }
-                console.log("voices:",voices);
-
-                option.setAttribute('data-lang', voices[i].lang);
-                option.setAttribute('data-name', voices[i].name);
-                console.log("option:",option);
-                this.optionList.push(option);
-                console.log("this.optionList:",this.optionList);
-                //console.log("voiceSelect:",voiceSelect);
-                //console.log("voiceSelect.options[i]:",voiceSelect.options[i]);
-                //this.voiceSelect.add(option,voiceSelect.options[i]);
-                //voiceSelect.appendChild(option);
-                //console.log("voiceSelect:",voiceSelect);
             }
         },
         // This is an in-place array shuffle function which is
@@ -152,7 +169,11 @@ export default {
             // let utterance = new SpeechSynthesisUtterance("Hello world!");
             // speechSynthesis.speak(utterance);
             
+            console.log("this.selectedLanguage:",this.selectedLanguage);
+            const language = this.optionList.filter(item => item.name === this.selectedLanguage);
+            console.log("FINAL", language[0]);
             let utterance = new SpeechSynthesisUtterance(this.cardPrompt);
+            utterance.voice = language[0];
             speechSynthesis.speak(utterance);
             
             
