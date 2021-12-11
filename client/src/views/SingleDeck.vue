@@ -151,6 +151,11 @@ export default {
         readCard () {
             // let utterance = new SpeechSynthesisUtterance("Hello world!");
             // speechSynthesis.speak(utterance);
+            
+            let utterance = new SpeechSynthesisUtterance(this.cardPrompt);
+            speechSynthesis.speak(utterance);
+            
+            
         },
         flipCard () {
             if (this.emittedObject.cards.length === 0 && !this.addCardBack && !this.addCardFront){
