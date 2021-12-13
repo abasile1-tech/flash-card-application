@@ -14,6 +14,7 @@
             <input type="text" ref="backInput" class="cardInputBox" placeholder="Type back text" v-model="cardBackInput" v-if="addCardBack" v-focus @keyup.enter="submitCard"/>
             <div id="cardButtonsDiv">
                 <select v-model="selectedLanguage"> 
+                    <option disabled value="">Please Select a Language:</option>
                     <option :value="option.name" :key="option" v-for="option in this.optionList">{{option.name}}</option>
                 </select>
                 <br>
@@ -102,12 +103,6 @@ export default {
     methods: {
         populateVoiceList() {
             this.optionList = synth.getVoices();
-            
-            for (const item of this.optionList) {
-                if (item.default) {
-                    this.selectedLanguage = item.name;
-                }
-            }
         },
         shuffleVueArray(array) {
             for (let i = array.length - 1; i > 0; i--) {
