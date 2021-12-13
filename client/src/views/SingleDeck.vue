@@ -126,7 +126,6 @@ export default {
             const language = this.optionList.filter(item => item.name === this.selectedLanguage);
             let utterance = new SpeechSynthesisUtterance(this.cardPrompt);
             utterance.voice = language[0];
-            utterance.lang = language[0];
             speechSynthesis.speak(utterance);
         },
         flipCard () {
