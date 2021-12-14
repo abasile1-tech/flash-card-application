@@ -23,7 +23,7 @@
         
         <!-- https://vuejs.org/v2/guide/class-and-style.html#With-Components how to use the v-bind-->
         <div class="card" v-bind:class="{flipped: this.cardSide==='Front'}">
-            <p class="cardPromptClass1">{{cardSide}} {{this.cardsListIndex+1}}/{{this.emittedObject.cards.length}}</p>
+            <p class="cardPromptClass1">{{cardSide}} {{this.cardsListIndex+1}}/{{emittedObject.cards?emittedObject.cards.length:""}}</p>
             <p class="cardPromptClass2" v-if="!addCardFront&&!addCardBack">{{cardPrompt}}</p>
             <input type="text" ref="frontInput" class="cardInputBox" placeholder="Type front text" v-model="cardFrontInput" v-if="addCardFront" v-focus @keyup.enter="flipCard"/>
             <input type="text" ref="backInput" class="cardInputBox" placeholder="Type back text" v-model="cardBackInput" v-if="addCardBack" v-focus @keyup.enter="submitCard"/>
