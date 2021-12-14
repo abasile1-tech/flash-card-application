@@ -26,5 +26,4 @@ Currently there is one testing suite in the client folder. **cd** into the clien
  - Add voice control of the buttons
  - Add a Search Deck Button
  - Add an Edit Card Button
- - Remove language selector on mobile or make the language selector work on mobile
  - Log the user out if the local Storage no longer knows who the user is anymore
