@@ -29,4 +29,3 @@ Currently there is one testing suite in the client folder. **cd** into the clien
  - Add the ability to exit out of the Add Card Process.
  - Display the card number on each card / the total number of cards in the Deck
  - Remove language selector on mobile or make the language selector work on mobile
- - Fix a bug where a card temporarily displays the front on the back when a card is deleted while viewing the back.
