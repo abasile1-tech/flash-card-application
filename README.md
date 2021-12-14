@@ -27,5 +27,4 @@ Currently there is one testing suite in the client folder. **cd** into the clien
  - Add a Search Deck Button
  - Add an Edit Card Button
  - Add the ability to exit out of the Add Card Process.
- - Display the card number on each card / the total number of cards in the Deck
  - Remove language selector on mobile or make the language selector work on mobile
