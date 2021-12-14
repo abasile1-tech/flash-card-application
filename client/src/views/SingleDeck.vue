@@ -49,6 +49,7 @@
         <div class="snackbar" id="snackbar3">There are no cards in the deck. Please add a card.</div>
         <div class="snackbar" id="snackbar4">Please enter a valid deck name.</div>
         <div class="snackbar" id="snackbar5">Any card with blank front or back will not be submitted.</div>
+        <div class="snackbar" id="snackbar6">There are no cards to delete in this deck.</div>
     </div>
 </template>
 
@@ -212,7 +213,14 @@ export default {
             this.cardId=this.emittedObject.cards[this.cardsListIndex]._id;
         },
         deleteCardPressed () {
-            this.deleteCardButtonPressed = true;
+            if (this.emittedObject.cards.length === 0) {
+                this.showSnackBar("snackbar6");
+                return;
+            }
+            else {
+                this.deleteCardButtonPressed = true;
+                return;
+            }
         },
         async deleteCard () {
             this.deleteCardButtonPressed = false;
