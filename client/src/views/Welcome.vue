@@ -131,7 +131,7 @@ a {
   display:inline;
 }
 .deckButtons {
-    color:blue;
+    color:#0e0e9f;
     background-color: darkgrey;
     font-size: 24px;
     border: 3px solid black;

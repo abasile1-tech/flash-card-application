@@ -4,11 +4,26 @@
         <div class ="textBox">
             <input type="text" placeholder="Type the new deck name" v-model="editDeckNameInput" v-if="editDeckNameSelected" v-focus @keyup.enter="submitEditedDeckName"/>
         </div>
-        
+
+        <div>
+            <button class="deckEditButton" v-on:click="editDeckName">Edit Deck Name</button>
+            <button class="deckDeleteButton" v-on:click="deleteDeckPressed">Delete Deck</button>
+            <br>
+            <button class="decksReturnButton" v-on:click="shuffleDeck">Shuffle Deck</button>
+            <button class="decksReturnButton" v-on:click="goBackToDecks">Return To Decks</button>
+        </div>
+
+        <p v-if="deleteDeckButtonPressed">Are you sure that you want to delete {{emittedObject.deckName?emittedObject.deckName:""}}?</p>
+        <button class="decksReturnButton" v-if="deleteDeckButtonPressed" v-on:click="deleteDeck">Yes, delete the deck.</button>
+        <button class="decksReturnButton" v-if="deleteDeckButtonPressed" v-on:click="doNotDeleteDeck">No, don't delete the deck.</button>
+
+        <p v-if="deleteCardButtonPressed">Are you sure that you want to delete this card?</p>
+        <button class="decksReturnButton" v-if="deleteCardButtonPressed" v-on:click="deleteCard">Yes, delete the card.</button>
+        <button class="decksReturnButton" v-if="deleteCardButtonPressed" v-on:click="doNotDeleteCard">No, don't delete the card.</button>
         
         <!-- https://vuejs.org/v2/guide/class-and-style.html#With-Components how to use the v-bind-->
         <div class="card" v-bind:class="{flipped: this.cardSide==='Front'}">
-            <p class="cardPromptClass1">{{cardSide}}</p>
+            <p class="cardPromptClass1">{{cardSide}} {{this.cardsListIndex+1}}/{{this.emittedObject.cards.length}}</p>
             <p class="cardPromptClass2" v-if="!addCardFront&&!addCardBack">{{cardPrompt}}</p>
             <input type="text" ref="frontInput" class="cardInputBox" placeholder="Type front text" v-model="cardFrontInput" v-if="addCardFront" v-focus @keyup.enter="flipCard"/>
             <input type="text" ref="backInput" class="cardInputBox" placeholder="Type back text" v-model="cardBackInput" v-if="addCardBack" v-focus @keyup.enter="submitCard"/>
@@ -26,18 +41,9 @@
                 <button class="cardNavigationButtons" id="cardNavigationButton2" v-on:click="updateCardIndex(1)"><img src="../assets/right_arrow_small_crop.png" alt="right arrow" /></button>
             </div>
         </div>
-        <p v-if="deleteDeckButtonPressed">Are you sure that you want to delete {{emittedObject.deckName?emittedObject.deckName:""}}?</p>
-        <button v-if="deleteDeckButtonPressed" v-on:click="deleteDeck">Yes, delete the deck.</button>
-        <button v-if="deleteDeckButtonPressed" v-on:click="doNotDeleteDeck">No, don't delete the deck.</button>
         <button class="addCardButton" v-on:click="addCard">Add Card</button>
-        <button class="deleteCardButton" v-on:click="deleteCard">Delete Card</button>
-        <div>
-            <button class="deckEditButton" v-on:click="editDeckName">Edit Deck Name</button>
-            <button class="deckDeleteButton" v-on:click="deleteDeckPressed">Delete Deck</button>
-            <br>
-            <button class="decksReturnButton" v-on:click="shuffleDeck">Shuffle Deck</button>
-            <button class="decksReturnButton" v-on:click="goBackToDecks">Return To Decks</button>
-        </div>
+        <button class="deleteCardButton" v-on:click="deleteCardPressed">Delete Card</button>
+        
         <div class="snackbar" id="snackbar1">There is only one card in the deck. Please add more cards.</div>
         <div class="snackbar" id="snackbar2">There is no card to flip. Please add a card.</div>
         <div class="snackbar" id="snackbar3">There are no cards in the deck. Please add a card.</div>
@@ -96,6 +102,7 @@ export default {
             editDeckNameInput:"",
             cardId:"",
             deleteDeckButtonPressed:false,
+            deleteCardButtonPressed:false,
             optionList:[],
             selectedLanguage: ""
         }
@@ -204,7 +211,11 @@ export default {
             this.cardPrompt=this.emittedObject.cards[this.cardsListIndex].cardFront;
             this.cardId=this.emittedObject.cards[this.cardsListIndex]._id;
         },
+        deleteCardPressed () {
+            this.deleteCardButtonPressed = true;
+        },
         async deleteCard () {
+            this.deleteCardButtonPressed = false;
             await axios.delete(url+this.emittedObject._id+"/cards/"+this.cardId);
             this.emittedObject.cards.splice(this.cardsListIndex,1);
             
@@ -212,10 +223,14 @@ export default {
                 this.cardsListIndex = this.cardsListIndex === 0 ? 0 : this.cardsListIndex - 1;
                 this.cardPrompt=this.emittedObject.cards[this.cardsListIndex].cardFront;
                 this.cardId=this.emittedObject.cards[this.cardsListIndex]._id;
+                this.cardSide="Front";
             }
             else{
                 this.cardPrompt="Please add a card by clicking the 'Add Card' button below.";
             }
+        },
+        async doNotDeleteCard(){
+            this.deleteCardButtonPressed = false;
         },
         goBackToDecks () {
             localStorage.removeItem("emittedObject._id");
@@ -331,6 +346,7 @@ export default {
 .cardPromptClass1 {
     font-size: x-large;
     color:white;
+    display:inline;
 }
 
 .cardPromptClass2 {
