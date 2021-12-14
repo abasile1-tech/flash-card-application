@@ -16,7 +16,10 @@
         <p v-if="deleteDeckButtonPressed">Are you sure that you want to delete {{emittedObject.deckName?emittedObject.deckName:""}}?</p>
         <button class="decksReturnButton" v-if="deleteDeckButtonPressed" v-on:click="deleteDeck">Yes, delete the deck.</button>
         <button class="decksReturnButton" v-if="deleteDeckButtonPressed" v-on:click="doNotDeleteDeck">No, don't delete the deck.</button>
-        
+
+        <p v-if="deleteCardButtonPressed">Are you sure that you want to delete this card?</p>
+        <button class="decksReturnButton" v-if="deleteCardButtonPressed" v-on:click="deleteCard">Yes, delete the card.</button>
+        <button class="decksReturnButton" v-if="deleteCardButtonPressed" v-on:click="doNotDeleteCard">No, don't delete the card.</button>
         
         <!-- https://vuejs.org/v2/guide/class-and-style.html#With-Components how to use the v-bind-->
         <div class="card" v-bind:class="{flipped: this.cardSide==='Front'}">
@@ -39,7 +42,8 @@
             </div>
         </div>
         <button class="addCardButton" v-on:click="addCard">Add Card</button>
-        <button class="deleteCardButton" v-on:click="deleteCard">Delete Card</button>
+        <button class="deleteCardButton" v-on:click="deleteCardPressed">Delete Card</button>
+        
         <div class="snackbar" id="snackbar1">There is only one card in the deck. Please add more cards.</div>
         <div class="snackbar" id="snackbar2">There is no card to flip. Please add a card.</div>
         <div class="snackbar" id="snackbar3">There are no cards in the deck. Please add a card.</div>
@@ -98,6 +102,7 @@ export default {
             editDeckNameInput:"",
             cardId:"",
             deleteDeckButtonPressed:false,
+            deleteCardButtonPressed:false,
             optionList:[],
             selectedLanguage: ""
         }
@@ -206,7 +211,11 @@ export default {
             this.cardPrompt=this.emittedObject.cards[this.cardsListIndex].cardFront;
             this.cardId=this.emittedObject.cards[this.cardsListIndex]._id;
         },
+        deleteCardPressed () {
+            this.deleteCardButtonPressed = true;
+        },
         async deleteCard () {
+            this.deleteCardButtonPressed = false;
             await axios.delete(url+this.emittedObject._id+"/cards/"+this.cardId);
             this.emittedObject.cards.splice(this.cardsListIndex,1);
             
@@ -218,6 +227,9 @@ export default {
             else{
                 this.cardPrompt="Please add a card by clicking the 'Add Card' button below.";
             }
+        },
+        async doNotDeleteCard(){
+            this.deleteCardButtonPressed = false;
         },
         goBackToDecks () {
             localStorage.removeItem("emittedObject._id");
