@@ -4,6 +4,18 @@
         <div class ="textBox">
             <input type="text" placeholder="Type the new deck name" v-model="editDeckNameInput" v-if="editDeckNameSelected" v-focus @keyup.enter="submitEditedDeckName"/>
         </div>
+
+        <div>
+            <button class="deckEditButton" v-on:click="editDeckName">Edit Deck Name</button>
+            <button class="deckDeleteButton" v-on:click="deleteDeckPressed">Delete Deck</button>
+            <br>
+            <button class="decksReturnButton" v-on:click="shuffleDeck">Shuffle Deck</button>
+            <button class="decksReturnButton" v-on:click="goBackToDecks">Return To Decks</button>
+        </div>
+
+        <p v-if="deleteDeckButtonPressed">Are you sure that you want to delete {{emittedObject.deckName?emittedObject.deckName:""}}?</p>
+        <button class="decksReturnButton" v-if="deleteDeckButtonPressed" v-on:click="deleteDeck">Yes, delete the deck.</button>
+        <button class="decksReturnButton" v-if="deleteDeckButtonPressed" v-on:click="doNotDeleteDeck">No, don't delete the deck.</button>
         
         
         <!-- https://vuejs.org/v2/guide/class-and-style.html#With-Components how to use the v-bind-->
@@ -26,18 +38,8 @@
                 <button class="cardNavigationButtons" id="cardNavigationButton2" v-on:click="updateCardIndex(1)"><img src="../assets/right_arrow_small_crop.png" alt="right arrow" /></button>
             </div>
         </div>
-        <p v-if="deleteDeckButtonPressed">Are you sure that you want to delete {{emittedObject.deckName?emittedObject.deckName:""}}?</p>
-        <button v-if="deleteDeckButtonPressed" v-on:click="deleteDeck">Yes, delete the deck.</button>
-        <button v-if="deleteDeckButtonPressed" v-on:click="doNotDeleteDeck">No, don't delete the deck.</button>
         <button class="addCardButton" v-on:click="addCard">Add Card</button>
         <button class="deleteCardButton" v-on:click="deleteCard">Delete Card</button>
-        <div>
-            <button class="deckEditButton" v-on:click="editDeckName">Edit Deck Name</button>
-            <button class="deckDeleteButton" v-on:click="deleteDeckPressed">Delete Deck</button>
-            <br>
-            <button class="decksReturnButton" v-on:click="shuffleDeck">Shuffle Deck</button>
-            <button class="decksReturnButton" v-on:click="goBackToDecks">Return To Decks</button>
-        </div>
         <div class="snackbar" id="snackbar1">There is only one card in the deck. Please add more cards.</div>
         <div class="snackbar" id="snackbar2">There is no card to flip. Please add a card.</div>
         <div class="snackbar" id="snackbar3">There are no cards in the deck. Please add a card.</div>
