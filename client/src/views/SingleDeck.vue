@@ -28,7 +28,7 @@
             <input type="text" ref="frontInput" class="cardInputBox" placeholder="Type front text" v-model="cardFrontInput" v-if="addCardFront" v-focus @keyup.enter="flipCard"/>
             <input type="text" ref="backInput" class="cardInputBox" placeholder="Type back text" v-model="cardBackInput" v-if="addCardBack" v-focus @keyup.enter="submitCard"/>
             <div id="cardButtonsDiv">
-                <select v-model="selectedLanguage"> 
+                <select v-if="!isMobile" v-model="selectedLanguage"> 
                     <option disabled value="">Please Select a Language:</option>
                     <option :value="option.name" :key="option" v-for="option in this.optionList">{{option.name}}</option>
                 </select>
@@ -60,6 +60,7 @@ import axios from 'axios';
 const url = '/api/decks/';
 
 var synth = window.speechSynthesis;
+var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
 export default {
     props: {
@@ -106,7 +107,8 @@ export default {
             deleteDeckButtonPressed:false,
             deleteCardButtonPressed:false,
             optionList:[],
-            selectedLanguage: ""
+            selectedLanguage: "",
+            isMobile:isMobile
         }
     },
     methods: {
