@@ -223,6 +223,7 @@ export default {
                 this.cardsListIndex = this.cardsListIndex === 0 ? 0 : this.cardsListIndex - 1;
                 this.cardPrompt=this.emittedObject.cards[this.cardsListIndex].cardFront;
                 this.cardId=this.emittedObject.cards[this.cardsListIndex]._id;
+                this.cardSide="Front";
             }
             else{
                 this.cardPrompt="Please add a card by clicking the 'Add Card' button below.";
