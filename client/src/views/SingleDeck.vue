@@ -23,7 +23,7 @@
         
         <!-- https://vuejs.org/v2/guide/class-and-style.html#With-Components how to use the v-bind-->
         <div class="card" v-bind:class="{flipped: this.cardSide==='Front'}">
-            <p class="cardPromptClass1">{{cardSide}} {{this.cardsListIndex+1}}/{{this.emittedObject.cards.length}}</p>
+            <p class="cardPromptClass1">{{cardSide}} {{this.cardsListIndex+1}}/{{emittedObject.cards?emittedObject.cards.length:""}}</p>
             <p class="cardPromptClass2" v-if="!addCardFront&&!addCardBack">{{cardPrompt}}</p>
             <input type="text" ref="frontInput" class="cardInputBox" placeholder="Type front text" v-model="cardFrontInput" v-if="addCardFront" v-focus @keyup.enter="flipCard"/>
             <input type="text" ref="backInput" class="cardInputBox" placeholder="Type back text" v-model="cardBackInput" v-if="addCardBack" v-focus @keyup.enter="submitCard"/>
@@ -41,6 +41,7 @@
                 <button class="cardNavigationButtons" id="cardNavigationButton2" v-on:click="updateCardIndex(1)"><img src="../assets/right_arrow_small_crop.png" alt="right arrow" /></button>
             </div>
         </div>
+        <button class="decksReturnButton" v-if="addCardFront||addCardBack" v-on:click="abortAddCard">Abort Add Card</button>
         <button class="addCardButton" v-on:click="addCard">Add Card</button>
         <button class="deleteCardButton" v-on:click="deleteCardPressed">Delete Card</button>
         
@@ -49,6 +50,7 @@
         <div class="snackbar" id="snackbar3">There are no cards in the deck. Please add a card.</div>
         <div class="snackbar" id="snackbar4">Please enter a valid deck name.</div>
         <div class="snackbar" id="snackbar5">Any card with blank front or back will not be submitted.</div>
+        <div class="snackbar" id="snackbar6">There are no cards to delete in this deck.</div>
     </div>
 </template>
 
@@ -158,24 +160,26 @@ export default {
         addCard () {
             this.addCardFront=true;
         },
+        abortAddCard () {
+            this.addCardFront=false;
+            this.addCardBack=false;
+            this.cardSide="Front";
+            this.cardFrontInput="";
+            this.cardBackInput="";
+            if (this.emittedObject.cards.length === 0) {
+                    return;
+            }
+            else {   
+                this.cardPrompt=this.emittedObject.cards[this.cardsListIndex].cardFront;
+                this.cardId=this.emittedObject.cards[this.cardsListIndex]._id;
+                return;
+            }
+        },
         async submitCard () {
             if (this.cardFrontInput == "" || this.cardBackInput == "") {
-                this.addCardFront=false;
-                this.addCardBack=false;
-                this.cardSide="Front";
-                this.cardFrontInput="";
-                this.cardBackInput="";
+                this.abortAddCard();
                 this.showSnackBar("snackbar5");
-                if (this.emittedObject.cards.length === 0) {
-                    return;
-                }
-                else
-                {   this.cardsListIndex=this.emittedObject.cards.length-1;
-                    this.cardPrompt=this.emittedObject.cards[this.cardsListIndex].cardFront;
-                    this.cardId=this.emittedObject.cards[this.cardsListIndex]._id;
-                    return;
-                }
-                
+                return;
             }
             const response = await axios.post(url+this.emittedObject._id+"/cards",{cardFront:this.cardFrontInput,cardBack:this.cardBackInput});
             if(response.status!==201){
@@ -212,7 +216,14 @@ export default {
             this.cardId=this.emittedObject.cards[this.cardsListIndex]._id;
         },
         deleteCardPressed () {
-            this.deleteCardButtonPressed = true;
+            if (this.emittedObject.cards.length === 0) {
+                this.showSnackBar("snackbar6");
+                return;
+            }
+            else {
+                this.deleteCardButtonPressed = true;
+                return;
+            }
         },
         async deleteCard () {
             this.deleteCardButtonPressed = false;
