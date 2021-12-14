@@ -41,6 +41,7 @@
                 <button class="cardNavigationButtons" id="cardNavigationButton2" v-on:click="updateCardIndex(1)"><img src="../assets/right_arrow_small_crop.png" alt="right arrow" /></button>
             </div>
         </div>
+        <button class="decksReturnButton" v-if="addCardFront||addCardBack" v-on:click="abortAddCard">Abort Add Card</button>
         <button class="addCardButton" v-on:click="addCard">Add Card</button>
         <button class="deleteCardButton" v-on:click="deleteCardPressed">Delete Card</button>
         
@@ -159,24 +160,26 @@ export default {
         addCard () {
             this.addCardFront=true;
         },
+        abortAddCard () {
+            this.addCardFront=false;
+            this.addCardBack=false;
+            this.cardSide="Front";
+            this.cardFrontInput="";
+            this.cardBackInput="";
+            if (this.emittedObject.cards.length === 0) {
+                    return;
+            }
+            else {   
+                this.cardPrompt=this.emittedObject.cards[this.cardsListIndex].cardFront;
+                this.cardId=this.emittedObject.cards[this.cardsListIndex]._id;
+                return;
+            }
+        },
         async submitCard () {
             if (this.cardFrontInput == "" || this.cardBackInput == "") {
-                this.addCardFront=false;
-                this.addCardBack=false;
-                this.cardSide="Front";
-                this.cardFrontInput="";
-                this.cardBackInput="";
+                this.abortAddCard();
                 this.showSnackBar("snackbar5");
-                if (this.emittedObject.cards.length === 0) {
-                    return;
-                }
-                else
-                {   this.cardsListIndex=this.emittedObject.cards.length-1;
-                    this.cardPrompt=this.emittedObject.cards[this.cardsListIndex].cardFront;
-                    this.cardId=this.emittedObject.cards[this.cardsListIndex]._id;
-                    return;
-                }
-                
+                return;
             }
             const response = await axios.post(url+this.emittedObject._id+"/cards",{cardFront:this.cardFrontInput,cardBack:this.cardBackInput});
             if(response.status!==201){
