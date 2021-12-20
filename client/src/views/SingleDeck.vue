@@ -11,6 +11,8 @@
             <br>
             <button class="decksReturnButton" v-on:click="shuffleDeck">Shuffle Deck</button>
             <button class="decksReturnButton" v-on:click="goBackToDecks">Return To Decks</button>
+            <br>
+            <input type="text" placeholder="Search the deck:" v-model="deckSearchInput" @keyup.enter="deckSearch"/>
         </div>
 
         <p v-if="deleteDeckButtonPressed">Are you sure that you want to delete {{emittedObject.deckName?emittedObject.deckName:""}}?</p>
@@ -29,7 +31,7 @@
             <input type="text" ref="backInput" class="cardInputBox" placeholder="Type back text" v-model="cardBackInput" v-if="addCardBack" v-focus @keyup.enter="submitCard"/>
             <div id="cardButtonsDiv">
                 <select v-if="!isMobile" v-model="selectedLanguage"> 
-                    <option disabled value="">Please Select a Language:</option>
+                    <option disabled value="">Please select a language:</option>
                     <option :value="option.name" :key="option" v-for="option in this.optionList">{{option.name}}</option>
                 </select>
                 <br>
@@ -51,6 +53,7 @@
         <div class="snackbar" id="snackbar4">Please enter a valid deck name.</div>
         <div class="snackbar" id="snackbar5">Any card with blank front or back will not be submitted.</div>
         <div class="snackbar" id="snackbar6">There are no cards to delete in this deck.</div>
+        <div class="snackbar" id="snackbar7">No card matching the search term was found.</div>
     </div>
 </template>
 
@@ -108,10 +111,56 @@ export default {
             deleteCardButtonPressed:false,
             optionList:[],
             selectedLanguage: "",
-            isMobile:isMobile
+            isMobile:isMobile,
+            deckSearchInput:""
         }
     },
     methods: {
+        async deckSearch() {
+            let cardFound = false;
+            let indexVar = -1;
+            // Search the card fronts for the search term
+            for (let i=0; i < this.emittedObject.cards.length; i++) {
+                if (this.emittedObject.cards[i].cardFront===this.deckSearchInput){
+                    indexVar = i;
+                    cardFound=true;
+                    break;
+                }
+            }
+            // if there was a match on the card fronts, show that card front
+            if (cardFound === true){
+                this.cardsListIndex=indexVar;
+                this.cardSide="Front"
+                this.cardPrompt=this.emittedObject.cards[this.cardsListIndex].cardFront;
+                this.deckSearchInput="";
+                return;
+            }
+            // if the card still hasn't been found, check the backs of the cards
+            if (cardFound === false) {
+                for (let i=0; i < this.emittedObject.cards.length; i++) {
+                    if (this.emittedObject.cards[i].cardBack===this.deckSearchInput){
+                        indexVar = i;
+                        cardFound=true;
+                        break;
+                    }
+                }
+            }
+            // if there was a match on the card backs, show that card back
+            if (cardFound === true){
+                this.cardsListIndex=indexVar;
+                this.cardSide="Back"
+                this.cardPrompt=this.emittedObject.cards[this.cardsListIndex].cardBack;
+                this.deckSearchInput="";
+                return;
+            }
+            // if there was no match, show the snackbar saying that there wasn't a match
+            else{
+                this.deckSearchInput="";
+                this.showSnackBar("snackbar7");
+                return;
+            }
+            
+        },
         populateVoiceList() {
             this.optionList = synth.getVoices();
         },
@@ -372,7 +421,7 @@ export default {
     padding: 0em 0em 1.5em 0em;
     width: 80%;
     max-width:20em;
-    height: 65%;
+    height: 60%;
     margin: auto;
     display: flex;
     flex-direction: column;
