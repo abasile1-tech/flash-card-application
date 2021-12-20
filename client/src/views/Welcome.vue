@@ -6,7 +6,7 @@
     <p class="displayInline" v-else> You currently have {{this.deckObjectList.length}} decks in your library.</p>
     <br><br>
     <p class="displayInline">Please enter the name of your new deck into the textbox:</p>
-    <input type="text" v-model="deckInput" @keyup.enter="submit"/> 
+    <input type="text" placeholder="Type the new deck name:" v-model="deckInput" @keyup.enter="submit"/> 
     <button v-on:click="submit">Submit</button> 
     <br>
     <p>When you have decks, they show up here. </p>
