@@ -27,3 +27,10 @@ Currently there is one testing suite in the client folder. **cd** into the clien
  - Add a Search Deck Button
  - Add an Edit Card Button
  - Log the user out if the local Storage no longer knows who the user is anymore
+ - Add some UI/UX design
+   - Design a logo for the website
+   - Header
+   - Footer
+   - New Color Scheme
+   - Condensed Login/Signup views
+   - Three bar dropdowns for logout and return to decks functionality
