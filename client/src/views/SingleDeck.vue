@@ -9,7 +9,8 @@
             <button class="deckEditButton" v-on:click="editDeckName">Edit Deck Name</button>
             <button class="deckDeleteButton" v-on:click="deleteDeckPressed">Delete Deck</button>
             <br>
-            <button class="decksReturnButton" v-on:click="shuffleDeck">Shuffle Deck</button>
+            <button class="decksReturnButton" v-if="!deckIsShuffled" v-on:click="shuffleDeck">Shuffle Deck</button>
+            <button class="decksReturnButton" v-if="deckIsShuffled" v-on:click="unShuffleDeck">Un-Shuffle Deck</button>
             <button class="decksReturnButton" v-on:click="goBackToDecks">Return To Decks</button>
             <br>
             <input type="text" placeholder="Search the deck:" v-model="deckSearchInput" @keyup.enter="deckSearch"/>
@@ -67,6 +68,7 @@
         <div class="snackbar" id="snackbar6">There are no cards to delete in this deck.</div>
         <div class="snackbar" id="snackbar7">No card matching the search term was found.</div>
         <div class="snackbar" id="snackbar8">There are no cards to edit in this deck.</div>
+        <div class="snackbar" id="snackbar9">Please unshuffle the deck before editing or deleting cards.</div>
     </div>
 </template>
 
@@ -128,7 +130,8 @@ export default {
             optionList:[],
             selectedLanguage: "",
             isMobile:isMobile,
-            deckSearchInput:""
+            deckSearchInput:"",
+            deckIsShuffled:false
         }
     },
     methods: {
@@ -331,6 +334,10 @@ export default {
             this.cardId=this.emittedObject.cards[this.cardsListIndex]._id;
         },
         editCardPressed () {
+            if (this.deckIsShuffled){
+                this.showSnackBar('snackbar9');
+                return;
+            }
             if (this.emittedObject.cards.length === 0) {
                 this.showSnackBar("snackbar8");
                 return;
@@ -347,6 +354,10 @@ export default {
             }
         },
         deleteCardPressed () {
+            if (this.deckIsShuffled){
+                this.showSnackBar('snackbar9');
+                return;
+            }
             if (this.emittedObject.cards.length === 0) {
                 this.showSnackBar("snackbar6");
                 return;
@@ -390,6 +401,14 @@ export default {
                 return
             }
             this.shuffleVueArray(this.emittedObject.cards);
+            this.cardPrompt=this.emittedObject.cards[this.cardsListIndex].cardFront;
+            this.cardSide="Front";
+            this.cardId=this.emittedObject.cards[this.cardsListIndex].cardId;
+            this.deckIsShuffled=true;
+        },
+        async unShuffleDeck () {
+            window.location.reload();
+            this.deckIsShuffled=false;
         },
         deleteDeckPressed () {
             this.deleteDeckButtonPressed = true;
@@ -450,6 +469,7 @@ export default {
             this.cardPrompt=this.emittedObject.cards[0].cardFront;
             this.cardId=this.emittedObject.cards[0]._id;
         }
+        this.deckIsShuffled=false;
     }
 }
 </script>
