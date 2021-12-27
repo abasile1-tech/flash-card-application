@@ -27,8 +27,14 @@
         <div class="card" v-bind:class="{flipped: this.cardSide==='Front'}">
             <p class="cardPromptClass1">{{cardSide}} {{this.cardsListIndex+1}}/{{emittedObject.cards?emittedObject.cards.length:""}}</p>
             <p class="cardPromptClass2" v-if="!addCardFront&&!addCardBack">{{cardPrompt}}</p>
+
             <input type="text" ref="frontInput" class="cardInputBox" placeholder="Type front text" v-model="cardFrontInput" v-if="addCardFront" v-focus @keyup.enter="flipCard"/>
             <input type="text" ref="backInput" class="cardInputBox" placeholder="Type back text" v-model="cardBackInput" v-if="addCardBack" v-focus @keyup.enter="submitCard"/>
+
+            <!-- edit card -->
+            <input type="text" ref="frontInput" class="cardInputBox" placeholder="Type new front text" v-model="cardFrontInput" v-if="editCardButtonPressed&&cardSide==='Front'" v-focus @keyup.enter="submitEditedCardFront"/>
+            <input type="text" ref="backInput" class="cardInputBox" placeholder="Type new back text" v-model="cardBackInput" v-if="editCardButtonPressed&&cardSide==='Back'" v-focus @keyup.enter="submitEditedCardBack"/>
+
             <div id="cardButtonsDiv">
                 <select v-if="!isMobile" v-model="selectedLanguage"> 
                     <option disabled value="">Please select a language:</option>
@@ -38,14 +44,20 @@
                 <button class="cardButton" v-on:click="readCard">Read Card Aloud</button>
                 <br>
                 <button class="cardNavigationButtons" id="cardNavigationButton1" v-on:click="updateCardIndex(-1)"><img src="../assets/left_arrow_small_crop.png" alt="left arrow" /></button>
-                <button class="cardButton" v-on:click="flipCard" v-if="!addCardBack">Flip Card</button>
-                <button class="cardButton" v-on:click="submitCard" v-if="addCardBack">Submit Card</button>
+                
+                <button class="cardButton" v-on:click="flipCard" v-if="!addCardBack&&!editCardButtonPressed">Flip Card</button>
+                <button class="cardButton" v-on:click="submitCard" v-if="addCardBack&&!editCardButtonPressed">Submit Card</button>
+
+                <button class="cardButton" v-on:click="submitEditedCardFront" v-if="editCardFront&&editCardButtonPressed">Submit Edit</button>
+                <button class="cardButton" v-on:click="submitEditedCardBack" v-if="editCardBack&&editCardButtonPressed">Submit Edit</button>
+
                 <button class="cardNavigationButtons" id="cardNavigationButton2" v-on:click="updateCardIndex(1)"><img src="../assets/right_arrow_small_crop.png" alt="right arrow" /></button>
             </div>
         </div>
         <button class="decksReturnButton" v-if="addCardFront||addCardBack" v-on:click="abortAddCard">Abort Add Card</button>
         <button class="addCardButton" v-on:click="addCard">Add Card</button>
         <button class="deleteCardButton" v-on:click="deleteCardPressed">Delete Card</button>
+        <button class="editCardButton" v-on:click="editCardPressed">Edit Card</button>
         
         <div class="snackbar" id="snackbar1">There is only one card in the deck. Please add more cards.</div>
         <div class="snackbar" id="snackbar2">There is no card to flip. Please add a card.</div>
@@ -54,6 +66,7 @@
         <div class="snackbar" id="snackbar5">Any card with blank front or back will not be submitted.</div>
         <div class="snackbar" id="snackbar6">There are no cards to delete in this deck.</div>
         <div class="snackbar" id="snackbar7">No card matching the search term was found.</div>
+        <div class="snackbar" id="snackbar8">There are no cards to edit in this deck.</div>
     </div>
 </template>
 
@@ -103,12 +116,15 @@ export default {
             cardBackInput:"",
             addCardFront:false,
             addCardBack:false,
+            editCardFront:false,
+            editCardBack:false,
             cardsListIndex:0,
             editDeckNameSelected:false,
             editDeckNameInput:"",
             cardId:"",
             deleteDeckButtonPressed:false,
             deleteCardButtonPressed:false,
+            editCardButtonPressed:false,
             optionList:[],
             selectedLanguage: "",
             isMobile:isMobile,
@@ -226,6 +242,22 @@ export default {
                 return;
             }
         },
+        abortEditCard () {
+            this.editCardButtonPressed=false;
+            this.editCardFront=false;
+            this.editCardBack=false;
+            this.cardSide="Front";
+            this.cardFrontInput="";
+            this.cardBackInput="";
+            if (this.emittedObject.cards.length === 0) {
+                    return;
+            }
+            else {   
+                this.cardPrompt=this.emittedObject.cards[this.cardsListIndex].cardFront;
+                this.cardId=this.emittedObject.cards[this.cardsListIndex]._id;
+                return;
+            }
+        },
         async submitCard () {
             if (this.cardFrontInput == "" || this.cardBackInput == "") {
                 this.abortAddCard();
@@ -246,6 +278,38 @@ export default {
             this.cardPrompt=this.emittedObject.cards[this.cardsListIndex].cardFront;
             this.cardId=this.emittedObject.cards[this.cardsListIndex]._id;
         },
+        async submitEditedCardFront () {
+            if (this.cardFrontInput == "") {
+                this.abortEditCard();
+                this.showSnackBar("snackbar5");
+                return;
+            }
+            const response = await axios.put(url+this.emittedObject._id+"/cards/"+"front/"+this.cardId+"/"+this.cardsListIndex,{cardFront:this.cardFrontInput,cardBack:this.emittedObject.cards[this.cardsListIndex].cardBack});
+            if(response.status!==201){
+                console.log("error: ",response);
+            }
+            this.emittedObject.cards = response.data.cards;
+            this.editCardFront=false;
+            this.editCardButtonPressed=false;
+            this.cardFrontInput="";
+            this.cardPrompt=this.emittedObject.cards[this.cardsListIndex].cardFront;
+        },
+        async submitEditedCardBack () {
+            if (this.cardBackInput == "") {
+                this.abortEditCard();
+                this.showSnackBar("snackbar5");
+                return;
+            }
+            const response = await axios.put(url+this.emittedObject._id+"/cards/"+"back/"+this.cardId+"/"+this.cardsListIndex,{cardFront:this.emittedObject.cards[this.cardsListIndex].cardFront,cardBack:this.cardBackInput});
+            if(response.status!==201){
+                console.log("error: ",response);
+            }
+            this.emittedObject.cards = response.data.cards;
+            this.editCardBack=false;
+            this.editCardButtonPressed=false;
+            this.cardBackInput="";
+            this.cardPrompt=this.emittedObject.cards[this.cardsListIndex].cardBack;
+        },
         updateCardIndex (indexToAdd) {
             if (this.emittedObject.cards.length === 0){
                 this.showSnackBar("snackbar3");
@@ -265,6 +329,22 @@ export default {
             this.cardSide="Front";
             this.cardPrompt=this.emittedObject.cards[this.cardsListIndex].cardFront;
             this.cardId=this.emittedObject.cards[this.cardsListIndex]._id;
+        },
+        editCardPressed () {
+            if (this.emittedObject.cards.length === 0) {
+                this.showSnackBar("snackbar8");
+                return;
+            }
+            else {
+                this.editCardButtonPressed = true;
+                if (this.cardSide==="Front"){
+                    this.editCardFront=true;
+                }
+                if (this.cardSide==="Back"){
+                    this.editCardBack=true;
+                }
+                return;
+            }
         },
         deleteCardPressed () {
             if (this.emittedObject.cards.length === 0) {
@@ -444,6 +524,11 @@ export default {
 }
 
 .addCardButton{
+    color:#0a5050;;
+    background-color:#bfbfc5;
+}
+
+.editCardButton{
     color:#0a5050;;
     background-color:#bfbfc5;
 }

@@ -96,6 +96,44 @@ router.post("/:id/cards", async (req,res) => {
     });
 })
 
+// Edit Card Front
+router.put("/:id/cards/front/:cardId/:cardsListIndex", async (req,res) => {
+    try{
+        let deck = await Deck.findById(req.params.id);
+        await deck.cards.set(
+            req.params.cardsListIndex,{cardFront:req.body.cardFront,cardBack:req.body.cardBack}
+        )
+        await deck.save(function(err,deck){
+            if (err) {
+                res.status(500);
+            }
+            res.status(201).json(deck);
+        });
+    }
+    catch(err){
+        console.log(err);
+    }
+})
+
+// Edit Card Back
+router.put("/:id/cards/back/:cardId/:cardsListIndex", async (req,res) => {
+    try{
+        let deck = await Deck.findById(req.params.id);
+        await deck.cards.set(
+            req.params.cardsListIndex,{cardFront:req.body.cardFront,cardBack:req.body.cardBack}
+        )
+        await deck.save(function(err,deck){
+            if (err) {
+                res.status(500);
+            }
+            res.status(201).json(deck);
+        });
+    }
+    catch(err){
+        console.log(err);
+    }
+})
+
 // Delete Card
 router.delete('/:id/cards/:cardId', async (req, res) => {
     try {
