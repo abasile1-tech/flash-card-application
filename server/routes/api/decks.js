@@ -85,9 +85,20 @@ router.put('/:id/deckName', async (req, res) => {
 });
 
 // Add Card
-router.post("/:id/cards", async (req,res) => {
+router.post("/:id/cards/:cardsListIndex", async (req,res) => {
     let deck = await Deck.findById(req.params.id);
-    deck.cards.push({cardFront: req.body.cardFront, cardBack: req.body.cardBack});
+    // if there are no cards or only one card, add the new card to the end
+    if (deck.cards.length===0 || deck.cards.length===1){
+        deck.cards.push({cardFront: req.body.cardFront, cardBack: req.body.cardBack});
+    }
+    // if we are at the end already, add the card to the end
+    else if (deck.cards.length > 1 && deck.cards.length - req.params.cardsListIndex===1) {
+        deck.cards.push({cardFront: req.body.cardFront, cardBack: req.body.cardBack});
+    }
+    // if we are in the middle of the deck, insert the card immediately after the current card
+    else {
+        deck.cards.splice((parseInt(req.params.cardsListIndex)+1),0,{cardFront: req.body.cardFront, cardBack: req.body.cardBack});
+    }
     await deck.save(function(err,deck){
         if (err) {
             res.status(500);
