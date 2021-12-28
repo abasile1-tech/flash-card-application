@@ -33,3 +33,5 @@ Currently there is one testing suite in the client folder. **cd** into the clien
    - Condensed Login/Signup views
    - Three bar dropdowns for logout and return to decks functionality
  - Add a cookies disclaimer
+ - Improve upon the searchDeck function
+ - Allow cards to be reordered
