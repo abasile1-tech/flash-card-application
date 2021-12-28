@@ -267,7 +267,7 @@ export default {
                 this.showSnackBar("snackbar5");
                 return;
             }
-            const response = await axios.post(url+this.emittedObject._id+"/cards",{cardFront:this.cardFrontInput,cardBack:this.cardBackInput});
+            const response = await axios.post(url+this.emittedObject._id+"/cards/"+this.cardsListIndex,{cardFront:this.cardFrontInput,cardBack:this.cardBackInput});
             if(response.status!==201){
                 console.log("error: ",response);
             }
@@ -277,7 +277,9 @@ export default {
             this.cardSide="Front";
             this.cardFrontInput="";
             this.cardBackInput="";
-            this.cardsListIndex=this.emittedObject.cards.length-1;
+            if (this.emittedObject.cards.length - this.cardsListIndex > 1){
+                this.cardsListIndex+=1;
+            }
             this.cardPrompt=this.emittedObject.cards[this.cardsListIndex].cardFront;
             this.cardId=this.emittedObject.cards[this.cardsListIndex]._id;
         },
