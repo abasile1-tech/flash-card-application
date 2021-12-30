@@ -37,7 +37,7 @@
             <input type="text" ref="backInput" class="cardInputBox" placeholder="Type new back text" v-model="cardBackInput" v-if="editCardButtonPressed&&cardSide==='Back'" v-focus @keyup.enter="submitEditedCardBack"/>
 
             <div id="cardButtonsDiv">
-                <select v-if="!isMobile" v-model="selectedLanguage"> 
+                <select id="selectBlock" v-if="!isMobile" v-model="selectedLanguage"> 
                     <option disabled value="">Please select a language:</option>
                     <option :value="option.name" :key="option" v-for="option in this.optionList">{{option.name}}</option>
                 </select>
@@ -482,7 +482,8 @@ export default {
 }
 
 #singleDeck_css{
-    background-color:lightblue;
+    background-color:#325573;
+    color:#B6D6F2;
     position:absolute;
     top:0;
     left:0;
@@ -491,13 +492,18 @@ export default {
     min-height:100vh;
     overflow-y:auto; 
 }
+
+#selectBlock{
+    border-radius: 8px;
+}
+
 .cardButton {
     width: fit-content;
     height: 2em;
     margin: 0em auto;
     font-size: large;
+    color:#14075e;
     background-color:#bfbfc5;
-    color:#002060;
     vertical-align: inherit;
 }
 
@@ -518,7 +524,7 @@ export default {
 }
 
 .card {
-    border: 0.1em solid rgb(131, 131, 131);
+    border: 0.1em;
     border-radius: 0.5em;
     padding: 0em 0em 1.5em 0em;
     width: 80%;
@@ -528,11 +534,12 @@ export default {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    background-color: rgb(102, 179, 202);
+    background-color: #517EA6;
+    color:black;
 }
 
 .flipped {
-    background-color:rgb(132, 172, 137);
+    background-color:#699EBF;
 }
 
 .textBox input{
@@ -546,12 +553,12 @@ export default {
 }
 
 .addCardButton{
-    color:#0a5050;;
+    color:#14075e;
     background-color:#bfbfc5;
 }
 
 .editCardButton{
-    color:#0a5050;;
+    color:#14075e;
     background-color:#bfbfc5;
 }
 

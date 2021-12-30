@@ -7,7 +7,7 @@
     <br><br>
     <p class="displayInline">Please enter the name of your new deck into the textbox:</p>
     <input type="text" placeholder="Type the new deck name:" v-model="deckInput" @keyup.enter="submit"/> 
-    <button v-on:click="submit">Submit</button> 
+    <button class="buttonClass" v-on:click="submit">Submit</button> 
     <br>
     <p>When you have decks, they show up here. </p>
     <p>Click on the deck that you want to work on and you will be redirected to that deck's page.</p>
@@ -15,7 +15,7 @@
         <button class=deckButtons :key="deck" v-for="deck in this.deckObjectList" v-on:click="goToDeck(deck)">{{deck.deckName}}</button>
     </div>
     <br>
-    <button v-on:click="returnToLoginPage()">Return To Login Page</button>
+    <button class="buttonClass" v-on:click="returnToLoginPage()">Return To Login Page</button>
     <div class="snackbar" id="snackbar4">Please enter a valid deck name.</div>
   </div>
 </template>
@@ -113,7 +113,8 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 #welcome_css {
-  background-color:lightskyblue;
+  background-color:#325573;
+  color:#B6D6F2;
   position:absolute;
   top:0;
   left:0;
@@ -131,20 +132,23 @@ a {
   display:inline;
 }
 .deckButtons {
-    color:#0e0e9f;
-    background-color: darkgrey;
+    color:#14075e;
+    background-color:#bfbfc5;
     font-size: 24px;
-    border: 3px solid black;
     width:fit-content;
     
 }
 
 .deckButtons:hover {
-    color: black;
-    background-color: rgb(43, 76, 226);
+    color:#14075e;
+    background-color:#d1d1d8;
     font-size: 24px;
-    border: 3px solid rgb(0, 0, 0);
     width: fit-content;
+}
+
+.buttonClass {
+    color:#14075e;
+    background-color:#bfbfc5;
 }
 
 .flexContainer {
