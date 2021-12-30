@@ -12,7 +12,7 @@
     <p class="loginSignupText" id="signupParagraph" v-if="!showLogin">Sign Up</p>
     </div>
 
-    <div id="loginSignupDiv">
+    <div id="loginSignupDiv1" v-if="showLogin">
     <!-- <p class="displayInline" v-if="showLogin">If you already have an account, please enter your username and password:</p>
     <br v-if="showLogin"> -->
     <input type="text" placeholder="Type your username:" v-if="showLogin" v-model="userNameInput" /> 
@@ -20,7 +20,9 @@
     <input type="password" placeholder="Type your password:" v-if="showLogin" v-model="passwordInput" @keyup.enter="logIn"/>
     <br v-if="showLogin">
     <button class="submitButton_css" v-if="showLogin" v-on:click="logIn()">Submit</button>
+    </div>
 
+    <div id="loginSignupDiv2" v-if="!showLogin">
     <!-- <p class="displayInline" v-if="!showLogin">If you do not already have an account, please create one by entering a username and password:</p>
     <br v-if="!showLogin"> -->
     <input type="text" placeholder="Type a new username:" v-if="!showLogin" v-model="userNameInputNew" /> 
@@ -151,7 +153,7 @@ export default {
   margin:auto;
 }
 
-#loginSignupDiv {
+#loginSignupDiv1 {
   border-bottom:solid black;
   border-left:solid black;
   border-right:solid black;
@@ -159,6 +161,18 @@ export default {
   /* width:80%; */
   background-color:#B6D6F2;
   color:black;
+  border-radius: 0px 15px 15px 15px;
+}
+
+#loginSignupDiv2 {
+  border-bottom:solid black;
+  border-left:solid black;
+  border-right:solid black;
+  margin:auto;
+  /* width:80%; */
+  background-color:#517EA6;
+  color:black;
+  border-radius: 0px 15px 15px 15px;
 }
 
 .loginSignupText {
@@ -187,6 +201,9 @@ export default {
 
 #logInButton {
   border-bottom:solid black;
+  border-radius: 15px 0px 0px 0px;
+  background-color:#B6D6F2;
+  color:black;
 }
 
 #loginParagraph{
@@ -196,19 +213,26 @@ export default {
   border-right:solid black;
   border-left:solid black;
   box-shadow:0px;
+  border-radius: 15px 0px 0px 0px;
+  color:black;
 }
 
 #signUpButton{
   border-bottom:solid black;
+  border-radius: 0px 15px 0px 0px;
+  background-color:#517EA6;
+  color:black;
 }
 
 #signupParagraph{
   /* border-bottom-color:#B6D6F2; */
-  background-color:#B6D6F2;
+  background-color:#517EA6;
   border-top:solid black;
   border-right:solid black;
   border-left:solid black;
   box-shadow:0px;
+  border-radius: 0px 15px 0px 0px;
+  color:black;
 }
 
 .submitButton_css {
@@ -226,7 +250,7 @@ export default {
 } */
 
 #herokuDiv{
-  max-width:80%;
+  max-width:75%;
   margin:auto;
 }
 
