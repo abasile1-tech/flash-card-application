@@ -170,7 +170,8 @@ export default {
   border-right:solid black;
   margin:auto;
   /* width:80%; */
-  background-color:#517EA6;
+  /* background-color:#517EA6; */
+  background-color:#D9896C;
   color:black;
   border-radius: 0px 15px 15px 15px;
 }
@@ -220,13 +221,15 @@ export default {
 #signUpButton{
   border-bottom:solid black;
   border-radius: 0px 15px 0px 0px;
-  background-color:#517EA6;
+  /* background-color:#517EA6; */
+  background-color:#D9896C;
   color:black;
 }
 
 #signupParagraph{
   /* border-bottom-color:#B6D6F2; */
-  background-color:#517EA6;
+  /* background-color:#517EA6; */
+  background-color:#D9896C;
   border-top:solid black;
   border-right:solid black;
   border-left:solid black;
