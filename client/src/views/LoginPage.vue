@@ -8,14 +8,14 @@
     <input type="text" placeholder="Type your username:" v-model="userNameInput" /> 
     <input type="password" placeholder="Type your password:" v-model="passwordInput" @keyup.enter="logIn"/>
     <br>
-    <button v-on:click="logIn()">Log In</button>
+    <button class="submitButton_css" v-on:click="logIn()">Log In</button>
     <br>
     <p class="displayInline">If you do not already have an account, please create one by entering a username and password:</p>
     <br>
     <input type="text" placeholder="Type a new username:" v-model="userNameInputNew" /> 
     <input type="password" placeholder="Type a new password:" v-model="passwordInputNew" @keyup.enter="signUp"/>
     <br>
-    <button v-on:click="signUp()">Sign Up</button>
+    <button class="submitButton_css" v-on:click="signUp()">Sign Up</button>
     <br>
     <!-- https://devcenter.heroku.com/articles/free-dyno-hours -->
     <p class="displayInline">Please note that it takes a few seconds for the Heroku server to wake up from sleep for the first time after not being used over a period of 30 minutes.</p>
@@ -111,7 +111,8 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 #loginPage_css {
-  background-color:#638f9d;
+  background-color:#325573;
+  color:#B6D6F2;
   position:absolute;
   top:0;
   left:0;
@@ -120,6 +121,11 @@ export default {
   min-height:100vh;
   /* this extends the background color when you scroll */
   overflow-y:auto; 
+}
+
+.submitButton_css {
+  color:#14075e;
+  background-color:#bfbfc5;
 }
 
 .displayInline {
