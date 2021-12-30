@@ -13,8 +13,6 @@
     </div>
 
     <div id="loginSignupDiv1" v-if="showLogin">
-    <!-- <p class="displayInline" v-if="showLogin">If you already have an account, please enter your username and password:</p>
-    <br v-if="showLogin"> -->
     <input type="text" placeholder="Type your username:" v-if="showLogin" v-model="userNameInput" /> 
     <br v-if="showLogin">
     <input type="password" placeholder="Type your password:" v-if="showLogin" v-model="passwordInput" @keyup.enter="logIn"/>
@@ -23,8 +21,6 @@
     </div>
 
     <div id="loginSignupDiv2" v-if="!showLogin">
-    <!-- <p class="displayInline" v-if="!showLogin">If you do not already have an account, please create one by entering a username and password:</p>
-    <br v-if="!showLogin"> -->
     <input type="text" placeholder="Type a new username:" v-if="!showLogin" v-model="userNameInputNew" /> 
     <br v-if="!showLogin">
     <input type="password" placeholder="Type a new password:" v-if="!showLogin" v-model="passwordInputNew" @keyup.enter="signUp"/>
@@ -158,7 +154,6 @@ export default {
   border-left:solid black;
   border-right:solid black;
   margin:auto;
-  /* width:80%; */
   background-color:#B6D6F2;
   color:black;
   border-radius: 0px 15px 15px 15px;
@@ -169,8 +164,6 @@ export default {
   border-left:solid black;
   border-right:solid black;
   margin:auto;
-  /* width:80%; */
-  /* background-color:#517EA6; */
   background-color:#D9896C;
   color:black;
   border-radius: 0px 15px 15px 15px;
@@ -179,7 +172,6 @@ export default {
 .loginSignupText {
   color:#14075e;
   background-color:#bfbfc5;
-  /* border-radius:0%; */
   width:30%;
   margin:0%;
 }
@@ -193,11 +185,8 @@ export default {
 }
 
 #loginSignupSelectDiv {
-  /* border:solid black; */
   margin:auto;
-  /* width:80%; */
   display:flex;
-  /* border-left:solid black; */
 }
 
 #logInButton {
@@ -208,7 +197,6 @@ export default {
 }
 
 #loginParagraph{
-  /* border-bottom-color:#B6D6F2; */
   background-color:#B6D6F2;
   border-top:solid black;
   border-right:solid black;
@@ -221,14 +209,11 @@ export default {
 #signUpButton{
   border-bottom:solid black;
   border-radius: 0px 15px 0px 0px;
-  /* background-color:#517EA6; */
   background-color:#D9896C;
   color:black;
 }
 
 #signupParagraph{
-  /* border-bottom-color:#B6D6F2; */
-  /* background-color:#517EA6; */
   background-color:#D9896C;
   border-top:solid black;
   border-right:solid black;
@@ -246,11 +231,6 @@ export default {
 .displayInline {
   display:inline;
 }
-
-/* #slowHerokuMsg {
-  max-width:80%;
-  border:solid black;
-} */
 
 #herokuDiv{
   max-width:75%;
