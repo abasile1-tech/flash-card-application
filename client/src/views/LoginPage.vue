@@ -3,22 +3,38 @@
     <h1>Welcome to the Flash Card App!</h1>
     <img src="../assets/flash_cards.png" alt="Flash Cards">
     <br>
-    <p class="displayInline">If you already have an account, please enter your username and password:</p>
-    <br>
-    <input type="text" placeholder="Type your username:" v-model="userNameInput" /> 
-    <input type="password" placeholder="Type your password:" v-model="passwordInput" @keyup.enter="logIn"/>
-    <br>
-    <button class="submitButton_css" v-on:click="logIn()">Log In</button>
-    <br>
-    <p class="displayInline">If you do not already have an account, please create one by entering a username and password:</p>
-    <br>
-    <input type="text" placeholder="Type a new username:" v-model="userNameInputNew" /> 
-    <input type="password" placeholder="Type a new password:" v-model="passwordInputNew" @keyup.enter="signUp"/>
-    <br>
-    <button class="submitButton_css" v-on:click="signUp()">Sign Up</button>
-    <br>
+
+    <div id="overarchingLoginDiv">
+    <div id="loginSignupSelectDiv">
+    <p class="loginSignupText" id="loginParagraph" v-if="showLogin">Log In</p>
+    <button class="loginSignupButton_css" id="logInButton" v-if="!showLogin" v-on:click="activateShowLogin()">Log In</button>
+    <button class="loginSignupButton_css" id="signUpButton"  v-if="showLogin" v-on:click="deActivateShowLogin()">Sign Up</button>
+    <p class="loginSignupText" id="signupParagraph" v-if="!showLogin">Sign Up</p>
+    </div>
+
+    <div id="loginSignupDiv">
+    <!-- <p class="displayInline" v-if="showLogin">If you already have an account, please enter your username and password:</p>
+    <br v-if="showLogin"> -->
+    <input type="text" placeholder="Type your username:" v-if="showLogin" v-model="userNameInput" /> 
+    <br v-if="showLogin">
+    <input type="password" placeholder="Type your password:" v-if="showLogin" v-model="passwordInput" @keyup.enter="logIn"/>
+    <br v-if="showLogin">
+    <button class="submitButton_css" v-if="showLogin" v-on:click="logIn()">Submit</button>
+
+    <!-- <p class="displayInline" v-if="!showLogin">If you do not already have an account, please create one by entering a username and password:</p>
+    <br v-if="!showLogin"> -->
+    <input type="text" placeholder="Type a new username:" v-if="!showLogin" v-model="userNameInputNew" /> 
+    <br v-if="!showLogin">
+    <input type="password" placeholder="Type a new password:" v-if="!showLogin" v-model="passwordInputNew" @keyup.enter="signUp"/>
+    <br v-if="!showLogin">
+    <button class="submitButton_css" v-if="!showLogin" v-on:click="signUp()">Submit</button>
+    </div>
+    </div>
+
     <!-- https://devcenter.heroku.com/articles/free-dyno-hours -->
-    <p class="displayInline">Please note that it takes a few seconds for the Heroku server to wake up from sleep for the first time after not being used over a period of 30 minutes.</p>
+    <div id="herokuDiv">
+    <p class="displayInline" id="slowHerokuMsg">Please note that it takes a few seconds for the Heroku server to wake up from sleep for the first time after not being used over a period of 30 minutes.</p>
+    </div>
     <div class="snackbar" id="snackbar1">Incorrect Password</div>
     <div class="snackbar" id="snackbar2">UserName Already Taken</div>
     <div class="snackbar" id="snackbar3">User Not Found</div>
@@ -43,10 +59,17 @@ export default {
         userNameInput:"",
         passwordInput:"",
         userNameInputNew:"",
-        passwordInputNew:""
+        passwordInputNew:"",
+        showLogin:true
       };
   },
   methods: {
+    activateShowLogin(){
+      this.showLogin=true;
+    },
+    deActivateShowLogin(){
+      this.showLogin=false;
+    },
     async logIn () {
       if (this.userNameInput == "" || this.passwordInput == "") {
         this.showSnackBar("snackbar4");
@@ -123,6 +146,71 @@ export default {
   overflow-y:auto; 
 }
 
+#overarchingLoginDiv{
+  width:80%;
+  margin:auto;
+}
+
+#loginSignupDiv {
+  border-bottom:solid black;
+  border-left:solid black;
+  border-right:solid black;
+  margin:auto;
+  /* width:80%; */
+  background-color:#B6D6F2;
+  color:black;
+}
+
+.loginSignupText {
+  color:#14075e;
+  background-color:#bfbfc5;
+  /* border-radius:0%; */
+  width:30%;
+  margin:0%;
+}
+
+.loginSignupButton_css {
+  color:#14075e;
+  background-color:#bfbfc5;
+  border-radius:0%;
+  margin:0%;
+  width:30%;
+}
+
+#loginSignupSelectDiv {
+  /* border:solid black; */
+  margin:auto;
+  /* width:80%; */
+  display:flex;
+  /* border-left:solid black; */
+}
+
+#logInButton {
+  border-bottom:solid black;
+}
+
+#loginParagraph{
+  /* border-bottom-color:#B6D6F2; */
+  background-color:#B6D6F2;
+  border-top:solid black;
+  border-right:solid black;
+  border-left:solid black;
+  box-shadow:0px;
+}
+
+#signUpButton{
+  border-bottom:solid black;
+}
+
+#signupParagraph{
+  /* border-bottom-color:#B6D6F2; */
+  background-color:#B6D6F2;
+  border-top:solid black;
+  border-right:solid black;
+  border-left:solid black;
+  box-shadow:0px;
+}
+
 .submitButton_css {
   color:#14075e;
   background-color:#bfbfc5;
@@ -131,6 +219,17 @@ export default {
 .displayInline {
   display:inline;
 }
+
+/* #slowHerokuMsg {
+  max-width:80%;
+  border:solid black;
+} */
+
+#herokuDiv{
+  max-width:80%;
+  margin:auto;
+}
+
 /* The snackbar - position it at the bottom and in the middle of the screen */
 .snackbar {
   visibility: hidden; /* Hidden by default. Visible on click */
