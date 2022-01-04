@@ -1,6 +1,18 @@
 <template>
   <div id="welcome_css"> 
+    <div id="welcomeUser">
+    <div id="websiteIcon">
+    </div>
+    <div id="welcomeWords">
     <h1>Welcome, {{emittedUser.userName?emittedUser.userName:""}}!</h1>
+    </div>
+    <div id="hamburgerMenu" v-on:click="hamburgerWasClicked">
+      <img src="../assets/Hamburger_icon_small.svg.png" alt="MENU">
+      <div id=hamburgerDropdown v-if="hamburgerClicked">
+        <button class="buttonClass" v-on:click="returnToLoginPage()">Log Out</button>
+      </div>
+    </div>
+    </div>
     <br>
     <p class="displayInline" v-if="onlyOneDeck"> You currently have {{this.deckObjectList.length}} deck in your library.</p>
     <p class="displayInline" v-else> You currently have {{this.deckObjectList.length}} decks in your library.</p>
@@ -15,7 +27,7 @@
         <button class=deckButtons :key="deck" v-for="deck in this.deckObjectList" v-on:click="goToDeck(deck)">{{deck.deckName}}</button>
     </div>
     <br>
-    <button class="buttonClass" v-on:click="returnToLoginPage()">Return To Login Page</button>
+    <!-- <button class="buttonClass" v-on:click="returnToLoginPage()">Return To Login Page</button> -->
     <div class="snackbar" id="snackbar4">Please enter a valid deck name.</div>
   </div>
 </template>
@@ -48,7 +60,8 @@ export default {
     return {
       deckInput:"",
       deckObjectList:[],
-      onlyOneDeck:false
+      onlyOneDeck:false,
+      hamburgerClicked:false
     }
   },
   methods: {
@@ -68,6 +81,13 @@ export default {
         this.onlyOneDeck=false;
       }
       this.deckInput = "";
+    },
+    hamburgerWasClicked() {
+      if (!this.hamburgerClicked){
+        this.hamburgerClicked=true;
+      } else {
+        this.hamburgerClicked=false;
+      }
     },
     goToDeck (deckObj) {
       //emit deck
@@ -124,6 +144,24 @@ export default {
   /* this extends the background color when you scroll */
   overflow-y:auto;
 }
+
+#welcomeUser {
+  /* border:solid black; */
+  /* width:fit-content; */
+  display:flex;
+  justify-content:space-evenly;
+  /* justify-content:center; */
+  /* align-items:center; */
+}
+
+#welcomeWords {
+  /* border:solid black; */
+}
+
+#hamburgerMenu {
+  /* border:solid black; */
+}
+
 a {
   color: #42b983;
 }
