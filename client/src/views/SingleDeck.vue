@@ -1,6 +1,21 @@
 <template>
     <div id="singleDeck_css">
+        <div id="welcomeUser">
+        <div id="websiteIcon">
+        </div>
+        <div id="welcomeWords">
+        <!-- <h1>Welcome, {{emittedUser.userName?emittedUser.userName:""}}!</h1> -->
         <h1 v-if="!editDeckNameSelected">{{emittedObject.deckName?emittedObject.deckName:""}}</h1>
+        </div>
+        <div id="hamburgerMenu" v-on:click="hamburgerWasClicked">
+        <img src="../assets/Hamburger_icon_small.svg.png" alt="MENU">
+        <div id=hamburgerDropdown v-if="hamburgerClicked">
+        <button class="buttonClass" v-on:click="returnToLoginPage()">Log Out</button>
+        <button class="decksReturnButton" v-on:click="goBackToDecks">Return To Decks</button>
+        </div>
+    </div>
+    </div>
+        <!-- <h1 v-if="!editDeckNameSelected">{{emittedObject.deckName?emittedObject.deckName:""}}</h1> -->
         <div class ="textBox">
             <input type="text" placeholder="Type the new deck name" v-model="editDeckNameInput" v-if="editDeckNameSelected" v-focus @keyup.enter="submitEditedDeckName"/>
         </div>
@@ -11,7 +26,7 @@
             <br>
             <button class="decksReturnButton" v-if="!deckIsShuffled" v-on:click="shuffleDeck">Shuffle Deck</button>
             <button class="decksReturnButton" v-if="deckIsShuffled" v-on:click="unShuffleDeck">Un-Shuffle Deck</button>
-            <button class="decksReturnButton" v-on:click="goBackToDecks">Return To Decks</button>
+            <!-- <button class="decksReturnButton" v-on:click="goBackToDecks">Return To Decks</button> -->
             <br>
             <input type="text" placeholder="Search the deck:" v-model="deckSearchInput" @keyup.enter="deckSearch"/>
         </div>
@@ -131,10 +146,23 @@ export default {
             selectedLanguage: "",
             isMobile:isMobile,
             deckSearchInput:"",
-            deckIsShuffled:false
+            deckIsShuffled:false,
+            hamburgerClicked:false
         }
     },
     methods: {
+        returnToLoginPage(){
+            localStorage.removeItem("emittedUser._id");
+            localStorage.removeItem("emittedObject._id");
+            this.$router.push({path: `/`});
+        },
+        hamburgerWasClicked() {
+            if (!this.hamburgerClicked){
+                this.hamburgerClicked=true;
+            } else {
+                this.hamburgerClicked=false;
+            }
+        },
         async deckSearch() {
             let cardFound = false;
             let indexVar = -1;
@@ -491,6 +519,28 @@ export default {
     height:100%;
     min-height:100vh;
     overflow-y:auto; 
+}
+
+#welcomeUser {
+  /* border:solid black; */
+  /* width:fit-content; */
+  display:flex;
+  justify-content:space-evenly;
+  /* justify-content:center; */
+  /* align-items:center; */
+}
+
+#welcomeWords {
+  /* border:solid black; */
+}
+
+#hamburgerMenu {
+  border:solid black;
+}
+
+.buttonClass {
+    color:#14075e;
+    background-color:#bfbfc5;
 }
 
 #selectBlock{

@@ -159,7 +159,7 @@ export default {
 }
 
 #hamburgerMenu {
-  /* border:solid black; */
+  border:solid black;
 }
 
 a {
