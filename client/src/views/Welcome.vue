@@ -2,6 +2,7 @@
   <div id="welcome_css"> 
     <div id="welcomeUser">
     <div id="websiteIcon">
+      <img src="../assets/MonkeyFace_smaller.png" alt="LOGO">
     </div>
     <div id="welcomeWords">
     <h1>Welcome, {{emittedUser.userName?emittedUser.userName:""}}!</h1>
@@ -152,6 +153,10 @@ export default {
   justify-content:space-evenly;
   /* justify-content:center; */
   /* align-items:center; */
+}
+
+#websiteIcon {
+  border:solid black;
 }
 
 #welcomeWords {

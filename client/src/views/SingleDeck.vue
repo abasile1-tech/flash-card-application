@@ -2,6 +2,7 @@
     <div id="singleDeck_css">
         <div id="welcomeUser">
         <div id="websiteIcon">
+            <img src="../assets/MonkeyFace_smaller.png" alt="LOGO">
         </div>
         <div id="welcomeWords">
         <!-- <h1>Welcome, {{emittedUser.userName?emittedUser.userName:""}}!</h1> -->
@@ -11,7 +12,8 @@
         <img src="../assets/Hamburger_icon_small.svg.png" alt="MENU">
         <div id=hamburgerDropdown v-if="hamburgerClicked">
         <button class="buttonClass" v-on:click="returnToLoginPage()">Log Out</button>
-        <button class="decksReturnButton" v-on:click="goBackToDecks">Return To Decks</button>
+        <!-- <button class="decksReturnButton" v-on:click="goBackToDecks">Return To Decks</button> -->
+        <button class="buttonClass" v-on:click="goBackToDecks">To Decks</button>
         </div>
     </div>
     </div>
@@ -21,11 +23,11 @@
         </div>
 
         <div>
-            <button class="deckEditButton" v-on:click="editDeckName">Edit Deck Name</button>
+            <button class="deckEditButton" v-on:click="editDeckName">Edit Deck</button>
             <button class="deckDeleteButton" v-on:click="deleteDeckPressed">Delete Deck</button>
-            <br>
-            <button class="decksReturnButton" v-if="!deckIsShuffled" v-on:click="shuffleDeck">Shuffle Deck</button>
-            <button class="decksReturnButton" v-if="deckIsShuffled" v-on:click="unShuffleDeck">Un-Shuffle Deck</button>
+            <!-- <br> -->
+            <button class="decksReturnButton" v-if="!deckIsShuffled" v-on:click="shuffleDeck">Shuffle</button>
+            <button class="decksReturnButton" v-if="deckIsShuffled" v-on:click="unShuffleDeck">Un-Shuffle</button>
             <!-- <button class="decksReturnButton" v-on:click="goBackToDecks">Return To Decks</button> -->
             <br>
             <input type="text" placeholder="Search the deck:" v-model="deckSearchInput" @keyup.enter="deckSearch"/>
@@ -528,6 +530,10 @@ export default {
   justify-content:space-evenly;
   /* justify-content:center; */
   /* align-items:center; */
+}
+
+#websiteIcon {
+  border:solid black;
 }
 
 #welcomeWords {
