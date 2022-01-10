@@ -175,6 +175,9 @@ export default {
   right: 30%;
   left: 30%;
   position: fixed; */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 #hamburgerMenu {

@@ -3,7 +3,7 @@
     <h1>Welcome to the Flash Card App!</h1>
     <div id="logoANDkeys">
     <img id="KEYleft" src="../assets/flashcardKeySmallLeft.png" alt="KEYleft">
-    <img src="../assets/flashcardLogoSmall.png" alt="LOGO">
+    <img id="logoImage" src="../assets/flashcardLogoSmall.png" alt="LOGO">
     <img id="KEYright" src="../assets/flashcardKeySmall.png" alt="KEYright">
     </div>
     <img src="../assets/flash_cards.png" alt="Flash Cards">
@@ -153,6 +153,11 @@ export default {
   /* display:flex; */
 }
 
+#logoImage {
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+}
+
 #KEYleft{
   padding-bottom: 1.5em;
 }
@@ -163,6 +168,7 @@ export default {
 
 #overarchingLoginDiv{
   width:80%;
+  max-width:30em;
   margin:auto;
 }
 
@@ -258,7 +264,8 @@ export default {
 }
 
 #herokuDiv{
-  max-width:75%;
+  width:75%;
+  max-width:30em;
   margin:auto;
 }
 

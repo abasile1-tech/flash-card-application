@@ -59,4 +59,9 @@ button, input {
   padding: 0.3em;
 }
 
+button {
+  color:#14075e;
+  background-color:#2ad592;
+}
+
 </style>
