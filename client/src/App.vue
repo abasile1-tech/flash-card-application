@@ -55,6 +55,8 @@ button, input {
   font-size: large;
   margin: 0.3em;
   border-radius: 8px;
+  border: none;
+  padding: 0.3em;
 }
 
 </style>

@@ -2,16 +2,16 @@
     <div id="singleDeck_css">
         <div id="welcomeUser">
         <div id="websiteIcon">
-            <img src="../assets/MonkeyFace_smaller.png" alt="LOGO">
+            <img id="logoImage" src="../assets/flashcardLogoSmall.png" alt="LOGO">
         </div>
         <div id="welcomeWords">
         <!-- <h1>Welcome, {{emittedUser.userName?emittedUser.userName:""}}!</h1> -->
         <h1 v-if="!editDeckNameSelected">{{emittedObject.deckName?emittedObject.deckName:""}}</h1>
         </div>
         <div id="hamburgerMenu" v-on:click="hamburgerWasClicked">
-        <img src="../assets/Hamburger_icon_small.svg.png" alt="MENU">
+        <img id="hamburgerImage" src="../assets/Hamburger_icon_small.svg.png" alt="MENU">
         <div id=hamburgerDropdown v-if="hamburgerClicked">
-        <button class="buttonClass" v-on:click="returnToLoginPage()">Log Out</button>
+        <button class="buttonClass" v-on:click="returnToLoginPage()">Log Out</button> <br>
         <!-- <button class="decksReturnButton" v-on:click="goBackToDecks">Return To Decks</button> -->
         <button class="buttonClass" v-on:click="goBackToDecks">To Decks</button>
         </div>
@@ -512,8 +512,8 @@ export default {
 }
 
 #singleDeck_css{
-    background-color:#325573;
-    color:#B6D6F2;
+    background-color:#EEE1D6;
+    color:#8C1A62;
     position:absolute;
     top:0;
     left:0;
@@ -526,22 +526,55 @@ export default {
 #welcomeUser {
   /* border:solid black; */
   /* width:fit-content; */
-  display:flex;
-  justify-content:space-evenly;
+  /* display:flex;
+  justify-content:space-evenly; */
   /* justify-content:center; */
   /* align-items:center; */
+  /* height:96px; */
+  display:flex;
+  justify-content: space-between;
+}
+
+#logoImage{
+  padding:0.5em;
 }
 
 #websiteIcon {
-  border:solid black;
+  /* border:solid black; */
+  /* position: fixed;
+  top: 0;
+  left: 0; */
 }
 
 #welcomeWords {
   /* border:solid black; */
+  /* width: 40%;
+    right: 30%;
+    left: 30%;
+    position: fixed;
+    /* overflow: hidden; */
+    /* height: 6em;
+    line-height: 1.5em;
+    /* text-size-adjust: auto; */
+    /* display: inline-flex;
+    font-size: 5vw;   */
 }
 
 #hamburgerMenu {
-  border:solid black;
+  /* border:solid black; */
+  /* position: fixed;
+  top: 0;
+  right: 0; */
+}
+
+#hamburgerDropdown {
+    background-color:#B6D6F2;
+    color:black;
+    z-index:1;
+}
+
+#hamburgerImage{
+    padding:1.4em;
 }
 
 .buttonClass {

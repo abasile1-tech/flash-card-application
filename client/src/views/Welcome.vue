@@ -2,13 +2,13 @@
   <div id="welcome_css"> 
     <div id="welcomeUser">
     <div id="websiteIcon">
-      <img src="../assets/MonkeyFace_smaller.png" alt="LOGO">
+      <img id="logoImage" src="../assets/flashcardLogoSmall.png" alt="LOGO">
     </div>
     <div id="welcomeWords">
     <h1>Welcome, {{emittedUser.userName?emittedUser.userName:""}}!</h1>
     </div>
     <div id="hamburgerMenu" v-on:click="hamburgerWasClicked">
-      <img src="../assets/Hamburger_icon_small.svg.png" alt="MENU">
+      <img id="hamburgerImage" src="../assets/Hamburger_icon_small.svg.png" alt="MENU">
       <div id=hamburgerDropdown v-if="hamburgerClicked">
         <button class="buttonClass" v-on:click="returnToLoginPage()">Log Out</button>
       </div>
@@ -134,8 +134,8 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 #welcome_css {
-  background-color:#325573;
-  color:#B6D6F2;
+  background-color:#EEE1D6;
+  color:#8C1A62;
   position:absolute;
   top:0;
   left:0;
@@ -149,22 +149,47 @@ export default {
 #welcomeUser {
   /* border:solid black; */
   /* width:fit-content; */
-  display:flex;
-  justify-content:space-evenly;
+  /* display:flex;
+  justify-content:space-evenly; */
   /* justify-content:center; */
   /* align-items:center; */
+  /* height:96px; */
+  display:flex;
+  justify-content: space-between;
+}
+
+#logoImage{
+  padding:0.5em;
 }
 
 #websiteIcon {
-  border:solid black;
+  /* border:solid black; */
+  /* position: fixed;
+  top: 0;
+  left: 0; */
 }
 
 #welcomeWords {
   /* border:solid black; */
+  /* width: 40%;
+  right: 30%;
+  left: 30%;
+  position: fixed; */
 }
 
 #hamburgerMenu {
-  border:solid black;
+  /* border:solid black; */
+  /* position: fixed;
+  top: 0;
+  right: 0; */
+}
+
+#hamburgerImage {
+  padding:1.2em;
+}
+
+#hamburgerDropDown {
+  z-index: 1;
 }
 
 a {
@@ -176,7 +201,7 @@ a {
 }
 .deckButtons {
     color:#14075e;
-    background-color:#bfbfc5;
+    background-color:#2ad592;
     font-size: 24px;
     width:fit-content;
     
@@ -184,14 +209,14 @@ a {
 
 .deckButtons:hover {
     color:#14075e;
-    background-color:#d1d1d8;
+    background-color:#28c988;
     font-size: 24px;
     width: fit-content;
 }
 
 .buttonClass {
     color:#14075e;
-    background-color:#bfbfc5;
+    background-color:#2ad592;
 }
 
 .flexContainer {
