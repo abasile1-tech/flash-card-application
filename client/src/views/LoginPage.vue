@@ -1,6 +1,11 @@
 <template>
   <div id="loginPage_css">
     <h1>Welcome to the Flash Card App!</h1>
+    <div id="logoANDkeys">
+    <img id="KEYleft" src="../assets/flashcardKeySmallLeft.png" alt="KEYleft">
+    <img id="logoImage" src="../assets/flashcardLogoSmall.png" alt="LOGO">
+    <img id="KEYright" src="../assets/flashcardKeySmall.png" alt="KEYright">
+    </div>
     <img src="../assets/flash_cards.png" alt="Flash Cards">
     <br>
 
@@ -132,8 +137,8 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 #loginPage_css {
-  background-color:#325573;
-  color:#B6D6F2;
+  background-color:#EEE1D6;
+  color:#8C1A62;
   position:absolute;
   top:0;
   left:0;
@@ -144,8 +149,22 @@ export default {
   overflow-y:auto; 
 }
 
+#logoImage {
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+}
+
+#KEYleft{
+  padding-bottom: 1.5em;
+}
+
+#KEYright{
+  padding-bottom:1.5em;
+}
+
 #overarchingLoginDiv{
   width:80%;
+  max-width:30em;
   margin:auto;
 }
 
@@ -154,9 +173,11 @@ export default {
   border-left:solid black;
   border-right:solid black;
   margin:auto;
-  background-color:#B6D6F2;
+  background-color:#8C1A62;
   color:black;
   border-radius: 0px 15px 15px 15px;
+  padding: 0.7em 0em 0.7em 0em;
+  margin-bottom: 0.5em;
 }
 
 #loginSignupDiv2 {
@@ -164,9 +185,11 @@ export default {
   border-left:solid black;
   border-right:solid black;
   margin:auto;
-  background-color:#D9896C;
-  color:black;
+  background-color:#5C1141;
+  color:#EEE1D6;
   border-radius: 0px 15px 15px 15px;
+  padding: 0.7em 0em 0.7em 0em;
+  margin-bottom: 0.5em;
 }
 
 .loginSignupText {
@@ -192,40 +215,44 @@ export default {
 #logInButton {
   border-bottom:solid black;
   border-radius: 15px 0px 0px 0px;
-  background-color:#B6D6F2;
-  color:black;
+  background-color:#8C1A62;
+  color:#EEE1D6;
+  padding:0.3em;
 }
 
 #loginParagraph{
-  background-color:#B6D6F2;
+  background-color:#8C1A62;
   border-top:solid black;
   border-right:solid black;
   border-left:solid black;
   box-shadow:0px;
   border-radius: 15px 0px 0px 0px;
-  color:black;
+  color:#EEE1D6;
+  padding:0.3em;
 }
 
 #signUpButton{
   border-bottom:solid black;
   border-radius: 0px 15px 0px 0px;
-  background-color:#D9896C;
-  color:black;
+  background-color:#5C1141;
+  color:#EEE1D6;
+  padding:0.3em;
 }
 
 #signupParagraph{
-  background-color:#D9896C;
+  background-color:#5C1141;
   border-top:solid black;
   border-right:solid black;
   border-left:solid black;
   box-shadow:0px;
   border-radius: 0px 15px 0px 0px;
-  color:black;
+  color:#EEE1D6;
+  padding:0.3em;
 }
 
 .submitButton_css {
   color:#14075e;
-  background-color:#bfbfc5;
+  background-color:#2ad592;
 }
 
 .displayInline {
@@ -233,7 +260,8 @@ export default {
 }
 
 #herokuDiv{
-  max-width:75%;
+  width:75%;
+  max-width:30em;
   margin:auto;
 }
 

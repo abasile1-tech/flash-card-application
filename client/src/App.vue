@@ -55,6 +55,13 @@ button, input {
   font-size: large;
   margin: 0.3em;
   border-radius: 8px;
+  border: none;
+  padding: 0.3em;
+}
+
+button {
+  color:#14075e;
+  background-color:#2ad592;
 }
 
 </style>

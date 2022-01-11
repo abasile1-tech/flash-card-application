@@ -1,6 +1,19 @@
 <template>
   <div id="welcome_css"> 
+    <div id="welcomeUser">
+    <div id="websiteIcon">
+      <img id="logoImage" src="../assets/flashcardLogoSmall.png" alt="LOGO">
+    </div>
+    <div id="welcomeWords">
     <h1>Welcome, {{emittedUser.userName?emittedUser.userName:""}}!</h1>
+    </div>
+    <div id="hamburgerMenu" v-on:click="hamburgerWasClicked">
+      <img id="hamburgerImage" src="../assets/Hamburger_icon_small.svg.png" alt="MENU">
+      <div id=hamburgerDropdown v-if="hamburgerClicked">
+        <button class="buttonClass" v-on:click="returnToLoginPage()">Log Out</button>
+      </div>
+    </div>
+    </div>
     <br>
     <p class="displayInline" v-if="onlyOneDeck"> You currently have {{this.deckObjectList.length}} deck in your library.</p>
     <p class="displayInline" v-else> You currently have {{this.deckObjectList.length}} decks in your library.</p>
@@ -15,7 +28,6 @@
         <button class=deckButtons :key="deck" v-for="deck in this.deckObjectList" v-on:click="goToDeck(deck)">{{deck.deckName}}</button>
     </div>
     <br>
-    <button class="buttonClass" v-on:click="returnToLoginPage()">Return To Login Page</button>
     <div class="snackbar" id="snackbar4">Please enter a valid deck name.</div>
   </div>
 </template>
@@ -48,7 +60,8 @@ export default {
     return {
       deckInput:"",
       deckObjectList:[],
-      onlyOneDeck:false
+      onlyOneDeck:false,
+      hamburgerClicked:false
     }
   },
   methods: {
@@ -68,6 +81,13 @@ export default {
         this.onlyOneDeck=false;
       }
       this.deckInput = "";
+    },
+    hamburgerWasClicked() {
+      if (!this.hamburgerClicked){
+        this.hamburgerClicked=true;
+      } else {
+        this.hamburgerClicked=false;
+      }
     },
     goToDeck (deckObj) {
       //emit deck
@@ -113,8 +133,8 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 #welcome_css {
-  background-color:#325573;
-  color:#B6D6F2;
+  background-color:#EEE1D6;
+  color:#8C1A62;
   position:absolute;
   top:0;
   left:0;
@@ -124,6 +144,30 @@ export default {
   /* this extends the background color when you scroll */
   overflow-y:auto;
 }
+
+#welcomeUser {
+  display:flex;
+  justify-content: space-between;
+}
+
+#logoImage{
+  padding:0.5em;
+}
+
+#welcomeWords {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+#hamburgerImage {
+  padding:1.2em;
+}
+
+#hamburgerDropDown {
+  z-index: 1;
+}
+
 a {
   color: #42b983;
 }
@@ -133,7 +177,7 @@ a {
 }
 .deckButtons {
     color:#14075e;
-    background-color:#bfbfc5;
+    background-color:#2ad592;
     font-size: 24px;
     width:fit-content;
     
@@ -141,14 +185,14 @@ a {
 
 .deckButtons:hover {
     color:#14075e;
-    background-color:#d1d1d8;
+    background-color:#28c988;
     font-size: 24px;
     width: fit-content;
 }
 
 .buttonClass {
     color:#14075e;
-    background-color:#bfbfc5;
+    background-color:#2ad592;
 }
 
 .flexContainer {

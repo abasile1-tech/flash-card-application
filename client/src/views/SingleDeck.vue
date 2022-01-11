@@ -1,17 +1,29 @@
 <template>
     <div id="singleDeck_css">
+        <div id="welcomeUser">
+        <div id="websiteIcon">
+            <img id="logoImage" src="../assets/flashcardLogoSmall.png" alt="LOGO">
+        </div>
+        <div id="welcomeWords">
         <h1 v-if="!editDeckNameSelected">{{emittedObject.deckName?emittedObject.deckName:""}}</h1>
+        </div>
+        <div id="hamburgerMenu" v-on:click="hamburgerWasClicked">
+        <img id="hamburgerImage" src="../assets/Hamburger_icon_small.svg.png" alt="MENU">
+        <div id=hamburgerDropdown v-if="hamburgerClicked">
+        <button class="buttonClass" v-on:click="returnToLoginPage()">Log Out</button> <br>
+        <button class="buttonClass" v-on:click="goBackToDecks">To Decks</button>
+        </div>
+    </div>
+    </div>
         <div class ="textBox">
             <input type="text" placeholder="Type the new deck name" v-model="editDeckNameInput" v-if="editDeckNameSelected" v-focus @keyup.enter="submitEditedDeckName"/>
         </div>
 
         <div>
-            <button class="deckEditButton" v-on:click="editDeckName">Edit Deck Name</button>
+            <button class="deckEditButton" v-on:click="editDeckName">Edit Deck</button>
             <button class="deckDeleteButton" v-on:click="deleteDeckPressed">Delete Deck</button>
-            <br>
-            <button class="decksReturnButton" v-if="!deckIsShuffled" v-on:click="shuffleDeck">Shuffle Deck</button>
-            <button class="decksReturnButton" v-if="deckIsShuffled" v-on:click="unShuffleDeck">Un-Shuffle Deck</button>
-            <button class="decksReturnButton" v-on:click="goBackToDecks">Return To Decks</button>
+            <button class="decksReturnButton" v-if="!deckIsShuffled" v-on:click="shuffleDeck">Shuffle</button>
+            <button class="decksReturnButton" v-if="deckIsShuffled" v-on:click="unShuffleDeck">Un-Shuffle</button>
             <br>
             <input type="text" placeholder="Search the deck:" v-model="deckSearchInput" @keyup.enter="deckSearch"/>
         </div>
@@ -44,7 +56,8 @@
                 <br>
                 <button class="cardButton" v-on:click="readCard">Read Card Aloud</button>
                 <br>
-                <button class="cardNavigationButtons" id="cardNavigationButton1" v-on:click="updateCardIndex(-1)"><img src="../assets/left_arrow_small_crop.png" alt="left arrow" /></button>
+                <div id="arrowsDiv">
+                <img id="cardNavigationButton1" v-on:click="updateCardIndex(-1)" class="arrowImages" src="../assets/leftArrow.png" alt="left arrow" />
                 
                 <button class="cardButton" v-on:click="flipCard" v-if="!addCardBack&&!editCardButtonPressed">Flip Card</button>
                 <button class="cardButton" v-on:click="submitCard" v-if="addCardBack&&!editCardButtonPressed">Submit Card</button>
@@ -52,7 +65,8 @@
                 <button class="cardButton" v-on:click="submitEditedCardFront" v-if="editCardFront&&editCardButtonPressed">Submit Edit</button>
                 <button class="cardButton" v-on:click="submitEditedCardBack" v-if="editCardBack&&editCardButtonPressed">Submit Edit</button>
 
-                <button class="cardNavigationButtons" id="cardNavigationButton2" v-on:click="updateCardIndex(1)"><img src="../assets/right_arrow_small_crop.png" alt="right arrow" /></button>
+                <img id="cardNavigationButton2" v-on:click="updateCardIndex(1)" class="arrowImages" src="../assets/rightArrow.png" alt="right arrow" />
+                </div>
             </div>
         </div>
         <button class="decksReturnButton" v-if="addCardFront||addCardBack" v-on:click="abortAddCard">Abort Add Card</button>
@@ -131,10 +145,23 @@ export default {
             selectedLanguage: "",
             isMobile:isMobile,
             deckSearchInput:"",
-            deckIsShuffled:false
+            deckIsShuffled:false,
+            hamburgerClicked:false
         }
     },
     methods: {
+        returnToLoginPage(){
+            localStorage.removeItem("emittedUser._id");
+            localStorage.removeItem("emittedObject._id");
+            this.$router.push({path: `/`});
+        },
+        hamburgerWasClicked() {
+            if (!this.hamburgerClicked){
+                this.hamburgerClicked=true;
+            } else {
+                this.hamburgerClicked=false;
+            }
+        },
         async deckSearch() {
             let cardFound = false;
             let indexVar = -1;
@@ -482,8 +509,8 @@ export default {
 }
 
 #singleDeck_css{
-    background-color:#325573;
-    color:#B6D6F2;
+    background-color:#EEE1D6;
+    color:#8C1A62;
     position:absolute;
     top:0;
     left:0;
@@ -493,6 +520,25 @@ export default {
     overflow-y:auto; 
 }
 
+#welcomeUser {
+  display:flex;
+  justify-content: space-between;
+}
+
+#logoImage{
+  padding:0.5em;
+}
+
+#welcomeWords {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#hamburgerImage{
+    padding:1.4em;
+}
+
 #selectBlock{
     border-radius: 8px;
 }
@@ -500,11 +546,9 @@ export default {
 .cardButton {
     width: fit-content;
     height: 2em;
-    margin: 0em auto;
     font-size: large;
-    color:#14075e;
-    background-color:#bfbfc5;
-    vertical-align: inherit;
+    margin-top:0.75em;
+
 }
 
 .cardInputBox {
@@ -534,12 +578,12 @@ export default {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    background-color: #517EA6;
-    color:black;
+    background-color: #5C1141;
+    color:#EEE1D6;
 }
 
 .flipped {
-    background-color:#699EBF;
+    background-color:#8C1A62;
 }
 
 .textBox input{
@@ -552,40 +596,19 @@ export default {
     justify-content: space-between;
 }
 
-.addCardButton{
-    color:#14075e;
-    background-color:#bfbfc5;
-}
-
-.editCardButton{
-    color:#14075e;
-    background-color:#bfbfc5;
-}
-
-.deleteCardButton{
-    color:#760b0b;;
-    background-color:#bfbfc5;
-}
-
-.deckDeleteButton{
-    color:#760b0b;
-    background-color:#bfbfc5;
-}
-
-.deckEditButton{
-    color:#14075e;
-    background-color:#bfbfc5;
-}
-
-.decksReturnButton{
-    color:#14075e;
-    background-color:#bfbfc5;
-}
-
 .cardNavigationButtons{
     width: fit-content;
     height: 2em;
-    background-color:#bfbfc5;
+}
+
+.arrowImages{
+    border-radius:8em;
+    max-width:3em;
+}
+
+#arrowsDiv{
+    display:flex;
+    justify-content: space-evenly;
 }
 
 select {
