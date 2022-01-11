@@ -9,12 +9,11 @@
     </div>
     <div id="hamburgerMenu" v-on:click="hamburgerWasClicked">
       <img id="hamburgerImage" src="../assets/Hamburger_icon_small.svg.png" alt="MENU">
-      <div id=hamburgerDropdown v-if="hamburgerClicked">
+    </div>
+    </div>
+    <div id=hamburgerDropdown v-if="hamburgerClicked">
         <button class="buttonClass" v-on:click="returnToLoginPage()">Log Out</button>
-      </div>
     </div>
-    </div>
-    <br>
     <p class="displayInline" v-if="onlyOneDeck"> You currently have {{this.deckObjectList.length}} deck in your library.</p>
     <p class="displayInline" v-else> You currently have {{this.deckObjectList.length}} decks in your library.</p>
     <br><br>
@@ -164,8 +163,10 @@ export default {
   padding:1.2em;
 }
 
-#hamburgerDropDown {
-  z-index: 1;
+#hamburgerDropdown {
+    position: absolute;
+    top: 4em;
+    right: 0em;
 }
 
 a {
