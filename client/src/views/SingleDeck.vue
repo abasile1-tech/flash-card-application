@@ -2,7 +2,8 @@
     <div id="singleDeck_css">
         <div id="welcomeUser">
         <div id="websiteIcon">
-            <img id="logoImage" src="../assets/flashcardLogoSmall.png" alt="LOGO">
+            <img id="logoImage" v-if="!darkModeOn" src="../assets/flashcardLogoSmall.png" alt="LOGO">
+            <img id="logoImageBlue" v-if="darkModeOn" src="../assets/flashcardLogoSmallBlue.png" alt="LOGO">
         </div>
         <div id="welcomeWords">
         <h1 v-if="!editDeckNameSelected">{{emittedObject.deckName?emittedObject.deckName:""}}</h1>
@@ -13,7 +14,9 @@
     </div>
         <div id=hamburgerDropdown v-if="hamburgerClicked">
         <button class="buttonClass" v-on:click="returnToLoginPage()">Log Out</button> <br>
-        <button class="buttonClass" v-on:click="goBackToDecks">To Decks</button>
+        <button class="buttonClass" v-on:click="goBackToDecks">To Decks</button> <br>
+        <button class="buttonClass" v-if="!darkModeOn" v-on:click="enableDarkMode">DarkMode</button>
+        <button class="buttonClass" v-if="darkModeOn" v-on:click="disableDarkMode">LightMode</button>
         </div>
         <div class ="cardInputBox">
             <input type="text" placeholder="Type the new deck name" v-model="editDeckNameInput" v-if="editDeckNameSelected" v-focus @keyup.enter="submitEditedDeckName"/>
@@ -146,7 +149,8 @@ export default {
             isMobile:isMobile,
             deckSearchInput:"",
             deckIsShuffled:false,
-            hamburgerClicked:false
+            hamburgerClicked:false,
+            darkModeOn:false
         }
     },
     methods: {
@@ -161,6 +165,22 @@ export default {
             } else {
                 this.hamburgerClicked=false;
             }
+        },
+        disableDarkMode(){
+            this.darkModeOn=false;
+            localStorage.setItem("darkModeOn",this.darkModeOn);
+            document.documentElement.style.setProperty('--primary-color', '#8C1A62');
+            document.documentElement.style.setProperty('--secondary-color', '#81175a');
+            document.documentElement.style.setProperty('--tertiary-color', '#EEE1D6');
+            document.documentElement.style.setProperty('--quaternary-color', '#ddd1c7');
+        },
+        enableDarkMode(){
+            this.darkModeOn=true;
+            localStorage.setItem("darkModeOn",this.darkModeOn);
+            document.documentElement.style.setProperty('--primary-color', '#325573');
+            document.documentElement.style.setProperty('--secondary-color', '#2d4c68');
+            document.documentElement.style.setProperty('--tertiary-color', '#B6D6F2');
+            document.documentElement.style.setProperty('--quaternary-color', '#517EA6');
         },
         async deckSearch() {
             let cardFound = false;
@@ -477,6 +497,24 @@ export default {
     }
     },
     async created () {
+        const localDarkMode=localStorage.getItem("darkModeOn");
+        if (localDarkMode === "true"){
+            this.darkModeOn=true;
+        } else if(localDarkMode === "false"){
+            this.darkModeOn=false;
+        }
+        if(this.darkModeOn==undefined || this.darkModeOn==false){
+            document.documentElement.style.setProperty('--primary-color', '#8C1A62');
+            document.documentElement.style.setProperty('--secondary-color', '#81175a');
+            document.documentElement.style.setProperty('--tertiary-color', '#EEE1D6');
+            document.documentElement.style.setProperty('--quaternary-color', '#ddd1c7');
+        } else if(this.darkModeOn == true){
+            document.documentElement.style.setProperty('--primary-color', '#325573');
+            document.documentElement.style.setProperty('--secondary-color', '#2d4c68');
+            document.documentElement.style.setProperty('--tertiary-color', '#B6D6F2');
+            document.documentElement.style.setProperty('--quaternary-color', '#517EA6');
+        }
+        
         this.populateVoiceList();
         if (speechSynthesis.onvoiceschanged !== undefined) {
             speechSynthesis.onvoiceschanged = this.populateVoiceList;
@@ -504,13 +542,20 @@ export default {
 </script>
 
 <style scoped>
+:root {
+  --primary-color: #8C1A62;
+  --secondary-color:#81175a;
+  --tertiary-color:#EEE1D6;
+  --quaternary-color:#ddd1c7;
+}
+
 #cardButtonsDiv{
     vertical-align:40%;
 }
 
 #singleDeck_css{
-    background-color:#EEE1D6;
-    color:#8C1A62;
+    background-color:var(--tertiary-color);
+    color:var(--primary-color);
     position:absolute;
     top:0;
     left:0;
@@ -530,6 +575,11 @@ export default {
   padding-top:0.5em;
 }
 
+#logoImageBlue{
+  padding-left:0.5em;
+  padding-top:0.5em;
+}
+
 #welcomeWords {
     display: flex;
     flex-direction: column;
@@ -545,7 +595,7 @@ export default {
     position: absolute;
     top: 4em;
     right: 0em;
-    background-color:#ddd1c7;
+    background-color:var(--quaternary-color);
 }
 
 #selectBlock{
@@ -588,12 +638,12 @@ export default {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    background-color: #5C1141;
-    color:#EEE1D6;
+    background-color:var(--primary-color);
+    color:var(--tertiary-color);
 }
 
 .flipped {
-    background-color:#8C1A62;
+    background-color:var(--secondary-color);
 }
 
 .textBox input{

@@ -2,7 +2,8 @@
   <div id="welcome_css"> 
     <div id="welcomeUser">
     <div id="websiteIcon">
-      <img id="logoImage" src="../assets/flashcardLogoSmall.png" alt="LOGO">
+      <img id="logoImage" v-if="!darkModeOn" src="../assets/flashcardLogoSmall.png" alt="LOGO">
+      <img id="logoImageBlue" v-if="darkModeOn" src="../assets/flashcardLogoSmallBlue.png" alt="LOGO">
     </div>
     <div id="welcomeWords">
     <h1>Welcome, {{emittedUser.userName?emittedUser.userName:""}}!</h1>
@@ -12,7 +13,9 @@
     </div>
     </div>
     <div id=hamburgerDropdown v-if="hamburgerClicked">
-        <button class="buttonClass" v-on:click="returnToLoginPage()">Log Out</button>
+        <button class="buttonClass" v-on:click="returnToLoginPage()">Log Out</button> <br>
+        <button class="buttonClass" v-if="!darkModeOn" v-on:click="enableDarkMode">DarkMode</button>
+        <button class="buttonClass" v-if="darkModeOn" v-on:click="disableDarkMode">LightMode</button>
     </div>
     <p class="displayInline" v-if="onlyOneDeck"> You currently have {{this.deckObjectList.length}} deck in your library.</p>
     <p class="displayInline" v-else> You currently have {{this.deckObjectList.length}} decks in your library.</p>
@@ -60,7 +63,8 @@ export default {
       deckInput:"",
       deckObjectList:[],
       onlyOneDeck:false,
-      hamburgerClicked:false
+      hamburgerClicked:false,
+      darkModeOn:false
     }
   },
   methods: {
@@ -88,6 +92,22 @@ export default {
         this.hamburgerClicked=false;
       }
     },
+    disableDarkMode(){
+      this.darkModeOn=false;
+      localStorage.setItem("darkModeOn",this.darkModeOn);
+      document.documentElement.style.setProperty('--primary-color', '#8C1A62');
+      document.documentElement.style.setProperty('--secondary-color', '#81175a');
+      document.documentElement.style.setProperty('--tertiary-color', '#EEE1D6');
+      document.documentElement.style.setProperty('--quaternary-color', '#ddd1c7');
+    },
+    enableDarkMode(){
+      this.darkModeOn=true;
+      localStorage.setItem("darkModeOn",this.darkModeOn);
+      document.documentElement.style.setProperty('--primary-color', '#325573');
+      document.documentElement.style.setProperty('--secondary-color', '#2d4c68');
+      document.documentElement.style.setProperty('--tertiary-color', '#B6D6F2');
+      document.documentElement.style.setProperty('--quaternary-color', '#517EA6');
+    },
     goToDeck (deckObj) {
       //emit deck
       this.$emit("emitDeck", deckObj);
@@ -108,6 +128,23 @@ export default {
     }
   },
   async created(){
+    const localDarkMode=localStorage.getItem("darkModeOn");
+    if (localDarkMode === "true"){
+        this.darkModeOn=true;
+    } else if(localDarkMode === "false"){
+        this.darkModeOn=false;
+    }
+    if(this.darkModeOn==undefined || this.darkModeOn==false){
+        document.documentElement.style.setProperty('--primary-color', '#8C1A62');
+        document.documentElement.style.setProperty('--secondary-color', '#81175a');
+        document.documentElement.style.setProperty('--tertiary-color', '#EEE1D6');
+        document.documentElement.style.setProperty('--quaternary-color', '#ddd1c7');
+    } else if(this.darkModeOn == true){
+        document.documentElement.style.setProperty('--primary-color', '#325573');
+        document.documentElement.style.setProperty('--secondary-color', '#2d4c68');
+        document.documentElement.style.setProperty('--tertiary-color', '#B6D6F2');
+        document.documentElement.style.setProperty('--quaternary-color', '#517EA6');
+    }
     if (this.emittedUser._id != undefined) {
       localStorage.setItem("emittedUser._id",this.emittedUser._id);
       if (this.emittedUser.userName == undefined){
@@ -131,9 +168,15 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+:root {
+  --primary-color: #8C1A62;
+  --secondary-color:#81175a;
+  --tertiary-color:#EEE1D6;
+  --quaternary-color:#ddd1c7;
+}
 #welcome_css {
-  background-color:#EEE1D6;
-  color:#8C1A62;
+  background-color:var(--tertiary-color);
+  color:var(--primary-color);
   position:absolute;
   top:0;
   left:0;
@@ -152,6 +195,9 @@ export default {
 #logoImage{
   padding:0.5em;
 }
+#logoImageBlue{
+  padding:0.5em;
+}
 
 #welcomeWords {
   display: flex;
@@ -167,6 +213,7 @@ export default {
     position: absolute;
     top: 4em;
     right: 0em;
+    background-color:var(--quaternary-color);
 }
 
 a {
