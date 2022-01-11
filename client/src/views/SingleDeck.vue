@@ -9,12 +9,12 @@
         </div>
         <div id="hamburgerMenu" v-on:click="hamburgerWasClicked">
         <img id="hamburgerImage" src="../assets/Hamburger_icon_small.svg.png" alt="MENU">
+        </div>
+    </div>
         <div id=hamburgerDropdown v-if="hamburgerClicked">
         <button class="buttonClass" v-on:click="returnToLoginPage()">Log Out</button> <br>
         <button class="buttonClass" v-on:click="goBackToDecks">To Decks</button>
         </div>
-    </div>
-    </div>
         <div class ="textBox">
             <input type="text" placeholder="Type the new deck name" v-model="editDeckNameInput" v-if="editDeckNameSelected" v-focus @keyup.enter="submitEditedDeckName"/>
         </div>
@@ -526,7 +526,8 @@ export default {
 }
 
 #logoImage{
-  padding:0.5em;
+  padding-left:0.5em;
+  padding-top:0.5em;
 }
 
 #welcomeWords {
@@ -536,7 +537,15 @@ export default {
 }
 
 #hamburgerImage{
-    padding:1.4em;
+    padding-top:1.4em;
+    padding-right:1.4em;
+}
+
+#hamburgerDropdown {
+    position: absolute;
+    top: 4em;
+    right: 0em;
+    background-color:#ddd1c7;
 }
 
 #selectBlock{
