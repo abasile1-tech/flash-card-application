@@ -28,7 +28,6 @@
         <button class=deckButtons :key="deck" v-for="deck in this.deckObjectList" v-on:click="goToDeck(deck)">{{deck.deckName}}</button>
     </div>
     <br>
-    <!-- <button class="buttonClass" v-on:click="returnToLoginPage()">Return To Login Page</button> -->
     <div class="snackbar" id="snackbar4">Please enter a valid deck name.</div>
   </div>
 </template>
@@ -147,13 +146,6 @@ export default {
 }
 
 #welcomeUser {
-  /* border:solid black; */
-  /* width:fit-content; */
-  /* display:flex;
-  justify-content:space-evenly; */
-  /* justify-content:center; */
-  /* align-items:center; */
-  /* height:96px; */
   display:flex;
   justify-content: space-between;
 }
@@ -162,29 +154,10 @@ export default {
   padding:0.5em;
 }
 
-#websiteIcon {
-  /* border:solid black; */
-  /* position: fixed;
-  top: 0;
-  left: 0; */
-}
-
 #welcomeWords {
-  /* border:solid black; */
-  /* width: 40%;
-  right: 30%;
-  left: 30%;
-  position: fixed; */
   display: flex;
   flex-direction: column;
   justify-content: center;
-}
-
-#hamburgerMenu {
-  /* border:solid black; */
-  /* position: fixed;
-  top: 0;
-  right: 0; */
 }
 
 #hamburgerImage {

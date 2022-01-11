@@ -149,10 +149,6 @@ export default {
   overflow-y:auto; 
 }
 
-#logoANDkeys {
-  /* display:flex; */
-}
-
 #logoImage {
     padding-left: 0.5em;
     padding-right: 0.5em;

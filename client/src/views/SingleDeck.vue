@@ -5,19 +5,16 @@
             <img id="logoImage" src="../assets/flashcardLogoSmall.png" alt="LOGO">
         </div>
         <div id="welcomeWords">
-        <!-- <h1>Welcome, {{emittedUser.userName?emittedUser.userName:""}}!</h1> -->
         <h1 v-if="!editDeckNameSelected">{{emittedObject.deckName?emittedObject.deckName:""}}</h1>
         </div>
         <div id="hamburgerMenu" v-on:click="hamburgerWasClicked">
         <img id="hamburgerImage" src="../assets/Hamburger_icon_small.svg.png" alt="MENU">
         <div id=hamburgerDropdown v-if="hamburgerClicked">
         <button class="buttonClass" v-on:click="returnToLoginPage()">Log Out</button> <br>
-        <!-- <button class="decksReturnButton" v-on:click="goBackToDecks">Return To Decks</button> -->
         <button class="buttonClass" v-on:click="goBackToDecks">To Decks</button>
         </div>
     </div>
     </div>
-        <!-- <h1 v-if="!editDeckNameSelected">{{emittedObject.deckName?emittedObject.deckName:""}}</h1> -->
         <div class ="textBox">
             <input type="text" placeholder="Type the new deck name" v-model="editDeckNameInput" v-if="editDeckNameSelected" v-focus @keyup.enter="submitEditedDeckName"/>
         </div>
@@ -25,10 +22,8 @@
         <div>
             <button class="deckEditButton" v-on:click="editDeckName">Edit Deck</button>
             <button class="deckDeleteButton" v-on:click="deleteDeckPressed">Delete Deck</button>
-            <!-- <br> -->
             <button class="decksReturnButton" v-if="!deckIsShuffled" v-on:click="shuffleDeck">Shuffle</button>
             <button class="decksReturnButton" v-if="deckIsShuffled" v-on:click="unShuffleDeck">Un-Shuffle</button>
-            <!-- <button class="decksReturnButton" v-on:click="goBackToDecks">Return To Decks</button> -->
             <br>
             <input type="text" placeholder="Search the deck:" v-model="deckSearchInput" @keyup.enter="deckSearch"/>
         </div>
@@ -526,13 +521,6 @@ export default {
 }
 
 #welcomeUser {
-  /* border:solid black; */
-  /* width:fit-content; */
-  /* display:flex;
-  justify-content:space-evenly; */
-  /* justify-content:center; */
-  /* align-items:center; */
-  /* height:96px; */
   display:flex;
   justify-content: space-between;
 }
@@ -541,50 +529,14 @@ export default {
   padding:0.5em;
 }
 
-#websiteIcon {
-  /* border:solid black; */
-  /* position: fixed;
-  top: 0;
-  left: 0; */
-}
-
 #welcomeWords {
-  /* border:solid black; */
-  /* width: 40%;
-    right: 30%;
-    left: 30%;
-    position: fixed;
-    /* overflow: hidden; */
-    /* height: 6em;
-    line-height: 1.5em;
-    /* text-size-adjust: auto; */
-    /* display: inline-flex;
-    font-size: 5vw;   */
     display: flex;
     flex-direction: column;
     justify-content: center;
 }
 
-#hamburgerMenu {
-  /* border:solid black; */
-  /* position: fixed;
-  top: 0;
-  right: 0; */
-}
-
-#hamburgerDropdown {
-    /* background-color:#B6D6F2;
-    color:black; */
-    z-index:1;
-}
-
 #hamburgerImage{
     padding:1.4em;
-}
-
-.buttonClass {
-    /* color:#14075e;
-    background-color:#bfbfc5; */
 }
 
 #selectBlock{
@@ -594,11 +546,7 @@ export default {
 .cardButton {
     width: fit-content;
     height: 2em;
-    /* margin-top: 0em auto; */
     font-size: large;
-    /* color:#14075e;
-    background-color:#bfbfc5; */
-    /* vertical-align: inherit; */
     margin-top:0.75em;
 
 }
@@ -648,41 +596,9 @@ export default {
     justify-content: space-between;
 }
 
-.addCardButton{
-    /* color:#14075e;
-    background-color:#bfbfc5; */
-}
-
-.editCardButton{
-    /* color:#14075e;
-    background-color:#bfbfc5; */
-}
-
-.deleteCardButton{
-    /* color:#760b0b;;
-    background-color:#bfbfc5; */
-}
-
-.deckDeleteButton{
-    /* color:#760b0b;
-    background-color:#bfbfc5; */
-}
-
-.deckEditButton{
-    /* color:#14075e;
-    background-color:#bfbfc5; */
-}
-
-.decksReturnButton{
-    /* color:#14075e;
-    background-color:#bfbfc5; */
-}
-
 .cardNavigationButtons{
     width: fit-content;
     height: 2em;
-    /* background-color:#bfbfc5; */
-    /* border-radius:8em; */
 }
 
 .arrowImages{
