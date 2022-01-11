@@ -30,3 +30,4 @@ Currently there is one testing suite in the client folder. **cd** into the clien
  - Allow cards to be reordered
  - Allow the backs of the cards to be shown by default instead of always the fronts
  - Add a backup for the database
+ - Add the ability to navigate to the desired card number
