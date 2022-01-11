@@ -15,7 +15,7 @@
         <button class="buttonClass" v-on:click="returnToLoginPage()">Log Out</button> <br>
         <button class="buttonClass" v-on:click="goBackToDecks">To Decks</button>
         </div>
-        <div class ="textBox">
+        <div class ="cardInputBox">
             <input type="text" placeholder="Type the new deck name" v-model="editDeckNameInput" v-if="editDeckNameSelected" v-focus @keyup.enter="submitEditedDeckName"/>
         </div>
 
@@ -25,7 +25,7 @@
             <button class="decksReturnButton" v-if="!deckIsShuffled" v-on:click="shuffleDeck">Shuffle</button>
             <button class="decksReturnButton" v-if="deckIsShuffled" v-on:click="unShuffleDeck">Un-Shuffle</button>
             <br>
-            <input type="text" placeholder="Search the deck:" v-model="deckSearchInput" @keyup.enter="deckSearch"/>
+            <input class="cardInputBox" type="text" placeholder="Search the deck:" v-model="deckSearchInput" @keyup.enter="deckSearch"/>
         </div>
 
         <p v-if="deleteDeckButtonPressed">Are you sure that you want to delete {{emittedObject.deckName?emittedObject.deckName:""}}?</p>
@@ -562,7 +562,8 @@ export default {
 
 .cardInputBox {
     width: 17em;
-    margin: 0em auto;
+    max-width: 80%;
+    margin: 0.5em auto;
     font-size: large;
 }
 
