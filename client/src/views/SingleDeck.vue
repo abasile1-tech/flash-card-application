@@ -456,7 +456,12 @@ export default {
             this.deckIsShuffled=true;
         },
         async unShuffleDeck () {
-            window.location.reload();
+            // window.location.reload();
+            this.emittedObject._id = localStorage.getItem("emittedObject._id")
+            const responseFromDecks = await axios.get(url+'/deck/'+this.emittedObject._id);
+            this.emittedObject = responseFromDecks.data;
+            this.cardPrompt=this.emittedObject.cards[this.cardsListIndex].cardFront;
+            this.cardId=this.emittedObject.cards[this.cardsListIndex]._id;
             this.deckIsShuffled=false;
         },
         deleteDeckPressed () {
