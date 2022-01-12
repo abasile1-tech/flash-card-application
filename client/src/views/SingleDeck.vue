@@ -41,7 +41,7 @@
         
         <!-- https://vuejs.org/v2/guide/class-and-style.html#With-Components how to use the v-bind-->
         <div class="card" v-bind:class="{flipped: this.cardSide==='Front'}">
-            <p class="cardPromptClass1">{{cardSide}} {{this.cardsListIndex+1}}/{{emittedObject.cards?emittedObject.cards.length:""}}</p>
+            <p class="cardPromptClass1">{{cardSide}} <input id="cardNumberBox" type="text" v-model="numberSearchInput" @keyup.enter="numberSearch"/>/{{emittedObject.cards?emittedObject.cards.length:""}}</p>
             <p class="cardPromptClass2" v-if="!addCardFront&&!addCardBack">{{cardPrompt}}</p>
 
             <input type="text" ref="frontInput" class="cardInputBox" placeholder="Type front text" v-model="cardFrontInput" v-if="addCardFront" v-focus @keyup.enter="flipCard"/>
@@ -86,6 +86,7 @@
         <div class="snackbar" id="snackbar7">No card matching the search term was found.</div>
         <div class="snackbar" id="snackbar8">There are no cards to edit in this deck.</div>
         <div class="snackbar" id="snackbar9">Please unshuffle the deck before editing or deleting cards.</div>
+        <div class="snackbar" id="snackbar10">Please enter a number greater than zero and try the search again.</div>
     </div>
 </template>
 
@@ -140,6 +141,7 @@ export default {
             cardsListIndex:0,
             editDeckNameSelected:false,
             editDeckNameInput:"",
+            numberSearchInput:1,
             cardId:"",
             deleteDeckButtonPressed:false,
             deleteCardButtonPressed:false,
@@ -226,6 +228,20 @@ export default {
                 return;
             }
             
+        },
+        async numberSearch(){
+            const numberInput = parseInt(this.numberSearchInput);
+            if (numberInput>0 && numberInput<=this.emittedObject.cards.length){
+                this.cardsListIndex=numberInput-1;
+                this.cardSide="Front"
+                this.cardPrompt=this.emittedObject.cards[this.cardsListIndex].cardFront;
+                return;
+            }
+            else {
+                this.numberSearchInput=this.cardsListIndex+1;
+                this.showSnackBar("snackbar10");
+                return;
+            }
         },
         populateVoiceList() {
             this.optionList = synth.getVoices();
@@ -381,6 +397,7 @@ export default {
             this.cardSide="Front";
             this.cardPrompt=this.emittedObject.cards[this.cardsListIndex].cardFront;
             this.cardId=this.emittedObject.cards[this.cardsListIndex]._id;
+            this.numberSearchInput=this.cardsListIndex+1;
         },
         editCardPressed () {
             if (this.deckIsShuffled){
@@ -620,6 +637,10 @@ export default {
     max-width: 80%;
     margin: 0.5em auto;
     font-size: large;
+}
+
+#cardNumberBox{
+    width:2em;
 }
 
 .cardPromptClass1 {
