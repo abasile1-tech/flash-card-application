@@ -19,7 +19,9 @@
         <button class="buttonClass" v-on:click="returnToLoginPage()">Log Out</button> <br>
         <button class="buttonClass" v-on:click="goBackToDecks">To Decks</button> <br>
         <button class="buttonClass" v-if="!darkModeOn" v-on:click="enableDarkMode">DarkMode</button>
-        <button class="buttonClass" v-if="darkModeOn" v-on:click="disableDarkMode">LightMode</button>
+        <button class="buttonClass" v-if="darkModeOn" v-on:click="disableDarkMode">LightMode</button> <br>
+        <button class="buttonClass" v-if="!backModeOn" v-on:click="enableBackMode">ShowBacks</button>
+        <button class="buttonClass" v-if="backModeOn" v-on:click="disableBackMode">ShowFronts</button>
         </div>
 
         <div>
@@ -44,8 +46,10 @@
             <p class="cardPromptClass1">{{cardSide}} <input id="cardNumberBox" type="text" v-model="numberSearchInput" @keyup.enter="numberSearch"/>/{{emittedObject.cards?emittedObject.cards.length:""}}</p>
             <p class="cardPromptClass2" v-if="!addCardFront&&!addCardBack">{{cardPrompt}}</p>
 
-            <input type="text" ref="frontInput" class="cardInputBox" placeholder="Type front text" v-model="cardFrontInput" v-if="addCardFront" v-focus @keyup.enter="flipCard"/>
-            <input type="text" ref="backInput" class="cardInputBox" placeholder="Type back text" v-model="cardBackInput" v-if="addCardBack" v-focus @keyup.enter="submitCard"/>
+            <input type="text" ref="frontInput" class="cardInputBox" placeholder="Type front text" v-model="cardFrontInput" v-if="addCardFront&&!backModeOn" v-focus @keyup.enter="flipCard"/>
+            <input type="text" ref="backInput" class="cardInputBox" placeholder="Type back text" v-model="cardBackInput" v-if="addCardBack&&!backModeOn" v-focus @keyup.enter="submitCard"/>
+            <input type="text" ref="frontInput" class="cardInputBox" placeholder="Type front text" v-model="cardFrontInput" v-if="addCardFront&&backModeOn" v-focus @keyup.enter="submitCard"/>
+            <input type="text" ref="backInput" class="cardInputBox" placeholder="Type back text" v-model="cardBackInput" v-if="addCardBack&&backModeOn" v-focus @keyup.enter="flipCard"/>
 
             <!-- edit card -->
             <input type="text" ref="frontInput" class="cardInputBox" placeholder="Type new front text" v-model="cardFrontInput" v-if="editCardButtonPressed&&cardSide==='Front'" v-focus @keyup.enter="submitEditedCardFront"/>
@@ -62,8 +66,10 @@
                 <div id="arrowsDiv">
                 <img id="cardNavigationButton1" v-on:click="updateCardIndex(-1)" class="arrowImages" src="../assets/leftArrow.png" alt="left arrow" />
                 
-                <button class="cardButton" v-on:click="flipCard" v-if="!addCardBack&&!editCardButtonPressed">Flip Card</button>
-                <button class="cardButton" v-on:click="submitCard" v-if="addCardBack&&!editCardButtonPressed">Submit Card</button>
+                <button class="cardButton" v-on:click="flipCard" v-if="!addCardBack&&!editCardButtonPressed&&!backModeOn">Flip Card</button>
+                <button class="cardButton" v-on:click="submitCard" v-if="addCardBack&&!editCardButtonPressed&&!backModeOn">Submit Card</button>
+                <button class="cardButton" v-on:click="flipCard" v-if="!addCardFront&&!editCardButtonPressed&&backModeOn">Flip Card</button>
+                <button class="cardButton" v-on:click="submitCard" v-if="addCardFront&&!editCardButtonPressed&&backModeOn">Submit Card</button>
 
                 <button class="cardButton" v-on:click="submitEditedCardFront" v-if="editCardFront&&editCardButtonPressed">Submit Edit</button>
                 <button class="cardButton" v-on:click="submitEditedCardBack" v-if="editCardBack&&editCardButtonPressed">Submit Edit</button>
@@ -152,7 +158,8 @@ export default {
             deckSearchInput:"",
             deckIsShuffled:false,
             hamburgerClicked:false,
-            darkModeOn:false
+            darkModeOn:false,
+            backModeOn:false
         }
     },
     methods: {
@@ -183,6 +190,16 @@ export default {
             document.documentElement.style.setProperty('--secondary-color', '#2d4c68');
             document.documentElement.style.setProperty('--tertiary-color', '#B6D6F2');
             document.documentElement.style.setProperty('--quaternary-color', '#517EA6');
+        },
+        disableBackMode(){
+            this.backModeOn=false;
+            this.cardSide="Front";
+            this.cardPrompt=this.emittedObject.cards[this.cardsListIndex].cardFront;
+        },
+        enableBackMode(){
+            this.backModeOn=true;
+            this.cardSide="Back";
+            this.cardPrompt=this.emittedObject.cards[this.cardsListIndex].cardBack;
         },
         async deckSearch() {
             let cardFound = false;
@@ -235,8 +252,13 @@ export default {
             const numberInput = parseInt(this.numberSearchInput);
             if (numberInput>0 && numberInput<=this.emittedObject.cards.length){
                 this.cardsListIndex=numberInput-1;
-                this.cardSide="Front"
-                this.cardPrompt=this.emittedObject.cards[this.cardsListIndex].cardFront;
+                if (this.backModeOn){
+                    this.cardSide="Back";
+                    this.cardPrompt=this.emittedObject.cards[this.cardsListIndex].cardBack;
+                } else {
+                    this.cardSide="Front";
+                    this.cardPrompt=this.emittedObject.cards[this.cardsListIndex].cardFront;
+                }
                 return;
             }
             else {
@@ -284,6 +306,13 @@ export default {
                 this.focusOnCardBackInput();
                 return;
             }
+            if (this.addCardBack) {
+                this.cardSide="Front";
+                this.addCardBack=false;
+                this.addCardFront=true;
+                this.focusOnCardFrontInput();
+                return;
+            }
             if (this.cardSide==="Front") {
                 this.cardSide="Back";
                 this.cardPrompt=this.emittedObject.cards[this.cardsListIndex].cardBack;
@@ -293,19 +322,31 @@ export default {
             }   
         },
         addCard () {
-            this.addCardFront=true;
+            if (this.backModeOn){
+                this.addCardBack=true;
+            } else {
+                this.addCardFront=true;
+            } 
         },
         abortAddCard () {
             this.addCardFront=false;
             this.addCardBack=false;
-            this.cardSide="Front";
+            if (this.backModeOn){
+                this.cardSide="Back";
+            } else {
+                this.cardSide="Front";
+            }
             this.cardFrontInput="";
             this.cardBackInput="";
             if (this.emittedObject.cards.length === 0) {
                     return;
             }
-            else {   
-                this.cardPrompt=this.emittedObject.cards[this.cardsListIndex].cardFront;
+            else {
+                if (this.backModeOn){
+                    this.cardPrompt=this.emittedObject.cards[this.cardsListIndex].cardBack;
+                } else {
+                    this.cardPrompt=this.emittedObject.cards[this.cardsListIndex].cardFront;
+                }   
                 this.cardId=this.emittedObject.cards[this.cardsListIndex]._id;
                 return;
             }
@@ -314,14 +355,22 @@ export default {
             this.editCardButtonPressed=false;
             this.editCardFront=false;
             this.editCardBack=false;
-            this.cardSide="Front";
+            if (this.backModeOn){
+                this.cardSide="Back";
+            } else {
+                this.cardSide="Front";
+            }
             this.cardFrontInput="";
             this.cardBackInput="";
             if (this.emittedObject.cards.length === 0) {
                     return;
             }
             else {   
-                this.cardPrompt=this.emittedObject.cards[this.cardsListIndex].cardFront;
+                if (this.backModeOn){
+                    this.cardPrompt=this.emittedObject.cards[this.cardsListIndex].cardBack;
+                } else {
+                    this.cardPrompt=this.emittedObject.cards[this.cardsListIndex].cardFront;
+                }
                 this.cardId=this.emittedObject.cards[this.cardsListIndex]._id;
                 return;
             }
@@ -339,13 +388,21 @@ export default {
             this.emittedObject.cards = response.data.cards;
             this.addCardFront=false;
             this.addCardBack=false;
-            this.cardSide="Front";
+            if (this.backModeOn){
+                this.cardSide="Back";
+            } else {
+                this.cardSide="Front";
+            }
             this.cardFrontInput="";
             this.cardBackInput="";
             if (this.emittedObject.cards.length - this.cardsListIndex > 1){
                 this.cardsListIndex+=1;
             }
-            this.cardPrompt=this.emittedObject.cards[this.cardsListIndex].cardFront;
+            if (this.backModeOn){
+                this.cardPrompt=this.emittedObject.cards[this.cardsListIndex].cardBack;
+            } else {
+                this.cardPrompt=this.emittedObject.cards[this.cardsListIndex].cardFront;
+            }
             this.cardId=this.emittedObject.cards[this.cardsListIndex]._id;
             this.numberSearchInput=this.cardsListIndex+1;
         },
@@ -397,8 +454,13 @@ export default {
             } else {
                 this.cardsListIndex = indexToAdd + this.cardsListIndex;
             }
-            this.cardSide="Front";
-            this.cardPrompt=this.emittedObject.cards[this.cardsListIndex].cardFront;
+            if (this.backModeOn){
+                this.cardSide="Back";
+                this.cardPrompt=this.emittedObject.cards[this.cardsListIndex].cardBack;
+            } else {
+                this.cardSide="Front";
+                this.cardPrompt=this.emittedObject.cards[this.cardsListIndex].cardFront;
+            }
             this.cardId=this.emittedObject.cards[this.cardsListIndex]._id;
             this.numberSearchInput=this.cardsListIndex+1;
         },
@@ -443,9 +505,14 @@ export default {
             
             if (this.emittedObject.cards.length-1 >= 0){
                 this.cardsListIndex = this.cardsListIndex === 0 ? 0 : this.cardsListIndex - 1;
-                this.cardPrompt=this.emittedObject.cards[this.cardsListIndex].cardFront;
                 this.cardId=this.emittedObject.cards[this.cardsListIndex]._id;
+                if (this.backModeOn){
+                this.cardSide="Back";
+                this.cardPrompt=this.emittedObject.cards[this.cardsListIndex].cardBack;
+                } else {
                 this.cardSide="Front";
+                this.cardPrompt=this.emittedObject.cards[this.cardsListIndex].cardFront;
+                }
             }
             else{
                 this.cardPrompt="Please add a card by clicking the 'Add Card' button below.";
@@ -471,8 +538,13 @@ export default {
                 return
             }
             this.shuffleVueArray(this.emittedObject.cards);
-            this.cardPrompt=this.emittedObject.cards[this.cardsListIndex].cardFront;
-            this.cardSide="Front";
+            if (this.backModeOn){
+                this.cardSide="Back";
+                this.cardPrompt=this.emittedObject.cards[this.cardsListIndex].cardBack;
+            } else {
+                this.cardSide="Front";
+                this.cardPrompt=this.emittedObject.cards[this.cardsListIndex].cardFront;
+            }
             this.cardId=this.emittedObject.cards[this.cardsListIndex].cardId;
             this.deckIsShuffled=true;
         },
@@ -481,7 +553,13 @@ export default {
             this.emittedObject._id = localStorage.getItem("emittedObject._id")
             const responseFromDecks = await axios.get(url+'/deck/'+this.emittedObject._id);
             this.emittedObject = responseFromDecks.data;
-            this.cardPrompt=this.emittedObject.cards[this.cardsListIndex].cardFront;
+            if (this.backModeOn){
+                this.cardSide="Back";
+                this.cardPrompt=this.emittedObject.cards[this.cardsListIndex].cardBack;
+            } else {
+                this.cardSide="Front";
+                this.cardPrompt=this.emittedObject.cards[this.cardsListIndex].cardFront;
+            }
             this.cardId=this.emittedObject.cards[this.cardsListIndex]._id;
             this.deckIsShuffled=false;
         },
