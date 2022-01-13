@@ -201,6 +201,7 @@ export default {
                 this.cardSide="Front"
                 this.cardPrompt=this.emittedObject.cards[this.cardsListIndex].cardFront;
                 this.deckSearchInput="";
+                this.numberSearchInput=this.cardsListIndex+1;
                 return;
             }
             // if the card still hasn't been found, check the backs of the cards
@@ -219,6 +220,7 @@ export default {
                 this.cardSide="Back"
                 this.cardPrompt=this.emittedObject.cards[this.cardsListIndex].cardBack;
                 this.deckSearchInput="";
+                this.numberSearchInput=this.cardsListIndex+1;
                 return;
             }
             // if there was no match, show the snackbar saying that there wasn't a match
