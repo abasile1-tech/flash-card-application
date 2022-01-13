@@ -24,7 +24,7 @@ Currently there is one testing suite in the client folder. **cd** into the clien
 
 ## Future Work    
  - Add voice control of the buttons
- - Add a cookies disclaimer
+ - Add a disclaimer about the use of localStorage
  - Improve upon the searchDeck function
  - Allow cards to be reordered
  - Add a backup for the database
