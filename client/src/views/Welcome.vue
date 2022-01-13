@@ -154,7 +154,7 @@ export default {
     }
     if (this.emittedUser._id == undefined) {
       this.emittedUser._id = localStorage.getItem("emittedUser._id")
-      if (this.emittedObject._id == undefined){
+      if (this.emittedUser._id == undefined){
         this.returnToLoginPage();
         return;
       }
