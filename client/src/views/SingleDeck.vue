@@ -73,7 +73,7 @@
             </div>
         </div>
         <button class="decksReturnButton" v-if="addCardFront||addCardBack" v-on:click="abortAddCard">Abort Add Card</button>
-        <button class="addCardButton" v-on:click="addCard">Add Card</button>
+        <button class="addCardButton" v-if="!addCardFront&&!addCardBack" v-on:click="addCard">Add Card</button>
         <button class="deleteCardButton" v-on:click="deleteCardPressed">Delete Card</button>
         <button class="editCardButton" v-on:click="editCardPressed">Edit Card</button>
         
@@ -345,6 +345,7 @@ export default {
             }
             this.cardPrompt=this.emittedObject.cards[this.cardsListIndex].cardFront;
             this.cardId=this.emittedObject.cards[this.cardsListIndex]._id;
+            this.numberSearchInput=this.cardsListIndex+1;
         },
         async submitEditedCardFront () {
             if (this.cardFrontInput == "") {
@@ -447,6 +448,7 @@ export default {
             else{
                 this.cardPrompt="Please add a card by clicking the 'Add Card' button below.";
             }
+            this.numberSearchInput=this.cardsListIndex+1;
         },
         async doNotDeleteCard(){
             this.deleteCardButtonPressed = false;
