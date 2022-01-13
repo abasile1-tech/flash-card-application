@@ -154,6 +154,10 @@ export default {
     }
     if (this.emittedUser._id == undefined) {
       this.emittedUser._id = localStorage.getItem("emittedUser._id")
+      if (this.emittedObject._id == undefined){
+        this.returnToLoginPage();
+        return;
+      }
       const responseFromUsers = await axios.get(urlForUsers+this.emittedUser._id);
       this.emittedUser = responseFromUsers.data;
     }
