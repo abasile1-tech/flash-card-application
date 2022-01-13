@@ -24,7 +24,6 @@ Currently there is one testing suite in the client folder. **cd** into the clien
 
 ## Future Work    
  - Add voice control of the buttons
- - Log the user out if the local Storage no longer knows who the user is anymore
  - Add a cookies disclaimer
  - Improve upon the searchDeck function
  - Allow cards to be reordered
