@@ -7,6 +7,9 @@
         </div>
         <div id="welcomeWords">
         <h1 v-if="!editDeckNameSelected">{{emittedObject.deckName?emittedObject.deckName:""}}</h1>
+        <div class ="cardInputBox">
+            <input type="text" placeholder="Type the new deck name" v-model="editDeckNameInput" v-if="editDeckNameSelected" v-focus @keyup.enter="submitEditedDeckName"/>
+        </div>
         </div>
         <div id="hamburgerMenu" v-on:click="hamburgerWasClicked">
         <img id="hamburgerImage" src="../assets/Hamburger_icon_small.svg.png" alt="MENU">
@@ -17,9 +20,6 @@
         <button class="buttonClass" v-on:click="goBackToDecks">To Decks</button> <br>
         <button class="buttonClass" v-if="!darkModeOn" v-on:click="enableDarkMode">DarkMode</button>
         <button class="buttonClass" v-if="darkModeOn" v-on:click="disableDarkMode">LightMode</button>
-        </div>
-        <div class ="cardInputBox">
-            <input type="text" placeholder="Type the new deck name" v-model="editDeckNameInput" v-if="editDeckNameSelected" v-focus @keyup.enter="submitEditedDeckName"/>
         </div>
 
         <div>
