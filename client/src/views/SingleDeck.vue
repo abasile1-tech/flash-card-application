@@ -555,7 +555,7 @@ export default {
         if (this.emittedObject._id == undefined) {
             this.emittedObject._id = localStorage.getItem("emittedObject._id")
             if (this.emittedObject._id == undefined){
-                this.returnToLoginPage();
+                this.goBackToDecks();
                 return;
             }
             const responseFromDecks = await axios.get(url+'/deck/'+this.emittedObject._id);
