@@ -27,6 +27,5 @@ Currently there is one testing suite in the client folder. **cd** into the clien
  - Add a cookies disclaimer
  - Improve upon the searchDeck function
  - Allow cards to be reordered
- - Allow the backs of the cards to be shown by default instead of always the fronts
  - Add a backup for the database
  - Allow the dropdown menu to disappear when somewhere else on the page is clicked
