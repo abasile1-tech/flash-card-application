@@ -7,7 +7,7 @@
         </div>
         <div id="welcomeWords">
         <h1 v-if="!editDeckNameSelected">{{emittedObject.deckName?emittedObject.deckName:""}}</h1>
-        <div class ="cardInputBox">
+        <div id="welcomeWordsInput">
             <input type="text" placeholder="Type the new deck name" v-model="editDeckNameInput" v-if="editDeckNameSelected" v-focus @keyup.enter="submitEditedDeckName"/>
         </div>
         </div>
