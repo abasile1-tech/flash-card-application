@@ -22,6 +22,32 @@ Once those are updated **cd** into the client and run `npm run build`. Then **cd
 ## Testing  
 Currently there is one testing suite in the client folder. **cd** into the client folder and run `npm run test` to run the Jest test.
 
+## Completed Goals
+ - Create Users  
+ - Add CSS  
+ - Add a way to shuffle the cards 
+ - Add language support for audio output so that the cards can be read to the user in the specified language
+ - Add a Search Deck Button
+ - Add an Edit Card Button
+ - Add the ability to exit out of the Add Card Process.
+ - Display the card number on each card / the total number of cards in the Deck
+ - Remove language selector on mobile or make the language selector work on mobile
+ - Move the buttons pertaining to the Decks above the card 
+ - Fix a bug where a card temporarily displays the front on the back when a card is deleted while viewing the back.
+ - prompt the user to make sure they are certain before deleting a card
+ - Log the user out if the local Storage no longer knows who the user is anymore
+ - Add some UI/UX design
+   - Design a logo for the website
+   - New Color Scheme
+   - Condensed Login/Signup views
+   - Three bar dropdowns for logout and return to decks functionality
+ - Add a cookies disclaimer
+ - Fix indexing issues when manipulating cards in decks that have been shuffled
+ - Allow the backs of the cards to be shown by default instead of always the fronts
+ - Add a Dark Mode Option
+ - Add the ability to navigate to the desired card number
+ - Give the user the option to delete their account
+
 ## Future Work    
  - Add voice control of the buttons
  - Add a disclaimer about the use of localStorage
