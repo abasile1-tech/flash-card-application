@@ -55,3 +55,6 @@ Currently there is one testing suite in the client folder. **cd** into the clien
  - Allow cards to be reordered
  - Add a backup for the database
  - Allow the dropdown menu to disappear when somewhere else on the page is clicked
+ - Make the Decks look like more than just buttons 
+   - perhaps they could look like notebooks with a background image
+   - perhaps they could each have a user-choosable color to allow for further customization
