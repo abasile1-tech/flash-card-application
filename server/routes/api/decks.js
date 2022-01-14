@@ -67,6 +67,19 @@ router.delete('/:id/deckName', async (req, res) => {
     }
 });
 
+// Delete Decks
+router.delete('/:id', async (req, res) => {
+    try {
+        let decks = await Deck.find({userId:mongoose.Types.ObjectId(req.params.id)});
+        for(let i=0; i<decks.length; i++){  
+                await decks[i].delete();
+        }
+        res.status(200).send();
+    } catch (err) {
+         console.log(err);
+    }
+});
+
 // Edit Deck
 router.put('/:id/deckName', async (req, res) => {
     try {
