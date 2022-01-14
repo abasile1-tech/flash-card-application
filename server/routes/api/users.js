@@ -101,4 +101,15 @@ router.post('/', async (req, res) => {
     
 });
 
+// Delete User
+router.delete('/:id', async (req, res) => {
+    try {
+        let user = await User.findById(req.params.id);
+        await user.delete()
+        res.status(200).send();
+    } catch (err) {
+         console.log(err);
+    }
+});
+
 module.exports = router;

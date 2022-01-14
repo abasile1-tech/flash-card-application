@@ -14,9 +14,17 @@
     </div>
     <div id=hamburgerDropdown v-if="hamburgerClicked">
         <button class="buttonClass" v-on:click="returnToLoginPage()">Log Out</button> <br>
+        <button class="buttonClass" v-on:click="deleteAccountPressed()">Delete Account</button> <br>
         <button class="buttonClass" v-if="!darkModeOn" v-on:click="enableDarkMode">DarkMode</button>
         <button class="buttonClass" v-if="darkModeOn" v-on:click="disableDarkMode">LightMode</button>
     </div>
+    <p v-if="deleteAccountButtonPressed">Are you sure that you want to delete your account?</p>
+    <button class="buttonClass" v-if="deleteAccountButtonPressed" v-on:click="deleteAccountPressedTwice">Yes, delete my account.</button>
+    <button class="buttonClass" v-if="deleteAccountButtonPressed" v-on:click="doNotDeleteAccount">No, don't delete my account.</button>
+    <p v-if="deleteAccountButtonPressedTwice">Are you REALLY sure that you want to delete your account?</p>
+    <button class="buttonClass" v-if="deleteAccountButtonPressedTwice" v-on:click="deleteAccount">Yes, DELETE my account.</button>
+    <button class="buttonClass" v-if="deleteAccountButtonPressedTwice" v-on:click="doNotDeleteAccount">No, don't delete my account.</button> <br>
+
     <p class="displayInline" v-if="onlyOneDeck"> You currently have {{this.deckObjectList.length}} deck in your library.</p>
     <p class="displayInline" v-else> You currently have {{this.deckObjectList.length}} decks in your library.</p>
     <br><br>
@@ -64,7 +72,9 @@ export default {
       deckObjectList:[],
       onlyOneDeck:false,
       hamburgerClicked:false,
-      darkModeOn:false
+      darkModeOn:false,
+      deleteAccountButtonPressed:false,
+      deleteAccountButtonPressedTwice:false
     }
   },
   methods: {
@@ -107,6 +117,27 @@ export default {
       document.documentElement.style.setProperty('--secondary-color', '#2d4c68');
       document.documentElement.style.setProperty('--tertiary-color', '#B6D6F2');
       document.documentElement.style.setProperty('--quaternary-color', '#517EA6');
+    },
+    deleteAccountPressed(){
+      this.deleteAccountButtonPressed=true;
+      this.hamburgerClicked=false;
+    },
+    deleteAccountPressedTwice(){
+      this.deleteAccountButtonPressed=false;
+      this.deleteAccountButtonPressedTwice=true;
+    },
+    async deleteAccount () {
+      this.deleteAccountButtonPressedTwice = false;
+      //Delete the User's Decks
+      await axios.delete(url+this.emittedUser._id);
+      //Delete the User
+      await axios.delete(urlForUsers+this.emittedUser._id);
+      //Log Out for the last time
+      this.returnToLoginPage();
+    },
+    async doNotDeleteAccount(){
+     this.deleteAccountButtonPressed = false;
+     this.deleteAccountButtonPressedTwice = false;
     },
     goToDeck (deckObj) {
       //emit deck
