@@ -29,4 +29,3 @@ Currently there is one testing suite in the client folder. **cd** into the clien
  - Allow cards to be reordered
  - Add a backup for the database
  - Allow the dropdown menu to disappear when somewhere else on the page is clicked
- - Give the user the option to delete their account
