@@ -6,7 +6,7 @@
       <img id="logoImageBlue" v-if="darkModeOn" src="../assets/flashcardLogoSmallBlue.png" alt="LOGO">
     </div>
     <div id="welcomeWords">
-    <h1>Welcome, {{emittedUser.userName?emittedUser.userName:""}}!</h1>
+    <h1 id="welcomeName">Welcome, {{emittedUser.userName?emittedUser.userName:""}}!</h1>
     </div>
     <div id="hamburgerMenu" v-on:click="hamburgerWasClicked">
       <img id="hamburgerImage" src="../assets/Hamburger_icon_small.svg.png" alt="MENU">
@@ -196,6 +196,10 @@ export default {
   justify-content: space-between;
 }
 
+#welcomeName {
+  overflow-wrap: anywhere;
+}
+
 #logoImage{
   padding:0.5em;
 }
@@ -232,7 +236,7 @@ a {
     background-color:#2ad592;
     font-size: 24px;
     width:fit-content;
-    
+    overflow-wrap: anywhere;
 }
 
 .deckButtons:hover {
