@@ -6,7 +6,7 @@
             <img id="logoImageBlue" v-if="darkModeOn" src="../assets/flashcardLogoSmallBlue.png" alt="LOGO">
         </div>
         <div id="welcomeWords">
-        <h1 v-if="!editDeckNameSelected">{{emittedObject.deckName?emittedObject.deckName:""}}</h1>
+        <h1 id="deckNameWelcome" v-if="!editDeckNameSelected">{{emittedObject.deckName?emittedObject.deckName:""}}</h1>
         <div id="welcomeWordsInput">
             <input type="text" placeholder="Type the new deck name" v-model="editDeckNameInput" v-if="editDeckNameSelected" v-focus @keyup.enter="submitEditedDeckName"/>
         </div>
@@ -692,6 +692,10 @@ export default {
     display: flex;
     flex-direction: column;
     justify-content: center;
+}
+
+#deckNameWelcome{
+    overflow-wrap: anywhere;
 }
 
 #hamburgerImage{
