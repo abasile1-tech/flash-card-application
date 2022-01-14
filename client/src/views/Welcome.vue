@@ -19,10 +19,10 @@
         <button class="buttonClass" v-if="darkModeOn" v-on:click="disableDarkMode">LightMode</button>
     </div>
     <p v-if="deleteAccountButtonPressed">Are you sure that you want to delete your account?</p>
-    <button class="buttonClass" v-if="deleteAccountButtonPressed" v-on:click="deleteAccountPressedTwice">Yes, delete my account.</button>
+    <button class="buttonClass" v-if="deleteAccountButtonPressed" v-on:click="deleteAccountPressedTwice">Yes, delete my account.</button> <br v-if="deleteAccountButtonPressed"><br v-if="deleteAccountButtonPressed">
     <button class="buttonClass" v-if="deleteAccountButtonPressed" v-on:click="doNotDeleteAccount">No, don't delete my account.</button>
     <p v-if="deleteAccountButtonPressedTwice">Are you REALLY sure that you want to delete your account?</p>
-    <button class="buttonClass" v-if="deleteAccountButtonPressedTwice" v-on:click="deleteAccount">Yes, DELETE my account.</button>
+    <button class="buttonClass" v-if="deleteAccountButtonPressedTwice" v-on:click="deleteAccount">Yes, DELETE my account.</button> <br v-if="deleteAccountButtonPressedTwice"><br v-if="deleteAccountButtonPressedTwice">
     <button class="buttonClass" v-if="deleteAccountButtonPressedTwice" v-on:click="doNotDeleteAccount">No, don't delete my account.</button> <br>
 
     <p class="displayInline" v-if="onlyOneDeck"> You currently have {{this.deckObjectList.length}} deck in your library.</p>
