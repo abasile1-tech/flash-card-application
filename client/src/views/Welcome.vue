@@ -35,7 +35,14 @@
     <p>When you have decks, they show up here. </p>
     <p>Click on the deck that you want to work on and you will be redirected to that deck's page.</p>
     <div class="flexContainer">
-        <button class=deckButtons :key="deck" v-for="deck in this.deckObjectList" v-on:click="goToDeck(deck)">{{deck.deckName}}</button>
+        <!-- <button class=deckButtons :key="deck" v-for="deck in this.deckObjectList" v-on:click="goToDeck(deck)">{{deck.deckName}}</button> -->
+        <div id=notebookWhole :key="deck" v-for="deck in this.deckObjectList">
+          <img src="../assets/notebookRingLeft.png" alt="">
+          <div id="notebookColorSection" v-on:click="goToDeck(deck)">
+            <img  src="../assets/notebookRingRight.png" alt="">
+            <div>{{deck.deckName}}</div>
+          </div>
+        </div>
     </div>
     <br>
     <div class="snackbar" id="snackbar4">Please enter a valid deck name.</div>
@@ -253,6 +260,11 @@ export default {
     top: 4em;
     right: 0em;
     background-color:var(--quaternary-color);
+}
+
+#notebookColorSection {
+  display:inline-flex;
+  background-color:whitesmoke;
 }
 
 a {
