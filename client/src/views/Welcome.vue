@@ -23,7 +23,7 @@
     <button class="buttonClass" v-if="deleteAccountButtonPressed" v-on:click="doNotDeleteAccount">No, don't delete my account.</button>
     <p v-if="deleteAccountButtonPressedTwice">Are you REALLY sure that you want to delete your account?</p>
     <button class="buttonClass" v-if="deleteAccountButtonPressedTwice" v-on:click="deleteAccount">Yes, DELETE my account.</button> <br v-if="deleteAccountButtonPressedTwice"><br v-if="deleteAccountButtonPressedTwice">
-    <button class="buttonClass" v-if="deleteAccountButtonPressedTwice" v-on:click="doNotDeleteAccount">No, don't delete my account.</button> <br>
+    <button class="buttonClass" v-if="deleteAccountButtonPressedTwice" v-on:click="doNotDeleteAccount">No, don't delete my account.</button> <br v-if="deleteAccountButtonPressed||deleteAccountButtonPressedTwice">
 
     <p class="displayInline" v-if="onlyOneDeck"> You currently have {{this.deckObjectList.length}} deck in your library.</p>
     <p class="displayInline" v-else> You currently have {{this.deckObjectList.length}} decks in your library.</p>
