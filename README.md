@@ -47,10 +47,10 @@ Currently there is one testing suite in the client folder. **cd** into the clien
  - Add a Dark Mode Option
  - Add the ability to navigate to the desired card number
  - Give the user the option to delete their account
+ - Add a disclaimer about the use of localStorage
 
 ## Future Work    
  - Add voice control of the buttons
- - Add a disclaimer about the use of localStorage
  - Improve upon the searchDeck function
  - Allow cards to be reordered
  - Add a backup for the database
