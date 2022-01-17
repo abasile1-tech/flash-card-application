@@ -260,6 +260,7 @@ export default {
     top: 4em;
     right: 0em;
     background-color:var(--quaternary-color);
+    box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%), 0 6px 20px 0 rgb(0 0 0 / 19%);
 }
 
 #notebookColorSection {
@@ -268,7 +269,8 @@ export default {
   background-color:#2ad592;
   width:10em;
   border-bottom: solid floralwhite;
-  border-right: solid floralwhite
+  border-right: solid floralwhite;
+  box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%), 0 6px 20px 0 rgb(0 0 0 / 19%);
 }
 
 #notebookWhole {

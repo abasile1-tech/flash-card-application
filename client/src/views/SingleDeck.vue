@@ -708,6 +708,7 @@ export default {
     top: 4em;
     right: 0em;
     background-color:var(--quaternary-color);
+    box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%), 0 6px 20px 0 rgb(0 0 0 / 19%);
 }
 
 #selectBlock{
@@ -756,6 +757,7 @@ export default {
     justify-content: space-between;
     background-color:var(--primary-color);
     color:var(--tertiary-color);
+    box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%), 0 6px 20px 0 rgb(0 0 0 / 19%);
 }
 
 .flipped {
