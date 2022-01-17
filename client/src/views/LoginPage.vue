@@ -35,8 +35,12 @@
     </div>
 
     <!-- https://devcenter.heroku.com/articles/free-dyno-hours -->
-    <div id="herokuDiv">
+    <!-- <div id="herokuDiv">
     <p class="displayInline" id="slowHerokuMsg">Please note that it takes a few seconds for the Heroku server to wake up from sleep for the first time after not being used over a period of 30 minutes.</p>
+    </div> -->
+    <div id="notificationPopup" v-if="!boxAcknowledged">
+    <div id="notificationBox" v-if="!boxAcknowledged" >To function properly, this website stores some essential information in the browser's local storage.</div>
+    <button id="notificationButton" v-if="!boxAcknowledged" v-on:click="notificationButtonClicked()">Okay</button>
     </div>
     <div class="snackbar" id="snackbar1">Incorrect Password</div>
     <div class="snackbar" id="snackbar2">UserName Already Taken</div>
@@ -63,10 +67,14 @@ export default {
         passwordInput:"",
         userNameInputNew:"",
         passwordInputNew:"",
-        showLogin:true
+        showLogin:true,
+        boxAcknowledged:false
       };
   },
   methods: {
+    notificationButtonClicked(){
+      this.boxAcknowledged=true;
+    },
     activateShowLogin(){
       this.showLogin=true;
     },
@@ -147,6 +155,14 @@ export default {
   min-height:100vh;
   /* this extends the background color when you scroll */
   overflow-y:auto; 
+}
+
+#notificationPopup{
+  border:solid black;
+  background-color:white;
+  display:inline-flex;
+  max-width:80%;
+  border-radius:8px;
 }
 
 #logoImage {
