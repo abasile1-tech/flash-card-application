@@ -40,7 +40,7 @@
           <img src="../assets/notebookRingLeft.png" alt="">
           <div id="notebookColorSection" v-on:click="goToDeck(deck)">
             <img  src="../assets/notebookRingRight.png" alt="">
-            <div>{{deck.deckName}}</div>
+            <div id="notebookName">{{deck.deckName}}</div>
           </div>
         </div>
     </div>
@@ -264,12 +264,18 @@ export default {
 
 #notebookColorSection {
   display:inline-flex;
-  background-color:whitesmoke;
+  color:#14075e;
+  background-color:#2ad592;
   width:10em;
 }
 
 #notebookWhole {
   /* width:7em; */
+}
+
+#notebookName{
+  margin:auto;
+  padding:0.4em;
 }
 
 a {
