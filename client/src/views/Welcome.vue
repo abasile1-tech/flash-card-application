@@ -36,7 +36,7 @@
     <p>Click on the deck that you want to work on and you will be redirected to that deck's page.</p>
     <div class="flexContainer">
         <!-- <button class=deckButtons :key="deck" v-for="deck in this.deckObjectList" v-on:click="goToDeck(deck)">{{deck.deckName}}</button> -->
-        <div id=notebookWhole :key="deck" v-for="deck in this.deckObjectList">
+        <div id="notebookWhole" :key="deck" v-for="deck in this.deckObjectList">
           <img src="../assets/notebookRingLeft.png" alt="">
           <div id="notebookColorSection" v-on:click="goToDeck(deck)">
             <img  src="../assets/notebookRingRight.png" alt="">
@@ -265,6 +265,11 @@ export default {
 #notebookColorSection {
   display:inline-flex;
   background-color:whitesmoke;
+  width:10em;
+}
+
+#notebookWhole {
+  /* width:7em; */
 }
 
 a {
