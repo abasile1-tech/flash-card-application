@@ -267,6 +267,8 @@ export default {
   color:#14075e;
   background-color:#2ad592;
   width:10em;
+  border-bottom: solid floralwhite;
+  border-right: solid floralwhite
 }
 
 #notebookWhole {
