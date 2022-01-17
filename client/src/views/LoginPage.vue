@@ -161,7 +161,9 @@ export default {
   border:solid black;
   background-color:white;
   display:inline-flex;
-  max-width:80%;
+  width:80%;
+  max-width:30em;
+  margin:auto;
   border-radius:8px;
 }
 
