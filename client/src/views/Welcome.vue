@@ -35,10 +35,9 @@
     <p>When you have decks, they show up here. </p>
     <p>Click on the deck that you want to work on and you will be redirected to that deck's page.</p>
     <div class="flexContainer">
-        <!-- <button class=deckButtons :key="deck" v-for="deck in this.deckObjectList" v-on:click="goToDeck(deck)">{{deck.deckName}}</button> -->
-        <div id="notebookWhole" :key="deck" v-for="deck in this.deckObjectList">
+        <div id="notebookWhole" :key="deck" v-for="(deck, index) in this.deckObjectList">
           <img src="../assets/notebookRingLeft.png" alt="">
-          <div id="notebookColorSection" v-on:click="goToDeck(deck)">
+          <div :style="{backgroundColor:colorList[index % colorList.length]}" id="notebookColorSection" v-on:click="goToDeck(deck)">
             <img  src="../assets/notebookRingRight.png" alt="">
             <div id="notebookName">{{deck.deckName}}</div>
           </div>
@@ -81,7 +80,8 @@ export default {
       hamburgerClicked:false,
       darkModeOn:false,
       deleteAccountButtonPressed:false,
-      deleteAccountButtonPressedTwice:false
+      deleteAccountButtonPressedTwice:false,
+      colorList:['#7660D6', '#6EEBE4', '#9DD66D', '#FA8EA1']
     }
   },
   methods: {
@@ -265,16 +265,12 @@ export default {
 
 #notebookColorSection {
   display:inline-flex;
-  color:#14075e;
+  color:black;
   background-color:#2ad592;
   width:10em;
   border-bottom: solid floralwhite;
   border-right: solid floralwhite;
   box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%), 0 6px 20px 0 rgb(0 0 0 / 19%);
-}
-
-#notebookWhole {
-  /* width:7em; */
 }
 
 #notebookName{
