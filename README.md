@@ -49,6 +49,7 @@ Currently there is one testing suite in the client folder. **cd** into the clien
  - Give the user the option to delete their account
  - Add a disclaimer about the use of localStorage
  - Make the Decks look like more than just buttons (perhaps they could look like notebooks with a background image)
+ - Give the notebooks some colors
 
 ## Future Work    
  - Add voice control of the buttons
@@ -57,3 +58,4 @@ Currently there is one testing suite in the client folder. **cd** into the clien
  - Add a backup for the database
  - Allow the dropdown menu to disappear when somewhere else on the page is clicked
  - Allow each notebook to have a user-choosable color to allow for further customization
+ - Add a little piece of tape to each notebook and change the font to look handwritten (this will make it look more realistic)
