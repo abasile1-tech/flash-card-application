@@ -39,7 +39,9 @@
           <img src="../assets/notebookRingLeft.png" alt="">
           <div :style="{backgroundColor:colorList[index % colorList.length]}" id="notebookColorSection" v-on:click="goToDeck(deck)">
             <img  src="../assets/notebookRingRight.png" alt="">
-            <div id="notebookName">{{deck.deckName}}</div>
+            <div id="notebookTape">
+              <div id="notebookName">{{deck.deckName}}</div>
+            </div>
           </div>
         </div>
     </div>
@@ -273,9 +275,21 @@ export default {
   box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%), 0 6px 20px 0 rgb(0 0 0 / 19%);
 }
 
+#notebookTape{
+  margin:auto;
+  background: url("../assets/tape.png") no-repeat;
+  background-size: cover;
+}
+
 #notebookName{
   margin:auto;
   padding:0.4em;
+  font-family: 'Permanent Marker', cursive;
+  width: 150px;
+  height: 50px;
+  align-items: center;
+  display: inline-flex;
+  justify-content: center;
 }
 
 a {
