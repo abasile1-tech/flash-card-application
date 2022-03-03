@@ -59,4 +59,5 @@ Currently there is one testing suite in the client folder. **cd** into the clien
  - Add a backup for the database
  - Allow the dropdown menu to disappear when somewhere else on the page is clicked
  - Allow each notebook to have a user-choosable color to allow for further customization
+ - Fix a recent problem where starting in around March 2021, Microsoft Edge doesn't have a Swedish language option (For now, Google Chrome still offers Swedish)
  
