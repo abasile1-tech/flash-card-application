@@ -60,4 +60,5 @@ Currently there is one testing suite in the client folder. **cd** into the clien
  - Allow the dropdown menu to disappear when somewhere else on the page is clicked
  - Allow each notebook to have a user-choosable color to allow for further customization
  - Fix a recent problem where starting in around March 2021, Microsoft Edge doesn't have a Swedish language option (For now, Google Chrome on Android still offers Swedish). What happened to Microsoft Bengt (the Swedish voice)?
+   - It seems that Microsoft now only uses Microsoft voices and Google only uses some Google voices (in addition to three main, English voices from Microsoft). When did this problem start occurring? 
  
