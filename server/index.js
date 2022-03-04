@@ -21,7 +21,7 @@ const users = require('./routes/api/users');
 app.use('/api/users', users);
 
 app.get('/',function(req, res){
-    res.sendFile(dist_folder+'index.html');
+	res.sendFile(dist_folder+'index.html');
 })
 
 const port = process.env.PORT || 5000;
