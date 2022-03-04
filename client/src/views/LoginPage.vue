@@ -58,14 +58,14 @@ export default {
 		
 	},
 	data () {
-			return {
-				userNameInput:"",
-				passwordInput:"",
-				userNameInputNew:"",
-				passwordInputNew:"",
-				showLogin:true,
-				boxAcknowledged:false
-			};
+		return {
+			userNameInput:"",
+			passwordInput:"",
+			userNameInputNew:"",
+			passwordInputNew:"",
+			showLogin:true,
+			boxAcknowledged:false
+		};
 	},
 	methods: {
 		notificationButtonClicked(){
@@ -164,8 +164,8 @@ export default {
 }
 
 #logoImage {
-		padding-left: 0.5em;
-		padding-right: 0.5em;
+	padding-left: 0.5em;
+	padding-right: 0.5em;
 }
 
 #KEYleft{

@@ -65,12 +65,12 @@ export default {
 			Type:Object,
 			required: true,
 						_id: {
-								type: String,
-								required: true
+							type: String,
+							required: true
 						},
 						userName: {
-								type: String,
-								required: true
+							type: String,
+							required: true
 						}
 		}
 	},
@@ -175,15 +175,15 @@ export default {
 			this.darkModeOn=false;
 		}
 		if(this.darkModeOn==undefined || this.darkModeOn==false){
-				document.documentElement.style.setProperty('--primary-color', '#8C1A62');
-				document.documentElement.style.setProperty('--secondary-color', '#81175a');
-				document.documentElement.style.setProperty('--tertiary-color', '#EEE1D6');
-				document.documentElement.style.setProperty('--quaternary-color', '#ddd1c7');
+			document.documentElement.style.setProperty('--primary-color', '#8C1A62');
+			document.documentElement.style.setProperty('--secondary-color', '#81175a');
+			document.documentElement.style.setProperty('--tertiary-color', '#EEE1D6');
+			document.documentElement.style.setProperty('--quaternary-color', '#ddd1c7');
 		} else if(this.darkModeOn == true){
-				document.documentElement.style.setProperty('--primary-color', '#325573');
-				document.documentElement.style.setProperty('--secondary-color', '#2d4c68');
-				document.documentElement.style.setProperty('--tertiary-color', '#B6D6F2');
-				document.documentElement.style.setProperty('--quaternary-color', '#517EA6');
+			document.documentElement.style.setProperty('--primary-color', '#325573');
+			document.documentElement.style.setProperty('--secondary-color', '#2d4c68');
+			document.documentElement.style.setProperty('--tertiary-color', '#B6D6F2');
+			document.documentElement.style.setProperty('--quaternary-color', '#517EA6');
 		}
 		if (this.emittedUser._id != undefined) {
 			localStorage.setItem("emittedUser._id",this.emittedUser._id);
