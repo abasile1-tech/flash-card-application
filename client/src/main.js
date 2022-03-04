@@ -6,12 +6,12 @@ import Routes from './routes'
 Vue.use(VueRouter);
 
 const router = new VueRouter({
-  routes: Routes
+	routes: Routes
 });
 
 Vue.config.productionTip = false
 
 new Vue({
-  render: h => h(App),
-  router:router
+	render: h => h(App),
+	router:router
 }).$mount('#app')
