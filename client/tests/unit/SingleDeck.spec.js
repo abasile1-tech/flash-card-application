@@ -12,18 +12,16 @@ describe('Testing SingleDeck Component Methods', () => {
         }
     });
 
-    // cardsListIndex is 0 now
     it('correctly updates the index by 1 when updateCardIndex(1) is called', () => {
         wrapper.vm.updateCardIndex(1);  
         expect(wrapper.vm.cardsListIndex).toBe(1); 
     })
-    // cardsListIndex is 1 now
+
     it('correctly updates the index by -1 when updateCardIndex(-1) is called', () => {
         wrapper.vm.updateCardIndex(-1);  
         expect(wrapper.vm.cardsListIndex).toBe(0); 
     })
 
-    // cardsListIndex is 0 now
     it('correctly updates the index by -2 when updateCardIndex(-1) is called twice', () => {
         wrapper.vm.updateCardIndex(-1); 
         wrapper.vm.updateCardIndex(-1);
@@ -36,5 +34,14 @@ describe('Testing SingleDeck Component Methods', () => {
         expect(wrapper.vm.cardsListIndex).toBe(0); 
     })
 
+    it('correctly flips the card from front to back', () => {
+        wrapper.vm.flipCard();
+        expect(wrapper.vm.cardSide).toBe("Back");
+    })
+
+    it('correctly flips the card from back to front', () => {
+        wrapper.vm.flipCard();
+        expect(wrapper.vm.cardSide).toBe("Front");
+    })
 
 })
