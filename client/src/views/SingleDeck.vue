@@ -101,7 +101,12 @@ import Vue from 'vue'
 import axios from 'axios';
 const url = '/api/decks/';
 
-var synth = window.speechSynthesis;
+try{
+	var synth = window.speechSynthesis;
+} catch(err){
+	console.log("Error with speechSynthesis initialization.\n");
+}
+
 var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
 export default {
@@ -268,7 +273,11 @@ export default {
 			}
 		},
 		populateVoiceList() {
-			this.optionList = synth.getVoices();
+			try{
+				this.optionList = synth.getVoices();
+			} catch(err){
+				console.log("Error with getVoices in populateVoiceList.\n");
+			}
 		},
 		shuffleVueArray(array) {
 			for (let i = array.length - 1; i > 0; i--) {
@@ -289,10 +298,15 @@ export default {
 			});
 		},
 		readCard () {
-			const language = this.optionList.filter(item => item.name === this.selectedLanguage);
-			let utterance = new SpeechSynthesisUtterance(this.cardPrompt);
-			utterance.voice = language[0];
-			speechSynthesis.speak(utterance);
+			try{
+				const language = this.optionList.filter(item => item.name === this.selectedLanguage);
+				let utterance = new SpeechSynthesisUtterance(this.cardPrompt);
+				utterance.voice = language[0];
+				speechSynthesis.speak(utterance);
+			} catch(err){
+				console.log("Error with speechSynthesis for readCard.\n");
+			}
+			
 		},
 		flipCard () {
 			if (this.emittedObject.cards.length === 0 && !this.addCardBack && !this.addCardFront){
@@ -620,9 +634,14 @@ export default {
 		}
 		
 		this.populateVoiceList();
-		if (speechSynthesis.onvoiceschanged !== undefined) {
+		try{
+			if (speechSynthesis.onvoiceschanged !== undefined) {
 			speechSynthesis.onvoiceschanged = this.populateVoiceList;
+			}
+		} catch(err){
+			console.log("Error with speechSynthesis in created.\n");
 		}
+		
 		if (this.emittedObject._id != undefined) {
 			localStorage.setItem("emittedObject._id",this.emittedObject._id);
 			if (this.emittedObject.deckName == undefined) {
