@@ -51,6 +51,7 @@ Currently there is one testing suite in the client folder. **cd** into the clien
  - Make the Decks look like more than just buttons (perhaps they could look like notebooks with a background image)
  - Give the notebooks some colors
  - Add a little piece of tape to each notebook and change the font to look handwritten (this will make it look more realistic)
+ - The problem with Microsoft Edge having limited language options has been fixed by Microsoft and there are now several hundred language options to choose from for voice in Microsoft Edge. This is way more than before, so the app functionality has been greatly improved.
 
 ## Future Work    
  - Add voice control of the buttons
@@ -59,6 +60,4 @@ Currently there is one testing suite in the client folder. **cd** into the clien
  - Add a backup for the database
  - Allow the dropdown menu to disappear when somewhere else on the page is clicked
  - Allow each notebook to have a user-choosable color to allow for further customization
- - Fix a recent problem where starting in around March 2021, Microsoft Edge doesn't have a Swedish language option (For now, Google Chrome on Android still offers Swedish). What happened to Microsoft Bengt (the Swedish voice)?
-   - It seems that Microsoft now only uses Microsoft voices and Google only uses some Google voices (in addition to three main, English voices from Microsoft). When did this problem start occurring? Mozilla Firefox on PC only has two voice options (both of them are English Microsoft voices). One possible fix that I found for PC is installing the windows 10 voice pack for Swedish to the computer.
  
