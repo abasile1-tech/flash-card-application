@@ -60,4 +60,5 @@ Currently there is one testing suite in the client folder. **cd** into the clien
  - Add a backup for the database
  - Allow the dropdown menu to disappear when somewhere else on the page is clicked
  - Allow each notebook to have a user-choosable color to allow for further customization
+ - When a card is being added, show the new card number.
  
