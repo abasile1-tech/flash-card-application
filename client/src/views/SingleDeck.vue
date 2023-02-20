@@ -338,8 +338,10 @@ export default {
 		},
 		addCard () {
 			if (this.backModeOn){
+				this.cardSide="Back";
 				this.addCardBack=true;
 			} else {
+				this.cardSide="Front";
 				this.addCardFront=true;
 			} 
 		},
