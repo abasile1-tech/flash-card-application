@@ -43,7 +43,8 @@
 		
 		<!-- https://vuejs.org/v2/guide/class-and-style.html#With-Components how to use the v-bind-->
 		<div class="card" v-bind:class="{flipped: this.cardSide==='Front'}">
-			<p class="cardPromptClass1">{{cardSide}} <input id="cardNumberBox" type="text" v-model="numberSearchInput" @keyup.enter="numberSearch"/>/{{emittedObject.cards?emittedObject.cards.length:""}}</p>
+			<p class="cardPromptClass1" v-if="!addCardFront&&!addCardBack">{{cardSide}} <input id="cardNumberBox" type="text" v-model="numberSearchInput" @keyup.enter="numberSearch"/>/{{emittedObject.cards?emittedObject.cards.length:""}}</p>
+			<p class="cardPromptClass1" v-if="addCardFront||addCardBack">New {{cardSide}} at position {{cardsListIndex+2}} </p>
 			<p class="cardPromptClass2" v-if="!addCardFront&&!addCardBack">{{cardPrompt}}</p>
 
 			<input type="text" ref="frontInput" class="cardInputBox" placeholder="Type front text" v-model="cardFrontInput" v-if="addCardFront&&!backModeOn" v-focus @keyup.enter="flipCard"/>
@@ -337,8 +338,10 @@ export default {
 		},
 		addCard () {
 			if (this.backModeOn){
+				this.cardSide="Back";
 				this.addCardBack=true;
 			} else {
+				this.cardSide="Front";
 				this.addCardFront=true;
 			} 
 		},
