@@ -11,7 +11,7 @@
 			<input type="text" placeholder="Type the new deck name" v-model="editDeckNameInput" v-if="editDeckNameSelected" v-focus @keyup.enter="submitEditedDeckName"/>
 		</div>
 		</div>
-		<div id="hamburgerMenu" v-on:click="hamburgerWasClicked">
+		<div id="hamburgerMenu" v-on:click="hamburgerWasClicked" v-click-outside="pageWasClicked">
 		<img id="hamburgerImage" src="../assets/Hamburger_icon_small.svg.png" alt="MENU">
 		</div>
 	</div>
@@ -137,6 +137,21 @@ export default {
 			inserted: function (el) {
 				Vue.nextTick(() => el.focus());
 			}
+		},
+		"click-outside": {
+			bind: function (el, binding, vnode) {
+				el.clickOutsideEvent = function (event) {
+					// here I check that click was outside the el and his children
+					if (!(el == event.target || el.contains(event.target))) {
+						// and if it did, call method provided in attribute value
+						vnode.context[binding.expression](event);
+					}
+				};
+				document.body.addEventListener('click', el.clickOutsideEvent)
+			},
+			unbind: function (el) {
+				document.body.removeEventListener('click', el.clickOutsideEvent)
+			},
 		}
 	},
 
@@ -178,6 +193,11 @@ export default {
 			if (!this.hamburgerClicked){
 				this.hamburgerClicked=true;
 			} else {
+				this.hamburgerClicked=false;
+			}
+		},
+		pageWasClicked() {
+			if (this.hamburgerClicked){
 				this.hamburgerClicked=false;
 			}
 		},
