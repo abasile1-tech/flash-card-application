@@ -53,13 +53,13 @@ Currently there is one testing suite in the client folder. **cd** into the clien
  - Add a little piece of tape to each notebook and change the font to look handwritten (this will make it look more realistic)
  - The problem with Microsoft Edge having limited language options has been fixed by Microsoft and there are now several hundred language options to choose from for voice in Microsoft Edge. This is way more than before, so the app functionality has been greatly improved.
  - I made it so the card to be added is shown with more information so that the user better understands the details of the new card that they are creating.
+ - I allowed the dropdown menu to disappear when somewhere else on the page is clicked
 
 ## Future Work    
  - Add voice control of the buttons
  - Improve upon the searchDeck function
  - Allow cards to be reordered
  - Add a backup for the database
- - Allow the dropdown menu to disappear when somewhere else on the page is clicked
  - Allow each notebook to have a user-choosable color to allow for further customization
  - Save each user's preference for dark or light mode in the database and load that preference the next time that they log in.
  
