@@ -9,7 +9,6 @@ This code base creates a general-purpose flash card app.
  - Inside of the .env file, add the following line of code:
  - mongoURL='mongodb://localhost:27017/flash-card-app'
  - and set up your mongodb to use that url.
-```
  - Once those are updated **cd** into the client and run `npm run build`. Then **cd** to the server folder and type `npm run dev`. Open localhost:5000 in web browser.
 
 ## Testing  
