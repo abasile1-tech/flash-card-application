@@ -4,13 +4,13 @@
 This code base creates a general-purpose flash card app.
 
 ## Setting up  
-This project was updated to be able to run on Heroku in the cloud. If you would like to run it locally there are a few lines that need to be updated:  
-create a .env file 
-Inside of the .env file, add the following line of code:
-mongoURL='mongodb://localhost:27017/flash-card-app'
-and set up your mongodb to use that url.
+ - This project was updated to be able to run on Heroku in the cloud. If you would like to run it locally there are a few lines that need to be updated:  
+ - create a .env file 
+ - Inside of the .env file, add the following line of code:
+ - mongoURL='mongodb://localhost:27017/flash-card-app'
+ - and set up your mongodb to use that url.
 ```
-Once those are updated **cd** into the client and run `npm run build`. Then **cd** to the server folder and type `npm run dev`. Open localhost:5000 in web browser.
+ - Once those are updated **cd** into the client and run `npm run build`. Then **cd** to the server folder and type `npm run dev`. Open localhost:5000 in web browser.
 
 ## Testing  
 Currently there is one testing suite in the client folder. **cd** into the client folder and run `npm run test` to run the Jest test.
