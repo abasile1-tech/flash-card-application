@@ -4,20 +4,13 @@
 This code base creates a general-purpose flash card app.
 
 ## Setting up  
-This project was updated to be able to run on Heroku. If you would like to run it locally there are a few lines that need to be updated:  
-*client/views/SingleDeck.vue:*
+This project was updated to be able to run on Heroku in the cloud. If you would like to run it locally there are a few lines that need to be updated:  
+create a .env file 
+Inside of the .env file, add the following line of code:
+mongoURL='mongodb://localhost:27017/flash-card-app'
+and set up your mongodb to use that url.
 ```
-28 const url = 'http://localhost:5000/api/decks/';
-```
-*client/views/Welcome.vue:*
-```
-25 const url = 'http://localhost:5000/api/decks/';
-```
-*server/routes/decks.js:*
-```
-10 const url = 'the-url-to-your-mongo-database';
-```
-Once those are updated **cd** into the client and run `npm run build`. Then **cd** to the server folder and type `npm run dev`.
+Once those are updated **cd** into the client and run `npm run build`. Then **cd** to the server folder and type `npm run dev`. Open localhost:5000 in web browser.
 
 ## Testing  
 Currently there is one testing suite in the client folder. **cd** into the client folder and run `npm run test` to run the Jest test.
