@@ -56,4 +56,21 @@ Currently there is one testing suite in the client folder. **cd** into the clien
  - Add a backup for the database
  - Allow each notebook to have a user-choosable color to allow for further customization
  - Save each user's preference for dark or light mode in the database and load that preference the next time that they log in.
+
+## :camera_flash: Screenshots:
+![login_page](https://github.com/abasile1-tech/flash-card-application/blob/master/screenshots/login_page.PNG?raw=true)
+![sign_up_page](https://github.com/abasile1-tech/flash-card-application/blob/master/screenshots/sign_up_page.PNG?raw=true)
+![welcome_page](https://github.com/abasile1-tech/flash-card-application/blob/master/screenshots/welcome_page.PNG?raw=true)
+![spanish_el_libro_front](https://github.com/abasile1-tech/flash-card-application/blob/master/screenshots/spanish_el_libro_front.PNG?raw=true)
+![spanish_el_libro_back](https://github.com/abasile1-tech/flash-card-application/blob/master/screenshots/spanish_el_libro_back.PNG?raw=true)
+![showing_off_hamburger_menu](https://github.com/abasile1-tech/flash-card-application/blob/master/screenshots/showing_off_hamburger_menu.PNG?raw=true)
+![JavaScript_deck_new](https://github.com/abasile1-tech/flash-card-application/blob/master/screenshots/JavaScript_deck_new.PNG?raw=true)
+![JavaScript_comment_card_front](https://github.com/abasile1-tech/flash-card-application/blob/master/screenshots/JavaScript_comment_card_front.PNG?raw=true)
+![JavaScript_comment_card_back](https://github.com/abasile1-tech/flash-card-application/blob/master/screenshots/JavaScript_comment_card_back.PNG?raw=true)
+![decks_showing_off_dark_mode_hamburger_menu](https://github.com/abasile1-tech/flash-card-application/blob/master/screenshots/decks_showing_off_dark_mode_hamburger_menu.PNG?raw=true)
+![decks_showing_off_light_mode](https://github.com/abasile1-tech/flash-card-application/blob/master/screenshots/decks_showing_off_light_mode.PNG?raw=true)
+![iphone12_decks](https://github.com/abasile1-tech/flash-card-application/blob/master/screenshots/iphone12_decks.PNG?raw=true)
+![iphone12_hamburger_menu](https://github.com/abasile1-tech/flash-card-application/blob/master/screenshots/iphone12_hamburger_menu.PNG?raw=true)
+![iphone12_login_light](https://github.com/abasile1-tech/flash-card-application/blob/master/screenshots/iphone12_login_light.PNG?raw=true)
+![iphone12_spanish](https://github.com/abasile1-tech/flash-card-application/blob/master/screenshots/iphone12_spanish.PNG?raw=true)
  
