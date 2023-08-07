@@ -26,6 +26,7 @@ jobs:
       run: |
         npm install
         npx webpack
-        npm start
+        npm run build
+        npm run start
       env: 
         mongoURL: ${{secrets.MONGOURL}}
