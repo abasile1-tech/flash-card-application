@@ -1,7 +1,7 @@
 # flash-card-app
 
 ## Description  
-This code base creates a general-purpose flash card app.
+This code base creates a general-purpose flash card app. The tech stack is vue.js, node.js, express.js, and mongodb. Users can sign up for accounts in order to create decks with cards that can then be read aloud to them in the language of their choice.
 
 ## Setting up  
  - This project was updated to be able to run on Heroku in the cloud. If you would like to run it locally there are a few lines that need to be updated:  
@@ -11,7 +11,7 @@ This code base creates a general-purpose flash card app.
 mongoURL='mongodb://localhost:27017/flash-card-app'
  ```
  - and set up your mongodb to use that url.
- - Once those are updated **cd** into the client and run `npm run build`. Then **cd** to the server folder and type `npm run dev`. Open localhost:5000 in web browser.
+ - Once those are updated **cd** into the client and run `npm run build`. Then run `npm run serve` to run the client. Then open a new terminal tab and **cd** to the server folder and run `npm run dev`. Open localhost:5000 in web browser.
 
 ## Testing  
 Currently there is one testing suite in the client folder. **cd** into the client folder and run `npm run test` to run the Jest test.
