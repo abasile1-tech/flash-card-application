@@ -41,6 +41,7 @@
 
       <div id="loginSignupDiv1" v-if="showLogin">
         <input
+          data-testid="login-username"
           type="text"
           placeholder="Type your username:"
           v-if="showLogin"
@@ -48,6 +49,7 @@
         />
         <br v-if="showLogin" />
         <input
+          data-testid="login-password"
           type="password"
           placeholder="Type your password:"
           v-if="showLogin"
@@ -55,7 +57,12 @@
           @keyup.enter="logIn"
         />
         <br v-if="showLogin" />
-        <button class="submitButton_css" v-if="showLogin" v-on:click="logIn()">
+        <button
+          data-testid="login-button"
+          class="submitButton_css"
+          v-if="showLogin"
+          v-on:click="logIn()"
+        >
           Submit
         </button>
       </div>
