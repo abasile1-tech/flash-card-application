@@ -101,6 +101,7 @@
       >
         <img src="../assets/notebookRingLeft.png" alt="" />
         <div
+          data-testid="notebook-button"
           :style="{ backgroundColor: colorList[index % colorList.length] }"
           id="notebookColorSection"
           v-on:click="goToDeck(deck)"
