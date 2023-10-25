@@ -1,6 +1,6 @@
 <template>
   <div id="loginPage_css">
-    <h1>Welcome to the Flash Card App!</h1>
+    <h1 data-testid="hero-heading">Welcome to the Flash Card App!</h1>
     <div id="logoANDkeys">
       <img
         id="KEYleft"
