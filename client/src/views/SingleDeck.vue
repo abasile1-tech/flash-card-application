@@ -217,6 +217,9 @@
       />
 
       <div id="cardButtonsDiv">
+        <em v-if="!this.isListeningForSpeech && this.speechInputResult != ''">{{
+          this.speechScore
+        }}</em>
         <select id="selectBlock" v-if="!isMobile" v-model="selectedLanguage">
           <option disabled value="">Please select a language:</option>
           <option
@@ -444,6 +447,7 @@ export default {
       isListeningForSpeech: false,
       confidence: 0,
       speechInputResult: "",
+      speechScore: 0,
     };
   },
   methods: {
@@ -611,6 +615,14 @@ export default {
       this.isListeningForSpeech = false;
       this.speechInputResult = "";
       this.confidence = 0;
+      this.speechScore = 0;
+    },
+    calculateSpeechScore() {
+      if (this.cardPrompt == this.speechInputResult) {
+        this.speechScore = 100;
+      } else {
+        this.speechScore = 0;
+      }
     },
     getSpeechInput() {
       const recognition = new SpeechRecognition();
@@ -644,6 +656,7 @@ export default {
         console.log(`Confidence: ${event.results[0][0].confidence}`);
         this.confidence = confidence;
         this.speechInputResult = speechInputResult;
+        this.calculateSpeechScore();
         setTimeout(() => this.resetSpeechInput(), 2000);
       };
       recognition.onnomatch = (event) => {
