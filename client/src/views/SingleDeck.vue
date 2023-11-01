@@ -603,12 +603,20 @@ export default {
     getSpeechInput() {
       const recognition = new SpeechRecognition();
       recognition.continuous = false;
-      recognition.lang = "en-US";
+
+      const language = this.optionList.filter(
+        (item) => item.name === this.selectedLanguage
+      );
+      if (language[0]) {
+        recognition.lang = language[0].lang ? language[0].lang : "en-US";
+      } else {
+        recognition.lang = "en-US";
+      }
       recognition.interimResults = false;
       recognition.maxAlternatives = 1;
 
       recognition.start();
-      console.log("Ready to receive speech input.");
+      console.log(`Ready to receive speech input in ${recognition.lang}.`);
 
       recognition.onresult = (event) => {
         const speechInputResult = event.results[0][0].transcript;
