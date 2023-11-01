@@ -445,7 +445,6 @@ export default {
       darkModeOn: false,
       backModeOn: false,
       isListeningForSpeech: false,
-      confidence: 0,
       speechInputResult: "",
       speechScore: 0,
     };
@@ -614,7 +613,6 @@ export default {
     resetSpeechInput() {
       this.isListeningForSpeech = false;
       this.speechInputResult = "";
-      this.confidence = 0;
       this.speechScore = 0;
     },
     editDistance(s1, s2) {
@@ -691,10 +689,6 @@ export default {
 
       recognition.onresult = (event) => {
         const speechInputResult = event.results[0][0].transcript;
-        const confidence = event.results[0][0].confidence;
-        console.log(`Result received: ${speechInputResult}`);
-        console.log(`Confidence: ${event.results[0][0].confidence}`);
-        this.confidence = confidence;
         this.speechInputResult = speechInputResult;
         this.calculateSpeechScore();
         setTimeout(() => this.resetSpeechInput(), 2000);
