@@ -227,6 +227,7 @@
             {{ option.name }}
           </option>
         </select>
+        <em v-if="this.isListeningForSpeech">Listening to you...</em>
         <br />
         <button class="cardButton" v-on:click="readCard">Listen</button>
         <button class="cardButton" v-on:click="getSpeechInput">Speak</button>
@@ -437,6 +438,7 @@ export default {
       hamburgerClicked: false,
       darkModeOn: false,
       backModeOn: false,
+      isListeningForSpeech: false,
     };
   },
   methods: {
@@ -616,10 +618,13 @@ export default {
       recognition.maxAlternatives = 1;
 
       recognition.start();
-      console.log(`Ready to receive speech input in ${recognition.lang}.`);
+      // console.log(`Ready to receive speech input in ${recognition.lang}.`);
+      this.isListeningForSpeech = true;
 
       recognition.onspeechend = () => {
+        // console.log("Speech recognition stopped.");
         recognition.stop();
+        this.isListeningForSpeech = false;
       };
 
       recognition.onresult = (event) => {
