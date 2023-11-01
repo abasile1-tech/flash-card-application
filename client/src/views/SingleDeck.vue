@@ -635,9 +635,13 @@ export default {
       recognition.onnomatch = (event) => {
         console.log("I didn't recognize that word.");
         console.log("event: ", event);
+        recognition.stop();
+        this.isListeningForSpeech = false;
       };
       recognition.onerror = (event) => {
         console.log(`Error occurred in recognition: ${event.error}`);
+        recognition.stop();
+        this.isListeningForSpeech = false;
       };
     },
     flipCard() {
