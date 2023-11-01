@@ -228,6 +228,9 @@
           </option>
         </select>
         <em v-if="this.isListeningForSpeech">Listening to you...</em>
+        <em v-if="!this.isListeningForSpeech && this.speechInputResult != ''">{{
+          this.speechInputResult
+        }}</em>
         <br />
         <button class="cardButton" v-on:click="readCard">Listen</button>
         <button class="cardButton" v-on:click="getSpeechInput">Speak</button>
@@ -439,6 +442,8 @@ export default {
       darkModeOn: false,
       backModeOn: false,
       isListeningForSpeech: false,
+      confidence: 0,
+      speechInputResult: "",
     };
   },
   methods: {
@@ -602,6 +607,11 @@ export default {
         console.log("Error with speechSynthesis for readCard.\n");
       }
     },
+    resetSpeechInput() {
+      this.isListeningForSpeech = false;
+      this.speechInputResult = "";
+      this.confidence = 0;
+    },
     getSpeechInput() {
       const recognition = new SpeechRecognition();
       recognition.continuous = false;
@@ -629,19 +639,23 @@ export default {
 
       recognition.onresult = (event) => {
         const speechInputResult = event.results[0][0].transcript;
+        const confidence = event.results[0][0].confidence;
         console.log(`Result received: ${speechInputResult}`);
         console.log(`Confidence: ${event.results[0][0].confidence}`);
+        this.confidence = confidence;
+        this.speechInputResult = speechInputResult;
+        setTimeout(() => this.resetSpeechInput(), 2000);
       };
       recognition.onnomatch = (event) => {
         console.log("I didn't recognize that word.");
         console.log("event: ", event);
         recognition.stop();
-        this.isListeningForSpeech = false;
+        this.resetSpeechInput();
       };
       recognition.onerror = (event) => {
         console.log(`Error occurred in recognition: ${event.error}`);
         recognition.stop();
-        this.isListeningForSpeech = false;
+        this.resetSpeechInput();
       };
     },
     flipCard() {
