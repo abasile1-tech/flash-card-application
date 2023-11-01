@@ -228,9 +228,8 @@
           </option>
         </select>
         <br />
-        <button class="cardButton" v-on:click="readCard">
-          Read Card Aloud
-        </button>
+        <button class="cardButton" v-on:click="readCard">Listen</button>
+        <button class="cardButton" v-on:click="getSpeechInput">Speak</button>
         <br />
         <div id="arrowsDiv">
           <img
@@ -607,6 +606,34 @@ export default {
       } catch (err) {
         console.log("Error with speechSynthesis for readCard.\n");
       }
+    },
+    getSpeechInput() {
+      const grammar =
+        "#JSGF V1.0; grammar colors; public <color> = aqua | azure | beige | bisque | black | blue | brown | chocolate | coral | crimson | cyan | fuchsia | ghostwhite | gold | goldenrod | gray | green | indigo | ivory | khaki | lavender | lime | linen | magenta | maroon | moccasin | navy | olive | orange | orchid | peru | pink | plum | purple | red | salmon | sienna | silver | snow | tan | teal | thistle | tomato | turquoise | violet | white | yellow ;";
+      const recognition = new SpeechRecognition();
+      const speechRecognitionList = new SpeechGrammarList();
+      speechRecognitionList.addFromString(grammar, 1);
+      recognition.grammars = speechRecognitionList;
+      recognition.continuous = false;
+      recognition.lang = "en-US";
+      recognition.interimResults = false;
+      recognition.maxAlternatives = 1;
+
+      recognition.start();
+      console.log("Ready to receive speech input.");
+
+      recognition.onresult = (event) => {
+        const speechInputResult = event.results[0][0].transcript;
+        console.log(`Result received: ${speechInputResult}`);
+        console.log(`Confidence: ${event.results[0][0].confidence}`);
+      };
+      recognition.onnomatch = (event) => {
+        console.log("I didn't recognize that word.");
+        console.log("event: ", event);
+      };
+      recognition.onerror = (event) => {
+        console.log(`Error occurred in recognition: ${event.error}`);
+      };
     },
     flipCard() {
       if (
@@ -1038,28 +1065,6 @@ export default {
       this.cardId = this.emittedObject.cards[0]._id;
     }
     this.deckIsShuffled = false;
-
-    const grammar =
-      "#JSGF V1.0; grammar colors; public <color> = aqua | azure | beige | bisque | black | blue | brown | chocolate | coral | crimson | cyan | fuchsia | ghostwhite | gold | goldenrod | gray | green | indigo | ivory | khaki | lavender | lime | linen | magenta | maroon | moccasin | navy | olive | orange | orchid | peru | pink | plum | purple | red | salmon | sienna | silver | snow | tan | teal | thistle | tomato | turquoise | violet | white | yellow ;";
-    const recognition = new SpeechRecognition();
-    const speechRecognitionList = new SpeechGrammarList();
-    speechRecognitionList.addFromString(grammar, 1);
-    recognition.grammars = speechRecognitionList;
-    recognition.continuous = false;
-    recognition.lang = "en-US";
-    recognition.interimResults = false;
-    recognition.maxAlternatives = 1;
-
-    document.body.onclick = () => {
-      recognition.start();
-      console.log("Ready to receive a color command.");
-    };
-
-    recognition.onresult = (event) => {
-      const color = event.results[0][0].transcript;
-      console.log(`Result received: ${color}`);
-      console.log(`Confidence: ${event.results[0][0].confidence}`);
-    };
   },
 };
 </script>
