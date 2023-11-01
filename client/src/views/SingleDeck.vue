@@ -352,7 +352,7 @@ import axios from "axios";
 const url = "/api/decks/";
 
 try {
-  var synth = window.speechSynthesis;
+  var speechSynthesis = window.speechSynthesis;
 } catch (err) {
   console.log("Error with speechSynthesis initialization.\n");
 }
@@ -362,13 +362,6 @@ try {
     window.SpeechRecognition || window.webkitSpeechRecognition;
 } catch (err) {
   console.log("Error with speechRecognition initialization.\n");
-}
-
-try {
-  var SpeechGrammarList =
-    window.SpeechGrammarList || window.webkitSpeechGrammarList;
-} catch (err) {
-  console.log("Error with speechGrammarList initialization.\n");
 }
 
 var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
@@ -572,7 +565,7 @@ export default {
     },
     populateVoiceList() {
       try {
-        this.optionList = synth.getVoices();
+        this.optionList = speechSynthesis.getVoices();
       } catch (err) {
         console.log("Error with getVoices in populateVoiceList.\n");
       }
@@ -608,12 +601,7 @@ export default {
       }
     },
     getSpeechInput() {
-      const grammar =
-        "#JSGF V1.0; grammar colors; public <color> = aqua | azure | beige | bisque | black | blue | brown | chocolate | coral | crimson | cyan | fuchsia | ghostwhite | gold | goldenrod | gray | green | indigo | ivory | khaki | lavender | lime | linen | magenta | maroon | moccasin | navy | olive | orange | orchid | peru | pink | plum | purple | red | salmon | sienna | silver | snow | tan | teal | thistle | tomato | turquoise | violet | white | yellow ;";
       const recognition = new SpeechRecognition();
-      const speechRecognitionList = new SpeechGrammarList();
-      speechRecognitionList.addFromString(grammar, 1);
-      recognition.grammars = speechRecognitionList;
       recognition.continuous = false;
       recognition.lang = "en-US";
       recognition.interimResults = false;
