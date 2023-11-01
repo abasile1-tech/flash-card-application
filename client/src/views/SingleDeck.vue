@@ -1058,6 +1058,7 @@ export default {
     recognition.onresult = (event) => {
       const color = event.results[0][0].transcript;
       console.log(`Result received: ${color}`);
+      console.log(`Confidence: ${event.results[0][0].confidence}`);
     };
   },
 };
