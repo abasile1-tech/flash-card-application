@@ -618,6 +618,10 @@ export default {
       recognition.start();
       console.log(`Ready to receive speech input in ${recognition.lang}.`);
 
+      recognition.onspeechend = () => {
+        recognition.stop();
+      };
+
       recognition.onresult = (event) => {
         const speechInputResult = event.results[0][0].transcript;
         console.log(`Result received: ${speechInputResult}`);
