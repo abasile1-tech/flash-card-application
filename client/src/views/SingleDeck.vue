@@ -217,6 +217,9 @@
       />
 
       <div id="cardButtonsDiv">
+        <em v-if="!this.isListeningForSpeech && this.speechInputResult != ''"
+          >{{ this.speechScore }}% Correct</em
+        >
         <select id="selectBlock" v-if="!isMobile" v-model="selectedLanguage">
           <option disabled value="">Please select a language:</option>
           <option
@@ -227,10 +230,13 @@
             {{ option.name }}
           </option>
         </select>
+        <em v-if="this.isListeningForSpeech">Listening to you...</em>
+        <em v-if="!this.isListeningForSpeech && this.speechInputResult != ''">{{
+          this.speechInputResult
+        }}</em>
         <br />
-        <button class="cardButton" v-on:click="readCard">
-          Read Card Aloud
-        </button>
+        <button class="cardButton" v-on:click="readCard">Listen</button>
+        <button class="cardButton" v-on:click="getSpeechInput">Speak</button>
         <br />
         <div id="arrowsDiv">
           <img
@@ -353,9 +359,16 @@ import axios from "axios";
 const url = "/api/decks/";
 
 try {
-  var synth = window.speechSynthesis;
+  var speechSynthesis = window.speechSynthesis;
 } catch (err) {
   console.log("Error with speechSynthesis initialization.\n");
+}
+
+try {
+  var SpeechRecognition =
+    window.SpeechRecognition || window.webkitSpeechRecognition;
+} catch (err) {
+  console.log("Error with speechRecognition initialization.\n");
 }
 
 var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
@@ -431,6 +444,9 @@ export default {
       hamburgerClicked: false,
       darkModeOn: false,
       backModeOn: false,
+      isListeningForSpeech: false,
+      speechInputResult: "",
+      speechScore: 0,
     };
   },
   methods: {
@@ -559,7 +575,7 @@ export default {
     },
     populateVoiceList() {
       try {
-        this.optionList = synth.getVoices();
+        this.optionList = speechSynthesis.getVoices();
       } catch (err) {
         console.log("Error with getVoices in populateVoiceList.\n");
       }
@@ -593,6 +609,101 @@ export default {
       } catch (err) {
         console.log("Error with speechSynthesis for readCard.\n");
       }
+    },
+    resetSpeechInput() {
+      this.isListeningForSpeech = false;
+      this.speechInputResult = "";
+      this.speechScore = 0;
+    },
+    editDistance(s1, s2) {
+      s1 = s1.toLowerCase();
+      s2 = s2.toLowerCase();
+
+      var costs = new Array();
+      for (var i = 0; i <= s1.length; i++) {
+        var lastValue = i;
+        for (var j = 0; j <= s2.length; j++) {
+          if (i == 0) costs[j] = j;
+          else {
+            if (j > 0) {
+              var newValue = costs[j - 1];
+              if (s1.charAt(i - 1) != s2.charAt(j - 1))
+                newValue =
+                  Math.min(Math.min(newValue, lastValue), costs[j]) + 1;
+              costs[j - 1] = lastValue;
+              lastValue = newValue;
+            }
+          }
+        }
+        if (i > 0) costs[s2.length] = lastValue;
+      }
+      return costs[s2.length];
+    },
+    calculateSimilarity(s1, s2) {
+      var longer = s1;
+      var shorter = s2;
+      if (s1.length < s2.length) {
+        longer = s2;
+        shorter = s1;
+      }
+      var longerLength = longer.length;
+      if (longerLength == 0) {
+        return 1.0;
+      }
+      return (
+        (longerLength - this.editDistance(longer, shorter)) /
+        parseFloat(longerLength)
+      );
+    },
+    calculateSpeechScore() {
+      const similarityResult = this.calculateSimilarity(
+        this.cardPrompt,
+        this.speechInputResult
+      );
+      this.speechScore = similarityResult * 100;
+    },
+    getSpeechInput() {
+      const recognition = new SpeechRecognition();
+      recognition.continuous = false;
+
+      const language = this.optionList.filter(
+        (item) => item.name === this.selectedLanguage
+      );
+      if (language[0]) {
+        recognition.lang = language[0].lang ? language[0].lang : "en-US";
+      } else {
+        recognition.lang = "en-US";
+      }
+      recognition.interimResults = false;
+      recognition.maxAlternatives = 1;
+
+      recognition.start();
+      // console.log(`Ready to receive speech input in ${recognition.lang}.`);
+      this.isListeningForSpeech = true;
+
+      recognition.onspeechend = () => {
+        // console.log("Speech recognition stopped.");
+        recognition.stop();
+        this.isListeningForSpeech = false;
+      };
+
+      recognition.onresult = (event) => {
+        const speechInputResult = event.results[0][0].transcript;
+        this.speechInputResult = speechInputResult;
+        this.calculateSpeechScore();
+        setTimeout(() => this.resetSpeechInput(), 2000);
+      };
+      recognition.onnomatch = (event) => {
+        console.log("I didn't recognize that word.");
+        console.log("event: ", event);
+        recognition.stop();
+        this.resetSpeechInput();
+      };
+      recognition.onerror = (event) => {
+        console.log(`Error occurred in recognition: ${event.error}`);
+        recognition.stop();
+        this.resetSpeechInput();
+      };
     },
     flipCard() {
       if (
