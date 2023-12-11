@@ -506,6 +506,20 @@ export default {
       this.cardPrompt = this.emittedObject.cards[this.cardsListIndex].cardBack;
     },
     async deckSearch() {
+      if (await this.checkForExactMatch()) {
+        return;
+      } else if (await this.checkForPartialMatch()) {
+        return;
+      }
+      // if there was no match, show the snackbar saying that there wasn't a match
+      else {
+        this.deckSearchInput = "";
+        this.showSnackBar("snackbar7");
+        return;
+      }
+    },
+
+    async checkForExactMatch() {
       let cardFound = false;
       let indexVar = -1;
       let side = "Front";
@@ -519,7 +533,7 @@ export default {
       // if there was a match on the card fronts, show that card front
       if (cardFound === true) {
         await this.showFoundCardSide(indexVar, side);
-        return;
+        return true;
       }
       side = "Back";
       // if the card still hasn't been found, check the backs of the cards
@@ -533,14 +547,42 @@ export default {
       // if there was a match on the card backs, show that card back
       if (cardFound === true) {
         await this.showFoundCardSide(indexVar, side);
-        return;
+        return true;
       }
-      // if there was no match, show the snackbar saying that there wasn't a match
-      else {
-        this.deckSearchInput = "";
-        this.showSnackBar("snackbar7");
-        return;
+      return false;
+    },
+
+    async checkForPartialMatch() {
+      let cardFound = false;
+      let indexVar = -1;
+      let side = "Front";
+      // Search the card fronts for the search term
+      [cardFound, indexVar] = await this.searchOneSideOfCardsForPartial(
+        cardFound,
+        indexVar,
+        side
+      );
+
+      // if there was a match on the card fronts, show that card front
+      if (cardFound === true) {
+        await this.showFoundCardSide(indexVar, side);
+        return true;
       }
+      side = "Back";
+      // if the card still hasn't been found, check the backs of the cards
+      if (cardFound === false) {
+        [cardFound, indexVar] = await this.searchOneSideOfCardsForPartial(
+          cardFound,
+          indexVar,
+          side
+        );
+      }
+      // if there was a match on the card backs, show that card back
+      if (cardFound === true) {
+        await this.showFoundCardSide(indexVar, side);
+        return true;
+      }
+      return false;
     },
 
     async searchOneSideOfCards(cardFound, indexVar, sideToSearch) {
@@ -548,6 +590,23 @@ export default {
       for (let i = 0; i < this.emittedObject.cards.length; i++) {
         if (
           this.emittedObject.cards[i][searchProperty] === this.deckSearchInput
+        ) {
+          indexVar = i;
+          cardFound = true;
+          break;
+        }
+      }
+      return [cardFound, indexVar];
+    },
+
+    async searchOneSideOfCardsForPartial(cardFound, indexVar, sideToSearch) {
+      let searchProperty = sideToSearch === "Back" ? "cardBack" : "cardFront";
+      for (let i = 0; i < this.emittedObject.cards.length; i++) {
+        if (
+          this.calculateSimilarity(
+            this.emittedObject.cards[i][searchProperty],
+            this.deckSearchInput
+          ) >= 0.5
         ) {
           indexVar = i;
           cardFound = true;
