@@ -60,6 +60,7 @@ There is also a Cypress testing suite in the client folder. **cd** into the clie
 - :white_check_mark: I made it so the card to be added is shown with more information so that the user better understands the details of the new card that they are creating.
 - :white_check_mark: I allowed the dropdown menu to disappear when somewhere else on the page is clicked
 - :white_check_mark: I added Cypress testing to verify that a specific user can log in to their account, see their specific library of decks, and use a specific deck.
+- :white_check_mark: I added Speech Recognition to test user pronunciation and give a score on how well the pronunciation was understood.
 
 ## Future Work
 
