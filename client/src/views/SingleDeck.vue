@@ -550,7 +550,7 @@ export default {
         return true;
       }
       similarityRequirement -= 0.1;
-      while (similarityRequirement > 0.1 && cardFound != true) {
+      while (similarityRequirement > 0.3 && cardFound != true) {
         return this.checkForMatchRecursive(similarityRequirement);
       }
 
