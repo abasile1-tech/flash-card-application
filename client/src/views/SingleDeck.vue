@@ -508,29 +508,31 @@ export default {
     async deckSearch() {
       let cardFound = false;
       let indexVar = -1;
+      let side = "Front";
       // Search the card fronts for the search term
-      [cardFound, indexVar] = await this.searchCards(
+      [cardFound, indexVar] = await this.searchOneSideOfCards(
         cardFound,
         indexVar,
-        "front"
+        side
       );
 
       // if there was a match on the card fronts, show that card front
       if (cardFound === true) {
-        await this.showFoundCardFront(indexVar);
+        await this.showFoundCardSide(indexVar, side);
         return;
       }
+      side = "Back";
       // if the card still hasn't been found, check the backs of the cards
       if (cardFound === false) {
-        [cardFound, indexVar] = await this.searchCards(
+        [cardFound, indexVar] = await this.searchOneSideOfCards(
           cardFound,
           indexVar,
-          "back"
+          side
         );
       }
       // if there was a match on the card backs, show that card back
       if (cardFound === true) {
-        await this.showFoundCardBack(indexVar);
+        await this.showFoundCardSide(indexVar, side);
         return;
       }
       // if there was no match, show the snackbar saying that there wasn't a match
@@ -541,8 +543,8 @@ export default {
       }
     },
 
-    async searchCards(cardFound, indexVar, sideToSearch) {
-      let searchProperty = sideToSearch === "back" ? "cardBack" : "cardFront";
+    async searchOneSideOfCards(cardFound, indexVar, sideToSearch) {
+      let searchProperty = sideToSearch === "Back" ? "cardBack" : "cardFront";
       for (let i = 0; i < this.emittedObject.cards.length; i++) {
         if (
           this.emittedObject.cards[i][searchProperty] === this.deckSearchInput
@@ -555,18 +557,12 @@ export default {
       return [cardFound, indexVar];
     },
 
-    async showFoundCardFront(indexVar) {
+    async showFoundCardSide(indexVar, sideToDisplay) {
+      let searchProperty = sideToDisplay === "Back" ? "cardBack" : "cardFront";
       this.cardsListIndex = indexVar;
-      this.cardSide = "Front";
-      this.cardPrompt = this.emittedObject.cards[this.cardsListIndex].cardFront;
-      this.deckSearchInput = "";
-      this.numberSearchInput = this.cardsListIndex + 1;
-    },
-
-    async showFoundCardBack(indexVar) {
-      this.cardsListIndex = indexVar;
-      this.cardSide = "Back";
-      this.cardPrompt = this.emittedObject.cards[this.cardsListIndex].cardBack;
+      this.cardSide = sideToDisplay;
+      this.cardPrompt =
+        this.emittedObject.cards[this.cardsListIndex][searchProperty];
       this.deckSearchInput = "";
       this.numberSearchInput = this.cardsListIndex + 1;
     },
