@@ -509,7 +509,11 @@ export default {
       let cardFound = false;
       let indexVar = -1;
       // Search the card fronts for the search term
-      [cardFound, indexVar] = await this.searchFrontCards(cardFound, indexVar);
+      [cardFound, indexVar] = await this.searchCards(
+        cardFound,
+        indexVar,
+        "front"
+      );
 
       // if there was a match on the card fronts, show that card front
       if (cardFound === true) {
@@ -518,7 +522,11 @@ export default {
       }
       // if the card still hasn't been found, check the backs of the cards
       if (cardFound === false) {
-        [cardFound, indexVar] = await this.searchBackCards(cardFound, indexVar);
+        [cardFound, indexVar] = await this.searchCards(
+          cardFound,
+          indexVar,
+          "back"
+        );
       }
       // if there was a match on the card backs, show that card back
       if (cardFound === true) {
@@ -533,20 +541,12 @@ export default {
       }
     },
 
-    async searchFrontCards(cardFound, indexVar) {
+    async searchCards(cardFound, indexVar, sideToSearch) {
+      let searchProperty = sideToSearch === "back" ? "cardBack" : "cardFront";
       for (let i = 0; i < this.emittedObject.cards.length; i++) {
-        if (this.emittedObject.cards[i].cardFront === this.deckSearchInput) {
-          indexVar = i;
-          cardFound = true;
-          break;
-        }
-      }
-      return [cardFound, indexVar];
-    },
-
-    async searchBackCards(cardFound, indexVar) {
-      for (let i = 0; i < this.emittedObject.cards.length; i++) {
-        if (this.emittedObject.cards[i].cardBack === this.deckSearchInput) {
+        if (
+          this.emittedObject.cards[i][searchProperty] === this.deckSearchInput
+        ) {
           indexVar = i;
           cardFound = true;
           break;
