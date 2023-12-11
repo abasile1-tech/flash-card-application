@@ -506,9 +506,7 @@ export default {
       this.cardPrompt = this.emittedObject.cards[this.cardsListIndex].cardBack;
     },
     async deckSearch() {
-      if (await this.checkForExactMatch()) {
-        return;
-      } else if (await this.checkForPartialMatch()) {
+      if (await this.checkForMatchRecursive(1)) {
         return;
       }
       // if there was no match, show the snackbar saying that there wasn't a match
@@ -519,40 +517,7 @@ export default {
       }
     },
 
-    async checkForExactMatch() {
-      let cardFound = false;
-      let indexVar = -1;
-      let side = "Front";
-      // Search the card fronts for the search term
-      [cardFound, indexVar] = await this.searchOneSideOfCards(
-        cardFound,
-        indexVar,
-        side
-      );
-
-      // if there was a match on the card fronts, show that card front
-      if (cardFound === true) {
-        await this.showFoundCardSide(indexVar, side);
-        return true;
-      }
-      side = "Back";
-      // if the card still hasn't been found, check the backs of the cards
-      if (cardFound === false) {
-        [cardFound, indexVar] = await this.searchOneSideOfCards(
-          cardFound,
-          indexVar,
-          side
-        );
-      }
-      // if there was a match on the card backs, show that card back
-      if (cardFound === true) {
-        await this.showFoundCardSide(indexVar, side);
-        return true;
-      }
-      return false;
-    },
-
-    async checkForPartialMatch() {
+    async checkForMatchRecursive(similarityRequirement) {
       let cardFound = false;
       let indexVar = -1;
       let side = "Front";
@@ -560,7 +525,8 @@ export default {
       [cardFound, indexVar] = await this.searchOneSideOfCardsForPartial(
         cardFound,
         indexVar,
-        side
+        side,
+        similarityRequirement
       );
 
       // if there was a match on the card fronts, show that card front
@@ -574,7 +540,8 @@ export default {
         [cardFound, indexVar] = await this.searchOneSideOfCardsForPartial(
           cardFound,
           indexVar,
-          side
+          side,
+          similarityRequirement
         );
       }
       // if there was a match on the card backs, show that card back
@@ -582,31 +549,27 @@ export default {
         await this.showFoundCardSide(indexVar, side);
         return true;
       }
+      similarityRequirement -= 0.1;
+      while (similarityRequirement > 0.1 && cardFound != true) {
+        return this.checkForMatchRecursive(similarityRequirement);
+      }
+
       return false;
     },
 
-    async searchOneSideOfCards(cardFound, indexVar, sideToSearch) {
-      let searchProperty = sideToSearch === "Back" ? "cardBack" : "cardFront";
-      for (let i = 0; i < this.emittedObject.cards.length; i++) {
-        if (
-          this.emittedObject.cards[i][searchProperty] === this.deckSearchInput
-        ) {
-          indexVar = i;
-          cardFound = true;
-          break;
-        }
-      }
-      return [cardFound, indexVar];
-    },
-
-    async searchOneSideOfCardsForPartial(cardFound, indexVar, sideToSearch) {
+    async searchOneSideOfCardsForPartial(
+      cardFound,
+      indexVar,
+      sideToSearch,
+      similarityRequirement
+    ) {
       let searchProperty = sideToSearch === "Back" ? "cardBack" : "cardFront";
       for (let i = 0; i < this.emittedObject.cards.length; i++) {
         if (
           this.calculateSimilarity(
             this.emittedObject.cards[i][searchProperty],
             this.deckSearchInput
-          ) >= 0.5
+          ) >= similarityRequirement
         ) {
           indexVar = i;
           cardFound = true;
