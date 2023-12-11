@@ -16,6 +16,7 @@ mongoURL='mongodb://localhost:27017/flash-card-app'
 
 - and set up your mongodb to use that url.
 - Once those are updated **cd** into the client and run `npm run build`. Then run `npm run serve` to run the client. Then open a new terminal tab and **cd** to the server folder and run `npm run dev`. Open localhost:5000 in web browser.
+- Please note that this project uses Node version 16.20.2 (use nvm, the node version manager to control which version of node you are using).
 
 ## Jest Testing (Unit Tests)
 
