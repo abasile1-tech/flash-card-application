@@ -70,6 +70,7 @@ There is also a Cypress testing suite in the client folder. **cd** into the clie
 - Add a backup for the database
 - Allow each notebook to have a user-choosable color to allow for further customization
 - Save each user's preference for dark or light mode in the database and load that preference the next time that they log in.
+- Convert to TypeScript for better type-safety when compared with Vanilla JavaScript
 
 ## :camera_flash: Screenshots
 
