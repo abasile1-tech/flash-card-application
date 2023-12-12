@@ -72,6 +72,7 @@ There is also a Cypress testing suite in the client folder. **cd** into the clie
 - Save each user's preference for dark or light mode in the database and load that preference the next time that they log in.
 - Convert to TypeScript for better type-safety when compared with Vanilla JavaScript
 - Migrate from Vue 2 to Vue 3
+- Upgrade from Node 16 to Node 20
 
 ## :camera_flash: Screenshots
 
