@@ -506,44 +506,7 @@ export default {
       this.cardPrompt = this.emittedObject.cards[this.cardsListIndex].cardBack;
     },
     async deckSearch() {
-      let cardFound = false;
-      let indexVar = -1;
-      // Search the card fronts for the search term
-      for (let i = 0; i < this.emittedObject.cards.length; i++) {
-        if (this.emittedObject.cards[i].cardFront === this.deckSearchInput) {
-          indexVar = i;
-          cardFound = true;
-          break;
-        }
-      }
-      // if there was a match on the card fronts, show that card front
-      if (cardFound === true) {
-        this.cardsListIndex = indexVar;
-        this.cardSide = "Front";
-        this.cardPrompt =
-          this.emittedObject.cards[this.cardsListIndex].cardFront;
-        this.deckSearchInput = "";
-        this.numberSearchInput = this.cardsListIndex + 1;
-        return;
-      }
-      // if the card still hasn't been found, check the backs of the cards
-      if (cardFound === false) {
-        for (let i = 0; i < this.emittedObject.cards.length; i++) {
-          if (this.emittedObject.cards[i].cardBack === this.deckSearchInput) {
-            indexVar = i;
-            cardFound = true;
-            break;
-          }
-        }
-      }
-      // if there was a match on the card backs, show that card back
-      if (cardFound === true) {
-        this.cardsListIndex = indexVar;
-        this.cardSide = "Back";
-        this.cardPrompt =
-          this.emittedObject.cards[this.cardsListIndex].cardBack;
-        this.deckSearchInput = "";
-        this.numberSearchInput = this.cardsListIndex + 1;
+      if (await this.checkForMatchRecursive(1)) {
         return;
       }
       // if there was no match, show the snackbar saying that there wasn't a match
@@ -553,6 +516,79 @@ export default {
         return;
       }
     },
+
+    async checkForMatchRecursive(similarityRequirement) {
+      let cardFound = false;
+      let indexVar = -1;
+      let side = "Front";
+      // Search the card fronts for the search term
+      [cardFound, indexVar] = await this.searchOneSideOfCardsForPartial(
+        cardFound,
+        indexVar,
+        side,
+        similarityRequirement
+      );
+
+      // if there was a match on the card fronts, show that card front
+      if (cardFound === true) {
+        await this.showFoundCardSide(indexVar, side);
+        return true;
+      }
+      side = "Back";
+      // if the card still hasn't been found, check the backs of the cards
+      if (cardFound === false) {
+        [cardFound, indexVar] = await this.searchOneSideOfCardsForPartial(
+          cardFound,
+          indexVar,
+          side,
+          similarityRequirement
+        );
+      }
+      // if there was a match on the card backs, show that card back
+      if (cardFound === true) {
+        await this.showFoundCardSide(indexVar, side);
+        return true;
+      }
+      similarityRequirement -= 0.1;
+      while (similarityRequirement > 0.3 && cardFound != true) {
+        return this.checkForMatchRecursive(similarityRequirement);
+      }
+
+      return false;
+    },
+
+    async searchOneSideOfCardsForPartial(
+      cardFound,
+      indexVar,
+      sideToSearch,
+      similarityRequirement
+    ) {
+      let searchProperty = sideToSearch === "Back" ? "cardBack" : "cardFront";
+      for (let i = 0; i < this.emittedObject.cards.length; i++) {
+        if (
+          this.calculateSimilarity(
+            this.emittedObject.cards[i][searchProperty],
+            this.deckSearchInput
+          ) >= similarityRequirement
+        ) {
+          indexVar = i;
+          cardFound = true;
+          break;
+        }
+      }
+      return [cardFound, indexVar];
+    },
+
+    async showFoundCardSide(indexVar, sideToDisplay) {
+      let searchProperty = sideToDisplay === "Back" ? "cardBack" : "cardFront";
+      this.cardsListIndex = indexVar;
+      this.cardSide = sideToDisplay;
+      this.cardPrompt =
+        this.emittedObject.cards[this.cardsListIndex][searchProperty];
+      this.deckSearchInput = "";
+      this.numberSearchInput = this.cardsListIndex + 1;
+    },
+
     async numberSearch() {
       const numberInput = parseInt(this.numberSearchInput);
       if (numberInput > 0 && numberInput <= this.emittedObject.cards.length) {
