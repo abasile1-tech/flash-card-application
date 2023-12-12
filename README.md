@@ -61,11 +61,11 @@ There is also a Cypress testing suite in the client folder. **cd** into the clie
 - :white_check_mark: I allowed the dropdown menu to disappear when somewhere else on the page is clicked
 - :white_check_mark: I added Cypress testing to verify that a specific user can log in to their account, see their specific library of decks, and use a specific deck.
 - :white_check_mark: I added Speech Recognition to test user pronunciation and give a score on how well the pronunciation was understood.
+- :white_check_mark: I improved upon the searchDeck function. Partial matches are now found using an algorithm that determines the percentage of similarity for two strings.
 
 ## Future Work
 
 - Add voice control of the buttons
-- Improve upon the searchDeck function
 - Allow cards to be reordered
 - Add a backup for the database
 - Allow each notebook to have a user-choosable color to allow for further customization
