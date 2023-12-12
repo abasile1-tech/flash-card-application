@@ -2,10 +2,10 @@
     "name": "flash-card-app",
     "version": "0.1.0",
     "private": true,
-    "main": "index.js",
+    "main": "index.ts",
     "scripts": {
-        "start": "node server/index.js",
-        "dev": "nodemon server/index.js"
+        "start": "node server/index.ts",
+        "dev": "nodemon server/index.ts"
     },
     "author": "John Basile",
     "license": "MIT",

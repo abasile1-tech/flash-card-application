@@ -353,7 +353,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import Vue from "vue";
 import axios from "axios";
 const url = "/api/decks/";
@@ -397,13 +397,23 @@ export default {
   directives: {
     focus: {
       // directive definition
-      inserted: function (el) {
+      inserted: function (el: { focus: () => void }) {
         Vue.nextTick(() => el.focus());
       },
     },
     "click-outside": {
-      bind: function (el, binding, vnode) {
-        el.clickOutsideEvent = function (event) {
+      bind: function (
+        el: {
+          clickOutsideEvent: {
+            (event: any): void;
+            (this: HTMLElement, ev: MouseEvent): any;
+          };
+          contains: (arg0: any) => any;
+        },
+        binding: { expression: string | number },
+        vnode: { context: { [x: string]: (arg0: any) => void } }
+      ) {
+        el.clickOutsideEvent = function (event: { target: any }) {
           // here I check that click was outside the el and his children
           if (!(el == event.target || el.contains(event.target))) {
             // and if it did, call method provided in attribute value
@@ -412,7 +422,9 @@ export default {
         };
         document.body.addEventListener("click", el.clickOutsideEvent);
       },
-      unbind: function (el) {
+      unbind: function (el: {
+        clickOutsideEvent: (this: HTMLElement, ev: MouseEvent) => any;
+      }) {
         document.body.removeEventListener("click", el.clickOutsideEvent);
       },
     },
@@ -517,7 +529,7 @@ export default {
       }
     },
 
-    async checkForMatchRecursive(similarityRequirement) {
+    async checkForMatchRecursive(similarityRequirement: number) {
       let cardFound = false;
       let indexVar = -1;
       let side = "Front";
@@ -558,10 +570,10 @@ export default {
     },
 
     async searchOneSideOfCardsForPartial(
-      cardFound,
-      indexVar,
-      sideToSearch,
-      similarityRequirement
+      cardFound: boolean,
+      indexVar: number,
+      sideToSearch: string,
+      similarityRequirement: number
     ) {
       let searchProperty = sideToSearch === "Back" ? "cardBack" : "cardFront";
       for (let i = 0; i < this.emittedObject.cards.length; i++) {
@@ -579,7 +591,7 @@ export default {
       return [cardFound, indexVar];
     },
 
-    async showFoundCardSide(indexVar, sideToDisplay) {
+    async showFoundCardSide(indexVar: number, sideToDisplay: string) {
       let searchProperty = sideToDisplay === "Back" ? "cardBack" : "cardFront";
       this.cardsListIndex = indexVar;
       this.cardSide = sideToDisplay;
@@ -616,7 +628,7 @@ export default {
         console.log("Error with getVoices in populateVoiceList.\n");
       }
     },
-    shuffleVueArray(array) {
+    shuffleVueArray(array: string | object) {
       for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         const temp = array[i];
@@ -637,7 +649,7 @@ export default {
     readCard() {
       try {
         const language = this.optionList.filter(
-          (item) => item.name === this.selectedLanguage
+          (item: { name: any }) => item.name === this.selectedLanguage
         );
         let utterance = new SpeechSynthesisUtterance(this.cardPrompt);
         utterance.voice = language[0];
@@ -651,7 +663,7 @@ export default {
       this.speechInputResult = "";
       this.speechScore = 0;
     },
-    editDistance(s1, s2) {
+    editDistance(s1: string, s2: string) {
       s1 = s1.toLowerCase();
       s2 = s2.toLowerCase();
 
@@ -675,7 +687,7 @@ export default {
       }
       return costs[s2.length];
     },
-    calculateSimilarity(s1, s2) {
+    calculateSimilarity(s1: string | any[], s2: string | any[]) {
       var longer = s1;
       var shorter = s2;
       if (s1.length < s2.length) {
@@ -703,7 +715,7 @@ export default {
       recognition.continuous = false;
 
       const language = this.optionList.filter(
-        (item) => item.name === this.selectedLanguage
+        (item: { name: any }) => item.name === this.selectedLanguage
       );
       if (language[0]) {
         recognition.lang = language[0].lang ? language[0].lang : "en-US";
@@ -723,19 +735,19 @@ export default {
         this.isListeningForSpeech = false;
       };
 
-      recognition.onresult = (event) => {
+      recognition.onresult = (event: { results: { transcript: any }[][] }) => {
         const speechInputResult = event.results[0][0].transcript;
         this.speechInputResult = speechInputResult;
         this.calculateSpeechScore();
         setTimeout(() => this.resetSpeechInput(), 2000);
       };
-      recognition.onnomatch = (event) => {
+      recognition.onnomatch = (event: any) => {
         console.log("I didn't recognize that word.");
         console.log("event: ", event);
         recognition.stop();
         this.resetSpeechInput();
       };
-      recognition.onerror = (event) => {
+      recognition.onerror = (event: { error: any }) => {
         console.log(`Error occurred in recognition: ${event.error}`);
         recognition.stop();
         this.resetSpeechInput();
@@ -924,7 +936,7 @@ export default {
       this.cardBackInput = "";
       this.cardPrompt = this.emittedObject.cards[this.cardsListIndex].cardBack;
     },
-    updateCardIndex(indexToAdd) {
+    updateCardIndex(indexToAdd: any) {
       if (this.emittedObject.cards.length === 0) {
         this.showSnackBar("snackbar3");
         return;
@@ -1094,7 +1106,7 @@ export default {
       this.editDeckNameInput = "";
       this.editDeckNameSelected = false;
     },
-    showSnackBar(snackBarNum) {
+    showSnackBar(snackBarNum: string) {
       // Get the snackbar DIV
       var x = document.getElementById(snackBarNum);
       // Add the "show" class to DIV

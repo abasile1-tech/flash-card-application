@@ -115,15 +115,28 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import axios from "axios";
 const url = "/api/users/";
 
-export default {
+// Define the type for your component
+type LoginPageComponent = {
+  userNameInput: string;
+  passwordInput: string;
+  userNameInputNew: string;
+  passwordInputNew: string;
+  showLogin: boolean;
+  boxAcknowledged: boolean;
+  // Add other properties if needed
+};
+
+import Vue from "vue";
+
+export default Vue.extend({
   name: "LoginPage",
   components: {},
   props: {},
-  data() {
+  data(): LoginPageComponent {
     return {
       userNameInput: "",
       passwordInput: "",
@@ -134,13 +147,14 @@ export default {
     };
   },
   methods: {
-    notificationButtonClicked() {
+    notificationButtonClicked(): void {
       this.boxAcknowledged = true;
     },
-    activateShowLogin() {
+
+    activateShowLogin(): void {
       this.showLogin = true;
     },
-    deActivateShowLogin() {
+    deActivateShowLogin(): void {
       this.showLogin = false;
     },
     async logIn() {
@@ -194,10 +208,10 @@ export default {
       // Get the snackbar DIV
       var x = document.getElementById(snackBarNum);
       // Add the "show" class to DIV
-      x.classList.add("show");
+      x?.classList.add("show");
       // After 3 seconds, remove the show class from DIV
       setTimeout(function () {
-        x.classList.remove("show");
+        x?.classList.remove("show");
       }, 3000);
     },
     clearLogInInputs() {
@@ -209,7 +223,7 @@ export default {
       this.passwordInputNew = "";
     },
   },
-};
+});
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

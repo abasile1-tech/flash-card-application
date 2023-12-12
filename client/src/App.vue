@@ -9,8 +9,9 @@
   </div>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import Vue from "vue";
+export default Vue.extend({
   name: "App",
   components: {},
   data() {
@@ -20,14 +21,14 @@ export default {
     };
   },
   methods: {
-    emitDeck(obj) {
+    emitDeck(obj: any) {
       this.objectToPass = obj;
     },
-    emitUser(userObj) {
+    emitUser(userObj: any) {
       this.userToPass = userObj;
     },
   },
-};
+});
 </script>
 
 <style>

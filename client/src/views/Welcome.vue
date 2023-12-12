@@ -118,12 +118,13 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import axios from "axios";
 const url = "/api/decks/";
 const urlForUsers = "/api/users/";
 
-export default {
+import Vue from "vue";
+export default Vue.extend({
   name: "Welcome",
   components: {},
   props: {
@@ -328,7 +329,7 @@ export default {
       this.onlyOneDeck = true;
     }
   },
-};
+});
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
