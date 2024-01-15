@@ -80,6 +80,12 @@ There is also a Cypress testing suite in the client folder. **cd** into the clie
 - Migrate from Vue 2 to Vue 3
 - Upgrade from Node 16 to Node 20
 
+## Videos
+
+https://github.com/abasile1-tech/flash-card-application/assets/59401762/f0839081-9a0c-45bb-94d2-ee2762f80a01
+
+https://github.com/abasile1-tech/flash-card-application/assets/59401762/76d4c2ab-a586-4014-85ef-c8d9f715a7bc
+
 ## :camera_flash: Screenshots
 
 ![login_page](https://github.com/abasile1-tech/flash-card-application/blob/main/screenshots/login_page.PNG?raw=true)
